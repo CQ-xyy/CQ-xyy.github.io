@@ -98,26 +98,26 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>查壳无壳，C写的ELF</p>
-<p>![屏幕截图 2026-06-11 192811](&#x2F;images&#x2F;屏幕截图 2026-06-11 192811.png)</p>
+<p><img src="/images/1.png"></p>
 <p>拖进IDA,获得了main函数的内容</p>
-<p>![屏幕截图 2026-06-11 192839](&#x2F;images&#x2F;屏幕截图 2026-06-11 192839.png)</p>
+<p><img src="/images/2.png"></p>
 <p>在主函数内容中，要求输入明文，明文为28位，然后进入encrypt函数中进行加密处理。这里看到，mprotect函数修改了encrypt函数的内存权限，然后对encrypt函数的（3D5+1）字节进行了异或0x3E处理，也就是处理了3D6字节（982个）</p>
-<p>![屏幕截图 2026-06-11 192856](&#x2F;images&#x2F;屏幕截图 2026-06-11 192856.png)</p>
-<p>![屏幕截图 2026-06-11 192908](&#x2F;images&#x2F;屏幕截图 2026-06-11 192908.png)</p>
+<p><img src="/images/3.png"></p>
+<p><img src="/images/4.png"></p>
 <p>点进encrypt函数看，果然被修改了，只能显示汇编以及被识别为db和dq的内容，并且出现了无限循环，loc_11FB下面就是短跳到自己这里来，loc_11FF也是</p>
-<p>![屏幕截图 2026-06-11 192922](&#x2F;images&#x2F;屏幕截图 2026-06-11 192922.png)</p>
+<p><img src="/images/5.png"></p>
 <p>这里写脚本在python中恢复encrypt函数的逻辑</p>
-<p>![屏幕截图 2026-06-11 192943](&#x2F;images&#x2F;屏幕截图 2026-06-11 192943.png)</p>
+<p><img src="/images/6.png"></p>
 <p>Shift+F2打开IDA的脚本界面，然后选成python，运行脚本后，把encrypt函数内所有部分U解除函数化，然后在encrypt头部（第一个内存字节）按C恢复代码话，最后在encrypt函数按P重构函数，重新进入函数就发现已经可以恢复成伪代码</p>
-<p>![屏幕截图 2026-06-11 192957](&#x2F;images&#x2F;屏幕截图 2026-06-11 192957.png)</p>
+<p><img src="/images/7.png"></p>
 <p>这里的逻辑是，前面输入的28为明文传入函数中，然后被强行拆成了7部分，分别为a1数组的7部分，每部分16字节，最后进行运算后等于return的结果即可</p>
 <p>这里可以明显的用z3去解决，写z3脚本</p>
-<p>![屏幕截图 2026-06-11 193009](&#x2F;images&#x2F;屏幕截图 2026-06-11 193009.png)</p>
+<p><img src="/images/8.png"></p>
 <p>跑出来七部分为[1734437990, 1596998779, 1601515609, 1999662667, 1129149279, 1148073055, 2100517471]，然后就只需要把这其部分都恢复成4字节就好了</p>
-<p>![屏幕截图 2026-06-11 193023](&#x2F;images&#x2F;屏幕截图 2026-06-11 193023.png)</p>
+<p><img src="/images/9.png"></p>
 <p>获得flag{D0_Y0u_Kn0w_sMC_4nD_Z3}</p>
 <p>验证一下</p>
-<p>![屏幕截图 2026-06-11 193035](&#x2F;images&#x2F;屏幕截图 2026-06-11 193035.png)</p>
+<p><img src="/images/10.png"></p>
         
           <p class="article-more-link">
             <a href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/#more">Read More</a>
@@ -126,63 +126,12 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" data-id="cuid8ZxH0fE3C__keG6w-TeWY" data-title="NewStar CTF 2024 [SMc_math] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" data-id="cuidyxXKQbXAmrV_SxWrny_4K" data-title="NewStar CTF 2024 [SMc_math] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/06/11/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2026-06-11T10:13:05.193Z" itemprop="datePublished">2026-06-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/06/11/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/11/hello-world/" data-id="cuidnSkTbeIePIfNFceshwlH3" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
     </footer>
   </div>
   
@@ -244,10 +193,6 @@
         
           <li>
             <a href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/">NewStar CTF 2024 [SMc_math] wp</a>
-          </li>
-        
-          <li>
-            <a href="/2026/06/11/hello-world/">Hello World</a>
           </li>
         
       </ul>

@@ -6,17 +6,27 @@
   
   <title>MOECTF REVERSE [A_game] wp | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="查壳无壳，PE64 C程序，大概进程序了解了一下后，进IDA静态分析 ![1](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\1.png) 要求输入49位字符串验证，输入的字符串str会被填充到box里，可以看出来box被设定为一个9行9列的数组，可以看到box的原始数据 ![2](&#x2F;images&#x2F;MOECTF REVERSE [A_gam">
+  <meta name="description" content="查壳无壳，PE64 C程序，大概进程序了解了一下后，进IDA静态分析  要求输入49位字符串验证，输入的字符串str会被填充到box里，可以看出来box被设定为一个9行9列的数组，可以看到box的原始数据  整理后大概就是这个样子（多出的15个0正好在外面，可以理解为后面的15个0没用处）  str填充的逻辑是，如果遍历到的box的那一位是0，那么那一位会被str的一位填充，但是如果原来那就要数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MOECTF REVERSE [A_game] wp">
 <meta property="og:url" content="http://example.com/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="查壳无壳，PE64 C程序，大概进程序了解了一下后，进IDA静态分析 ![1](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\1.png) 要求输入49位字符串验证，输入的字符串str会被填充到box里，可以看出来box被设定为一个9行9列的数组，可以看到box的原始数据 ![2](&#x2F;images&#x2F;MOECTF REVERSE [A_gam">
+<meta property="og:description" content="查壳无壳，PE64 C程序，大概进程序了解了一下后，进IDA静态分析  要求输入49位字符串验证，输入的字符串str会被填充到box里，可以看出来box被设定为一个9行9列的数组，可以看到box的原始数据  整理后大概就是这个样子（多出的15个0正好在外面，可以理解为后面的15个0没用处）  str填充的逻辑是，如果遍历到的box的那一位是0，那么那一位会被str的一位填充，但是如果原来那就要数据">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/MOECTF/1.png">
+<meta property="og:image" content="http://example.com/images/MOECTF/2.png">
+<meta property="og:image" content="http://example.com/images/MOECTF/3.png">
+<meta property="og:image" content="http://example.com/images/MOECTF/4.png">
+<meta property="og:image" content="http://example.com/images/MOECTF/5.png">
+<meta property="og:image" content="http://example.com/images/MOECTF/6.png">
+<meta property="og:image" content="http://example.com/images/MOECTF/7.png">
+<meta property="og:image" content="http://example.com/images/MOECTF/8.png">
+<meta property="og:image" content="http://example.com/images/MOECTF/9.png">
 <meta property="article:published_time" content="2026-06-12T07:24:30.000Z">
-<meta property="article:modified_time" content="2026-06-13T08:17:03.952Z">
+<meta property="article:modified_time" content="2026-06-13T08:34:03.825Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/MOECTF/1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -96,30 +106,30 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>查壳无壳，PE64 C程序，大概进程序了解了一下后，进IDA静态分析</p>
-<p>![1](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\1.png)</p>
+<p><img src="/images/MOECTF/1.png" alt="1"></p>
 <p>要求输入49位字符串验证，输入的字符串str会被填充到box里，可以看出来box被设定为一个9行9列的数组，可以看到box的原始数据</p>
-<p>![2](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\2.png)</p>
+<p><img src="/images/MOECTF/2.png" alt="2"></p>
 <p>整理后大概就是这个样子（多出的15个0正好在外面，可以理解为后面的15个0没用处）</p>
-<p>![3](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\3.png)</p>
+<p><img src="/images/MOECTF/3.png" alt="3"></p>
 <p>str填充的逻辑是，如果遍历到的box的那一位是0，那么那一位会被str的一位填充，但是如果原来那就要数据，那么会保留原来的数据在那，而9列之前的0的个数正好是49个，也就是str依次填充在box的0的位置（str[v3]-48的原因是，将输入的数字变成ascii字符的数字，例如输入0，在ascii里是48，-48后就是ascii的0）</p>
 <p>随后进入check1()和check2()函数</p>
-<p>![4](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\4.png)</p>
-<p>![5](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\5.png)</p>
+<p><img src="/images/MOECTF/4.png" alt="4"></p>
+<p><img src="/images/MOECTF/5.png" alt="5"></p>
 <p>对box进行了检查，这两个函数非常相似，唯一的区别是遍历是一个是box[9 * i + k]，还有一个是box[9 * k + i]，其实也就是说check1()要求box每一行都要存在123456789九个数字，而check2()是要求box每一列都要存在123456789九个数字，这里其实就可以大概看出来，这是一个数独游戏</p>
 <p>进入check3()函数</p>
-<p>![6](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\6.png)</p>
+<p><img src="/images/MOECTF/6.png" alt="6"></p>
 <p>从上面两个for循环可以看出，这里把box的9x9变成3x3了,将box变成了这个样子</p>
-<p>![7](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\7.png)</p>
+<p><img src="/images/MOECTF/7.png" alt="7"></p>
 <p>要求还是一样的，只不过是要求，每个3x3的小块内都包含123456789，典型的数独游戏，如果满足，就可以通过验证，那么解开只要把这个数独给做出来就好了</p>
 <p>解开后如下图</p>
-<p>![8](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\8.png)</p>
+<p><img src="/images/MOECTF/8.png" alt="8"></p>
 <p>验证，得到flag</p>
-<p>![9](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\9.png)</p>
+<p><img src="/images/MOECTF/9.png" alt="9"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/" data-id="cuidZrtBru14yleoSalNY6qE1" data-title="MOECTF REVERSE [A_game] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/" data-id="cuidHXMs6OhtKzkWakXylbOTE" data-title="MOECTF REVERSE [A_game] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

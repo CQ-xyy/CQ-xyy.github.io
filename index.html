@@ -94,30 +94,30 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>查壳无壳，PE64 C程序，大概进程序了解了一下后，进IDA静态分析</p>
-<p>![1](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\1.png)</p>
+<p><img src="/images/MOECTF/1.png" alt="1"></p>
 <p>要求输入49位字符串验证，输入的字符串str会被填充到box里，可以看出来box被设定为一个9行9列的数组，可以看到box的原始数据</p>
-<p>![2](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\2.png)</p>
+<p><img src="/images/MOECTF/2.png" alt="2"></p>
 <p>整理后大概就是这个样子（多出的15个0正好在外面，可以理解为后面的15个0没用处）</p>
-<p>![3](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\3.png)</p>
+<p><img src="/images/MOECTF/3.png" alt="3"></p>
 <p>str填充的逻辑是，如果遍历到的box的那一位是0，那么那一位会被str的一位填充，但是如果原来那就要数据，那么会保留原来的数据在那，而9列之前的0的个数正好是49个，也就是str依次填充在box的0的位置（str[v3]-48的原因是，将输入的数字变成ascii字符的数字，例如输入0，在ascii里是48，-48后就是ascii的0）</p>
 <p>随后进入check1()和check2()函数</p>
-<p>![4](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\4.png)</p>
-<p>![5](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\5.png)</p>
+<p><img src="/images/MOECTF/4.png" alt="4"></p>
+<p><img src="/images/MOECTF/5.png" alt="5"></p>
 <p>对box进行了检查，这两个函数非常相似，唯一的区别是遍历是一个是box[9 * i + k]，还有一个是box[9 * k + i]，其实也就是说check1()要求box每一行都要存在123456789九个数字，而check2()是要求box每一列都要存在123456789九个数字，这里其实就可以大概看出来，这是一个数独游戏</p>
 <p>进入check3()函数</p>
-<p>![6](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\6.png)</p>
+<p><img src="/images/MOECTF/6.png" alt="6"></p>
 <p>从上面两个for循环可以看出，这里把box的9x9变成3x3了,将box变成了这个样子</p>
-<p>![7](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\7.png)</p>
+<p><img src="/images/MOECTF/7.png" alt="7"></p>
 <p>要求还是一样的，只不过是要求，每个3x3的小块内都包含123456789，典型的数独游戏，如果满足，就可以通过验证，那么解开只要把这个数独给做出来就好了</p>
 <p>解开后如下图</p>
-<p>![8](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\8.png)</p>
+<p><img src="/images/MOECTF/8.png" alt="8"></p>
 <p>验证，得到flag</p>
-<p>![9](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\9.png)</p>
+<p><img src="/images/MOECTF/9.png" alt="9"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/" data-id="cuidZrtBru14yleoSalNY6qE1" data-title="MOECTF REVERSE [A_game] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/" data-id="cuidHXMs6OhtKzkWakXylbOTE" data-title="MOECTF REVERSE [A_game] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -156,26 +156,26 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>查壳无壳，C写的ELF</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;1.png)</p>
+<p><img src="/images/NS2024/1.png"></p>
 <p>拖进IDA,获得了main函数的内容</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;2.png)</p>
+<p><img src="/images/NS2024/2.png"></p>
 <p>在主函数内容中，要求输入明文，明文为28位，然后进入encrypt函数中进行加密处理。这里看到，mprotect函数修改了encrypt函数的内存权限，然后对encrypt函数的（3D5+1）字节进行了异或0x3E处理，也就是处理了3D6字节（982个）</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;3.png)</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;4.png)</p>
+<p><img src="/images/NS2024/3.png"></p>
+<p><img src="/images/NS2024/4.png"></p>
 <p>点进encrypt函数看，果然被修改了，只能显示汇编以及被识别为db和dq的内容，并且出现了无限循环，loc_11FB下面就是短跳到自己这里来，loc_11FF也是</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;5.png)</p>
+<p><img src="/images/NS2024/5.png"></p>
 <p>这里写脚本在python中恢复encrypt函数的逻辑</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;6.png)</p>
+<p><img src="/images/NS2024/6.png"></p>
 <p>Shift+F2打开IDA的脚本界面，然后选成python，运行脚本后，把encrypt函数内所有部分U解除函数化，然后在encrypt头部（第一个内存字节）按C恢复代码话，最后在encrypt函数按P重构函数，重新进入函数就发现已经可以恢复成伪代码</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;7.png)</p>
+<p><img src="/images/NS2024/7.png"></p>
 <p>这里的逻辑是，前面输入的28为明文传入函数中，然后被强行拆成了7部分，分别为a1数组的7部分，每部分16字节，最后进行运算后等于return的结果即可</p>
 <p>这里可以明显的用z3去解决，写z3脚本</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;8.png)</p>
+<p><img src="/images/NS2024/8.png"></p>
 <p>跑出来七部分为[1734437990, 1596998779, 1601515609, 1999662667, 1129149279, 1148073055, 2100517471]，然后就只需要把这其部分都恢复成4字节就好了</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;9.png)</p>
+<p><img src="/images/NS2024/9.png"></p>
 <p>获得flag{D0_Y0u_Kn0w_sMC_4nD_Z3}</p>
 <p>验证一下</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;10.png)</p>
+<p><img src="/images/NS2024/10.png"></p>
         
           <p class="article-more-link">
             <a href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/#more">Read More</a>
@@ -184,7 +184,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" data-id="cuidewGEToUONrcyP26XMovWm" data-title="NewStar CTF 2024 [SMc_math] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" data-id="cuid1P0sQRcS8Gvs5RZA0FXvV" data-title="NewStar CTF 2024 [SMc_math] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

@@ -4,13 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>MOECTF REVERSE [A_game] wp | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="查壳无壳，PE64 C程序，大概进程序了解了一下后，进IDA静态分析 ![1](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\1.png) 要求输入49位字符串验证，输入的字符串str会被填充到box里，可以看出来box被设定为一个9行9列的数组，可以看到box的原始数据 ![2](&#x2F;images&#x2F;MOECTF REVERSE [A_gam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MOECTF REVERSE [A_game] wp">
+<meta property="og:url" content="http://example.com/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="查壳无壳，PE64 C程序，大概进程序了解了一下后，进IDA静态分析 ![1](&#x2F;images&#x2F;MOECTF REVERSE [A_game]\1.png) 要求输入49位字符串验证，输入的字符串str会被填充到box里，可以看出来box被设定为一个9行9列的数组，可以看到box的原始数据 ![2](&#x2F;images&#x2F;MOECTF REVERSE [A_gam">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-06-12T07:24:30.000Z">
+<meta property="article:modified_time" content="2026-06-13T08:17:03.952Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -69,9 +73,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-MOECTF REVERSE [A_game]" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-MOECTF REVERSE [A_game]" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/" class="article-date">
   <time class="dt-published" datetime="2026-06-12T07:24:30.000Z" itemprop="datePublished">2026-06-12</time>
@@ -84,8 +86,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/">MOECTF REVERSE [A_game] wp</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      MOECTF REVERSE [A_game] wp
     </h1>
   
 
@@ -124,80 +126,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-NewStar CTF 2024 [SMc_math]" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" class="article-date">
-  <time class="dt-published" datetime="2026-06-11T10:32:12.000Z" itemprop="datePublished">2026-06-11</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/WP/">WP</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/">NewStar CTF 2024 [SMc_math] wp</a>
-    </h1>
+    <a href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">NewStar CTF 2024 [SMc_math] wp</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>查壳无壳，C写的ELF</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;1.png)</p>
-<p>拖进IDA,获得了main函数的内容</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;2.png)</p>
-<p>在主函数内容中，要求输入明文，明文为28位，然后进入encrypt函数中进行加密处理。这里看到，mprotect函数修改了encrypt函数的内存权限，然后对encrypt函数的（3D5+1）字节进行了异或0x3E处理，也就是处理了3D6字节（982个）</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;3.png)</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;4.png)</p>
-<p>点进encrypt函数看，果然被修改了，只能显示汇编以及被识别为db和dq的内容，并且出现了无限循环，loc_11FB下面就是短跳到自己这里来，loc_11FF也是</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;5.png)</p>
-<p>这里写脚本在python中恢复encrypt函数的逻辑</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;6.png)</p>
-<p>Shift+F2打开IDA的脚本界面，然后选成python，运行脚本后，把encrypt函数内所有部分U解除函数化，然后在encrypt头部（第一个内存字节）按C恢复代码话，最后在encrypt函数按P重构函数，重新进入函数就发现已经可以恢复成伪代码</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;7.png)</p>
-<p>这里的逻辑是，前面输入的28为明文传入函数中，然后被强行拆成了7部分，分别为a1数组的7部分，每部分16字节，最后进行运算后等于return的结果即可</p>
-<p>这里可以明显的用z3去解决，写z3脚本</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;8.png)</p>
-<p>跑出来七部分为[1734437990, 1596998779, 1601515609, 1999662667, 1129149279, 1148073055, 2100517471]，然后就只需要把这其部分都恢复成4字节就好了</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;9.png)</p>
-<p>获得flag{D0_Y0u_Kn0w_sMC_4nD_Z3}</p>
-<p>验证一下</p>
-<p>![](&#x2F;images&#x2F;NewStar CTF 2024 [SMc_math]&#x2F;10.png)</p>
-        
-          <p class="article-more-link">
-            <a href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" data-id="cuidewGEToUONrcyP26XMovWm" data-title="NewStar CTF 2024 [SMc_math] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
 
 
 </section>

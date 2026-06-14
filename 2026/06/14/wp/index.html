@@ -4,31 +4,25 @@
   <meta charset="utf-8">
   
   
-  <title>NewStar CTF 2024 [SMc_math] wp | Hexo</title>
+  <title>MOECTF REVERSE[Base] wp | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="查壳无壳，C写的ELF  拖进IDA,获得了main函数的内容  在主函数内容中，要求输入明文，明文为28位，然后进入encrypt函数中进行加密处理。这里看到，mprotect函数修改了encrypt函数的内存权限，然后对encrypt函数的（3D5+1）字节进行了异或0x3E处理，也就是处理了3D6字节（982个）   点进encrypt函数看，果然被修改了，只能显示汇编以及被识别为db和dq">
+  <meta name="description" content="查壳无壳，c写的PE64，直接进IDA分析  题目提示的很明显了，base64，接下看看有没有被魔改就好了  位运算没有被魔改，看看解码表有没有被魔改   表被魔改了，直接写个base64的魔改表替换脚本就可以了 1234567891011121314import base64text&#x3D;&quot;1wX&#x2F;yRrA4RfR2wj72Qv52x3L5qa&#x3D;&quot;standard_table&#x3D;&amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NewStar CTF 2024 [SMc_math] wp">
-<meta property="og:url" content="http://example.com/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/index.html">
+<meta property="og:title" content="MOECTF REVERSE[Base] wp">
+<meta property="og:url" content="http://example.com/2026/06/14/wp/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="查壳无壳，C写的ELF  拖进IDA,获得了main函数的内容  在主函数内容中，要求输入明文，明文为28位，然后进入encrypt函数中进行加密处理。这里看到，mprotect函数修改了encrypt函数的内存权限，然后对encrypt函数的（3D5+1）字节进行了异或0x3E处理，也就是处理了3D6字节（982个）   点进encrypt函数看，果然被修改了，只能显示汇编以及被识别为db和dq">
+<meta property="og:description" content="查壳无壳，c写的PE64，直接进IDA分析  题目提示的很明显了，base64，接下看看有没有被魔改就好了  位运算没有被魔改，看看解码表有没有被魔改   表被魔改了，直接写个base64的魔改表替换脚本就可以了 1234567891011121314import base64text&#x3D;&quot;1wX&#x2F;yRrA4RfR2wj72Qv52x3L5qa&#x3D;&quot;standard_table&#x3D;&amp;">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/NS2024/1.png">
-<meta property="og:image" content="http://example.com/images/NS2024/2.png">
-<meta property="og:image" content="http://example.com/images/NS2024/3.png">
-<meta property="og:image" content="http://example.com/images/NS2024/4.png">
-<meta property="og:image" content="http://example.com/images/NS2024/5.png">
-<meta property="og:image" content="http://example.com/images/NS2024/6.png">
-<meta property="og:image" content="http://example.com/images/NS2024/7.png">
-<meta property="og:image" content="http://example.com/images/NS2024/8.png">
-<meta property="og:image" content="http://example.com/images/NS2024/9.png">
-<meta property="og:image" content="http://example.com/images/NS2024/10.png">
-<meta property="article:published_time" content="2026-06-11T10:32:12.000Z">
-<meta property="article:modified_time" content="2026-06-13T08:33:03.625Z">
+<meta property="og:image" content="http://example.com/images/MOECTF/21.png">
+<meta property="og:image" content="http://example.com/images/MOECTF/22.png">
+<meta property="og:image" content="http://example.com/images/MOECTF/23.png">
+<meta property="og:image" content="http://example.com/images/MOECTF/24.png">
+<meta property="article:published_time" content="2026-06-14T05:25:41.000Z">
+<meta property="article:modified_time" content="2026-06-14T05:37:46.771Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CTF">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/NS2024/1.png">
+<meta name="twitter:image" content="http://example.com/images/MOECTF/21.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -85,10 +79,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-NewStar CTF 2024 [SMc_math]" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-wp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" class="article-date">
-  <time class="dt-published" datetime="2026-06-11T10:32:12.000Z" itemprop="datePublished">2026-06-11</time>
+    <a href="/2026/06/14/wp/" class="article-date">
+  <time class="dt-published" datetime="2026-06-14T05:25:41.000Z" itemprop="datePublished">2026-06-14</time>
 </a>
     
   <div class="article-category">
@@ -103,7 +97,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      NewStar CTF 2024 [SMc_math] wp
+      MOECTF REVERSE[Base] wp
     </h1>
   
 
@@ -111,32 +105,22 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>查壳无壳，C写的ELF</p>
-<p><img src="/images/NS2024/1.png"></p>
-<p>拖进IDA,获得了main函数的内容</p>
-<p><img src="/images/NS2024/2.png"></p>
-<p>在主函数内容中，要求输入明文，明文为28位，然后进入encrypt函数中进行加密处理。这里看到，mprotect函数修改了encrypt函数的内存权限，然后对encrypt函数的（3D5+1）字节进行了异或0x3E处理，也就是处理了3D6字节（982个）</p>
-<p><img src="/images/NS2024/3.png"></p>
-<p><img src="/images/NS2024/4.png"></p>
-<p>点进encrypt函数看，果然被修改了，只能显示汇编以及被识别为db和dq的内容，并且出现了无限循环，loc_11FB下面就是短跳到自己这里来，loc_11FF也是</p>
-<p><img src="/images/NS2024/5.png"></p>
-<p>这里写脚本在python中恢复encrypt函数的逻辑</p>
-<p><img src="/images/NS2024/6.png"></p>
-<p>Shift+F2打开IDA的脚本界面，然后选成python，运行脚本后，把encrypt函数内所有部分U解除函数化，然后在encrypt头部（第一个内存字节）按C恢复代码话，最后在encrypt函数按P重构函数，重新进入函数就发现已经可以恢复成伪代码</p>
-<p><img src="/images/NS2024/7.png"></p>
-<p>这里的逻辑是，前面输入的28为明文传入函数中，然后被强行拆成了7部分，分别为a1数组的7部分，每部分16字节，最后进行运算后等于return的结果即可</p>
-<p>这里可以明显的用z3去解决，写z3脚本</p>
-<p><img src="/images/NS2024/8.png"></p>
-<p>跑出来七部分为[1734437990, 1596998779, 1601515609, 1999662667, 1129149279, 1148073055, 2100517471]，然后就只需要把这其部分都恢复成4字节就好了</p>
-<p><img src="/images/NS2024/9.png"></p>
-<p>获得flag{D0_Y0u_Kn0w_sMC_4nD_Z3}</p>
-<p>验证一下</p>
-<p><img src="/images/NS2024/10.png"></p>
-<span id="more"></span>
+        <p>查壳无壳，c写的PE64，直接进IDA分析</p>
+<p><img src="/images/MOECTF/21.png" alt="21"></p>
+<p>题目提示的很明显了，base64，接下看看有没有被魔改就好了</p>
+<p><img src="/images/MOECTF/22.png" alt="22"></p>
+<p>位运算没有被魔改，看看解码表有没有被魔改</p>
+<p><img src="/images/MOECTF/23.png" alt="23"></p>
+<p><img src="/images/MOECTF/24.png" alt="24"></p>
+<p>表被魔改了，直接写个base64的魔改表替换脚本就可以了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line">text=<span class="string">&quot;1wX/yRrA4RfR2wj72Qv52x3L5qa=&quot;</span></span><br><span class="line">standard_table=<span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span></span><br><span class="line">changed_table=<span class="string">&quot;abcdefghijklmnopqrstuvwxyz0123456789+/ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decode_1</span>(<span class="params">text,standard_table,changed_table</span>):</span><br><span class="line">    trans=<span class="built_in">str</span>.maketrans(changed_table,standard_table)</span><br><span class="line">    standard_text=text.translate(trans)</span><br><span class="line">    <span class="keyword">return</span> base64.b64decode(standard_text)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    flag=decode_1(text,standard_table,changed_table)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;flag.decode(<span class="string">&#x27;utf-8&#x27;</span>,errors=<span class="string">&#x27;ignore&#x27;</span>)&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>脚本把正常的解码表和魔改表进行映射替换，这个脚本遇到其它的base64魔改表也能用，把text和chanded_table改一改就好了，运行得到flag<br>moectf{qwqbase_qwq}</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" data-id="cuidlFLVOGxO34W_hI6j2FaGA" data-title="NewStar CTF 2024 [SMc_math] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/06/14/wp/" data-id="cuidzK3oRWz9Qd211D-4ihArn" data-title="MOECTF REVERSE[Base] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -148,15 +132,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          MOECTF REVERSE [A_game] wp
-        
-      </div>
-    </a>
   
+    <a href="/2026/06/13/MOECTF%20REVERSE%20%5BArt%5D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MOECTF REVERSE [Art] wp</div>
+    </a>
   
 </nav>
 

@@ -71,6 +71,61 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-wp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/06/14/wp/" class="article-date">
+  <time class="dt-published" datetime="2026-06-14T05:25:41.000Z" itemprop="datePublished">2026-06-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/WP/">WP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/06/14/wp/">MOECTF REVERSE[Base] wp</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>查壳无壳，c写的PE64，直接进IDA分析</p>
+<p><img src="/images/MOECTF/21.png" alt="21"></p>
+<p>题目提示的很明显了，base64，接下看看有没有被魔改就好了</p>
+<p><img src="/images/MOECTF/22.png" alt="22"></p>
+<p>位运算没有被魔改，看看解码表有没有被魔改</p>
+<p><img src="/images/MOECTF/23.png" alt="23"></p>
+<p><img src="/images/MOECTF/24.png" alt="24"></p>
+<p>表被魔改了，直接写个base64的魔改表替换脚本就可以了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line">text=<span class="string">&quot;1wX/yRrA4RfR2wj72Qv52x3L5qa=&quot;</span></span><br><span class="line">standard_table=<span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span></span><br><span class="line">changed_table=<span class="string">&quot;abcdefghijklmnopqrstuvwxyz0123456789+/ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decode_1</span>(<span class="params">text,standard_table,changed_table</span>):</span><br><span class="line">    trans=<span class="built_in">str</span>.maketrans(changed_table,standard_table)</span><br><span class="line">    standard_text=text.translate(trans)</span><br><span class="line">    <span class="keyword">return</span> base64.b64decode(standard_text)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    flag=decode_1(text,standard_table,changed_table)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;flag.decode(<span class="string">&#x27;utf-8&#x27;</span>,errors=<span class="string">&#x27;ignore&#x27;</span>)&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>脚本把正常的解码表和魔改表进行映射替换，这个脚本遇到其它的base64魔改表也能用，把text和chanded_table改一改就好了，运行得到flag<br>moectf{qwqbase_qwq}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2026/06/14/wp/" data-id="cuidzK3oRWz9Qd211D-4ihArn" data-title="MOECTF REVERSE[Base] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-MOECTF REVERSE [Art]" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2026/06/13/MOECTF%20REVERSE%20%5BArt%5D/" class="article-date">
@@ -120,7 +175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/13/MOECTF%20REVERSE%20%5BArt%5D/" data-id="cuidCybLw_R3iRiKcdMb6M9Yd" data-title="MOECTF REVERSE [Art] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/06/13/MOECTF%20REVERSE%20%5BArt%5D/" data-id="cuidB65ndSjzwvS4A4q9aqzQ9" data-title="MOECTF REVERSE [Art] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -184,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/" data-id="cuidA7VYb9_3KkWS__ixp4nc9" data-title="MOECTF REVERSE [A_game] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/" data-id="cuidXxN2S4BlRB3ouCIx51PGk" data-title="MOECTF REVERSE [A_game] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -253,7 +308,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" data-id="cuidYQQzFHOi9p9dTyRjmPfCN" data-title="NewStar CTF 2024 [SMc_math] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" data-id="cuidlFLVOGxO34W_hI6j2FaGA" data-title="NewStar CTF 2024 [SMc_math] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -317,6 +372,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2026/06/14/wp/">MOECTF REVERSE[Base] wp</a>
+          </li>
         
           <li>
             <a href="/2026/06/13/MOECTF%20REVERSE%20%5BArt%5D/">MOECTF REVERSE [Art] wp</a>

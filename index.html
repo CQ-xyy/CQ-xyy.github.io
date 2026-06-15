@@ -1,520 +1,111 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="author" content="John Doe"/><meta name="copyright" content="John Doe"/><meta name="theme-color" content="#FFB347"/><meta name="format-detection" content="telephone=no"/><meta name="keywords" content="Hexo Theme MEOW"/><meta name="mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-touch-fullscreen" content="yes"/><meta name="application-name" content="Hexo - A Cute Hexo Theme"/><meta name="apple-mobile-web-app-title" content="Hexo - A Cute Hexo Theme"/><meta name="apple-mobile-web-app-status-bar-style" content="#FFB347"/><link rel="canonical" href="http://example.com/"/><meta name="description" content="Hexo Theme MEOW">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo - A Cute Hexo Theme">
 <meta property="og:url" content="http://example.com/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Hexo Theme MEOW">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/assets/images/Hexo-Theme-MEOW.png">
 <meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/assets/images/Hexo-Theme-MEOW.png"><meta name="robots" content="index,follow"/><meta name="googlebot" content="index,follow"/><meta name="revisit-after" content="1 days"/><title>Hexo - A Cute Hexo Theme</title><link rel="shortcut icon" href="/assets/images/Hexo-Theme-MEOW.ico"><link rel="preconnect" href="/assets"/><link rel="preconnect" href="assets"/>
 <link rel="stylesheet" href="/css/style.css">
 
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
-<meta name="generator" content="Hexo 8.1.2"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-MOECTF REVERSE [Broken_hash]" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/06/14/MOECTF%20REVERSE%20%5BBroken_hash%5D/" class="article-date">
-  <time class="dt-published" datetime="2026-06-14T06:21:01.000Z" itemprop="datePublished">2026-06-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/WP/">WP</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/06/14/MOECTF%20REVERSE%20%5BBroken_hash%5D/">MOECTF REVERSE [Broken_hash] wp</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>查壳无壳，CPP写的PE64，丢进IDA分析</p>
-<p><img src="/images/MOECTF/31.png" alt="31"></p>
-<p>main函数逻辑，大概就是输入88位的明文去验证，由dword_140005184的数值来判断是否正确，先点进第一个函数sub_1400010C0看看它对我们输入的v8做了些什么操作</p>
-<p><img src="/images/MOECTF/32.png" alt="32"></p>
-<p>可以看到这个函数影响了关键的dword_140005184，继续点进sub_1400014F0</p>
-<p><img src="C:\Users\1\Desktop\blog\source\images\MOECTF\33.png" alt="33"></p>
-<p><img src="/images/MOECTF/34.png" alt="34"></p>
-<p>由题目名字（Broken_hash)，加上sub_140001400函数可以推断，题目使用了哈希加密，函数sub_140001400正是哈希函数特有的赋初值环节，但是这个初值很奇怪，这里的初值分别是0x39063906，0xEFCDA233，0x74C74C74，0x55555555，0xD33B4700，这四个找不到对应的算法，然后后面四个轮常量也非常奇怪，分别是0xB1ACB1DD，0x23333333，0x66666666，0xCA6272D6也是一样找不到对应的SHA算法，基本上可以确定和题目名字提示的一样，这个哈希算法被魔改了</p>
-<p>进入sub_140001B20函数，</p>
-<p><img src="/images/MOECTF/35.png" alt="35"></p>
-<p><img src="/images/MOECTF/36.png" alt="36"></p>
-<p><img src="/images/MOECTF/37.png" alt="37"></p>
-<p>填充512bit貌似没什么问题，但是要知道，这里的哈希算法每次只哈希一个字节，sub_140001B20传入的第三个参数是1，也就是长度参数，那么填充函数就永远都装不满64字节</p>
-<p>先继续分析下sub_140001610，先是将输入的a2，也就是64字节明文每4字节存进v15中，可以从&lt;&lt;24，&lt;&lt;16，&lt;&lt;8看出来这里是大端序读取</p>
-<p><img src="/images/MOECTF/38.png" alt="38"></p>
-<p><img src="/images/MOECTF/39.png" alt="39"></p>
-<p>然后在消息扩展里，看到这里是循环0x50也就是80次，利用了v15存进的前16字进行异或扩展，这里的v15[v3] &#x3D; (v15[v3] &gt;&gt; 30) | (4 * v15[v3]);很怪，先继续看</p>
-<p><img src="/images/MOECTF/396.png" alt="396"></p>
-<p>这下看懂了，4个分轮循环，每轮20次，一共80次，v6v5v7v8v9赋值的也就是之前的5个魔改初值，里面也分别用到了a1[25]a1[26]a1[27]a1[28]四个魔改轮常值，可以确定这是SHA-1魔改，那么前面那个很怪的点，v15[v3] &#x3D; (v15[v3] &gt;&gt; 30) | (4 * v15[v3]);也就是把SHA-1的循环左移1位改成了循环左移2位了，在结尾处，将得到的最新初值给到原来的初值位置，然后进入下一块继续循环</p>
-<p>继续看下一个函数，这里是哈希函数的结尾工作，貌似没有被魔改的痕迹</p>
-<p><img src="/images/MOECTF/391.png" alt="391"></p>
-<p>但是在最后计算完的v5，被保存到dword_140005260里，而dword只保存了一位！只保存了前4个字节，后面的内容被丢掉了，也就是说，一个字符明文-&gt;20字节哈希-&gt;保存前4字节，而且这里非常逆天的是，保存是用小端序的，所以保存的字节是倒过来的，标准的SHA-1是用大端序保存的</p>
-<p><img src="/images/MOECTF/392.png" alt="392"></p>
-<p>最后回到main函数，魔改的内容分析的差不多了，验证部分也就是</p>
-<p><img src="/images/MOECTF/393.png" alt="393"></p>
-<p><img src="/images/MOECTF/394.png" alt="394"></p>
-<p>要求哈希出来的结果等于dword_140005000里的内容，那么解题思路，哈希是不可逆的，但是这里有个突破点，算法本身每次只加密一个字符，而不是直接把88个字符丢进去，那么就可以直接爆破，写脚本把加密流程给模拟一下，还要写个转小端序和左移2位的修改，建表爆破即可</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">rotl</span>(<span class="params">val,bits,max_bits=<span class="number">32</span></span>):</span><br><span class="line">    val&amp;=(<span class="number">1</span>&lt;&lt;max_bits)-<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span>((val&lt;&lt;bits)|(val&gt;&gt;(max_bits-bits)))&amp;((<span class="number">1</span>&lt;&lt;max_bits)-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">changed_sha1</span>(<span class="params">char_byte</span>):</span><br><span class="line">    h0=<span class="number">0x39063906</span></span><br><span class="line">    h1=<span class="number">0xEFCDA233</span></span><br><span class="line">    h2=<span class="number">0x74C74C74</span></span><br><span class="line">    h3=<span class="number">0x55555555</span></span><br><span class="line">    h4=<span class="number">0xD33B4700</span></span><br><span class="line">    k0=<span class="number">0xB1ACB1DD</span></span><br><span class="line">    k1=<span class="number">0x23333333</span></span><br><span class="line">    k2=<span class="number">0x66666666</span></span><br><span class="line">    k3=<span class="number">0xCA6272D6</span></span><br><span class="line"></span><br><span class="line">    block = <span class="built_in">bytearray</span>(<span class="number">64</span>)</span><br><span class="line">    block[<span class="number">0</span>]=char_byte</span><br><span class="line">    block[<span class="number">1</span>]=<span class="number">0x80</span></span><br><span class="line">    block[<span class="number">63</span>]=<span class="number">8</span></span><br><span class="line"></span><br><span class="line">    w = [<span class="number">0</span>] * <span class="number">80</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">16</span>):</span><br><span class="line">        w[i]=<span class="built_in">int</span>.from_bytes(block[i*<span class="number">4</span>:i*<span class="number">4</span>+<span class="number">4</span>],<span class="string">&#x27;big&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">16</span>, <span class="number">80</span>):</span><br><span class="line">        w[i]=rotl(w[i-<span class="number">16</span>]^w[i-<span class="number">14</span>]^w[i-<span class="number">8</span>]^w[i-<span class="number">3</span>],<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    a,b,c,d,e=h0,h1,h2,h3,h4</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">80</span>):</span><br><span class="line">        <span class="keyword">if</span> <span class="number">0</span> &lt;= i &lt;= <span class="number">19</span>:</span><br><span class="line">            f=(d&amp;~b)^(c&amp;b)</span><br><span class="line">            k=k0</span><br><span class="line">        <span class="keyword">elif</span> <span class="number">20</span> &lt;= i &lt;= <span class="number">39</span>:</span><br><span class="line">            f=d^c^b</span><br><span class="line">            k=k1</span><br><span class="line">        <span class="keyword">elif</span> <span class="number">40</span> &lt;= i &lt;= <span class="number">59</span>:</span><br><span class="line">            f=(d&amp;c)^(d&amp;b)^(c&amp;b)</span><br><span class="line">            k=k2</span><br><span class="line">        <span class="keyword">elif</span> <span class="number">60</span> &lt;= i &lt;= <span class="number">79</span>:</span><br><span class="line">            f=d^c^b</span><br><span class="line">            k=k3</span><br><span class="line"></span><br><span class="line">        temp=(rotl(a,<span class="number">5</span>)+f+e+k+w[i])&amp;<span class="number">0xFFFFFFFF</span></span><br><span class="line">        e=d</span><br><span class="line">        d=c</span><br><span class="line">        c=rotl(b, <span class="number">30</span>)</span><br><span class="line">        b=a</span><br><span class="line">        a=temp</span><br><span class="line"></span><br><span class="line">    h0=(h0+a)&amp;<span class="number">0xFFFFFFFF</span></span><br><span class="line"></span><br><span class="line">    bswap_h0=((h0&amp;<span class="number">0xFF</span>)&lt;&lt;<span class="number">24</span>)|(((h0&gt;&gt;<span class="number">8</span>)&amp;<span class="number">0xFF</span>)&lt;&lt;<span class="number">16</span>)|(((h0&gt;&gt;<span class="number">16</span>)&amp;<span class="number">0xFF</span>)&lt;&lt;<span class="number">8</span>)|((h0&gt;&gt;<span class="number">24</span>)&amp; <span class="number">0xFF</span>)</span><br><span class="line">    <span class="keyword">return</span> bswap_h0</span><br><span class="line"></span><br><span class="line">lookup_table = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> char_code <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">    res=changed_sha1(char_code)</span><br><span class="line">    lookup_table[res]=<span class="built_in">chr</span>(char_code)</span><br><span class="line"></span><br><span class="line">target_dwords = [</span><br><span class="line">    <span class="number">0x64744C9A</span>, <span class="number">0x047C2FF1</span>, <span class="number">0xA2D74292</span>, <span class="number">0x85BEF77E</span>, <span class="number">0x711FCBF7</span>,</span><br><span class="line">    <span class="number">0x669E1609</span>, <span class="number">0x6BBD9DB6</span>, <span class="number">0x6941C8A4</span>, <span class="number">0xB16E48B3</span>, <span class="number">0xDE321186</span>,</span><br><span class="line">    <span class="number">0x5251E8C2</span>, <span class="number">0xFB8F95A7</span>, <span class="number">0x711FCBF7</span>, <span class="number">0xCB5C3FAD</span>, <span class="number">0x36568AF5</span>,</span><br><span class="line">    <span class="number">0xFB8F95A7</span>, <span class="number">0x82ACF96A</span>, <span class="number">0x75DCD570</span>, <span class="number">0x7EF00E40</span>, <span class="number">0xFB8F95A7</span>,</span><br><span class="line">    <span class="number">0x4BE9314A</span>, <span class="number">0xCB5C3FAD</span>, <span class="number">0xA2D74292</span>, <span class="number">0xDE321186</span>, <span class="number">0xFB8F95A7</span>,</span><br><span class="line">    <span class="number">0x46927FA8</span>, <span class="number">0xB16E48B3</span>, <span class="number">0xD7C1A410</span>, <span class="number">0x567375C3</span>, <span class="number">0x711FCBF7</span>,</span><br><span class="line">    <span class="number">0xFB8F95A7</span>, <span class="number">0x9C19F0F3</span>, <span class="number">0xD035E914</span>, <span class="number">0xFB8F95A7</span>, <span class="number">0x6941C8A4</span>,</span><br><span class="line">    <span class="number">0x0B7D1395</span>, <span class="number">0xD7C1A410</span>, <span class="number">0xC87A7C7E</span>, <span class="number">0xFB8F95A7</span>, <span class="number">0xD7C1A410</span>,</span><br><span class="line">    <span class="number">0xDE321186</span>, <span class="number">0x5251E8C2</span>, <span class="number">0xFB8F95A7</span>, <span class="number">0xD5380C52</span>, <span class="number">0xBEA99D3B</span>,</span><br><span class="line">    <span class="number">0xCEDB7952</span>, <span class="number">0xFB8F95A7</span>, <span class="number">0x73456320</span>, <span class="number">0xD7C1A410</span>, <span class="number">0xDE321186</span>,</span><br><span class="line">    <span class="number">0xFB8F95A7</span>, <span class="number">0x581D99E5</span>, <span class="number">0xA2D74292</span>, <span class="number">0x711FCBF7</span>, <span class="number">0xFB8F95A7</span>,</span><br><span class="line">    <span class="number">0x06372812</span>, <span class="number">0xFB8F95A7</span>, <span class="number">0x73456320</span>, <span class="number">0xCEDB7952</span>, <span class="number">0xEF53E254</span>,</span><br><span class="line">    <span class="number">0xFB8F95A7</span>, <span class="number">0x9F12424D</span>, <span class="number">0x669E1609</span>, <span class="number">0xFB8F95A7</span>, <span class="number">0x9C19F0F3</span>,</span><br><span class="line">    <span class="number">0xFECF7685</span>, <span class="number">0x0B7D1395</span>, <span class="number">0x1833E8B1</span>, <span class="number">0xFB8F95A7</span>, <span class="number">0x9F66DD04</span>,</span><br><span class="line">    <span class="number">0xA2D74292</span>, <span class="number">0xD7C1A410</span>, <span class="number">0xFB8F95A7</span>, <span class="number">0x6941C8A4</span>, <span class="number">0x866CAF4F</span>,</span><br><span class="line">    <span class="number">0x047C2FF1</span>, <span class="number">0x64744C9A</span>, <span class="number">0xFB8F95A7</span>, <span class="number">0xD5380C52</span>, <span class="number">0xCEDB7952</span>,</span><br><span class="line">    <span class="number">0xDE321186</span>, <span class="number">0x81453D43</span>, <span class="number">0xCB5C3FAD</span>, <span class="number">0xB16E48B3</span>, <span class="number">0xC578F843</span>,</span><br><span class="line">    <span class="number">0xCEDB7952</span>, <span class="number">0xDE321186</span>, <span class="number">0xE38C6F07</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i, dword <span class="keyword">in</span> <span class="built_in">enumerate</span>(target_dwords):</span><br><span class="line">    <span class="keyword">if</span> dword <span class="keyword">in</span> lookup_table:</span><br><span class="line">        flag+=lookup_table[dword]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;flag&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>跑出来是moectf{F1nd_th3_SEH_7hen_B1a5t_My_Fla9_and_Y0u_Can_Get_A_Cup_Of_Milk_Tea_From_YunZh1Jun}，丢程序里验证一下</p>
-<p><img src="/images/MOECTF/395.png" alt="395"></p>
-<p>没问题，但是不知道为什么平台不给过，一直说我的flag格式有问题<br>后面去看别人的flag发现一样的，应该是格式问题，直接去分析魔改点还是太麻烦了，花了不少时间，别人wp有更好的解法，动调拿到变换后的表，做map映射可以拿到flag，还是相对来说更简单</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/14/MOECTF%20REVERSE%20%5BBroken_hash%5D/" data-id="cuidXLsKte3IWbLRO62JEtsBs" data-title="MOECTF REVERSE [Broken_hash] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-MOECTF REVERSE [Base]" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/06/14/MOECTF%20REVERSE%20%5BBase%5D/" class="article-date">
-  <time class="dt-published" datetime="2026-06-14T05:25:41.000Z" itemprop="datePublished">2026-06-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/WP/">WP</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/06/14/MOECTF%20REVERSE%20%5BBase%5D/">MOECTF REVERSE[Base] wp</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>查壳无壳，c写的PE64，直接进IDA分析</p>
-<p><img src="/images/MOECTF/21.png" alt="21"></p>
-<p>题目提示的很明显了，base64，接下看看有没有被魔改就好了</p>
-<p><img src="/images/MOECTF/22.png" alt="22"></p>
-<p>位运算没有被魔改，看看解码表有没有被魔改</p>
-<p><img src="/images/MOECTF/23.png" alt="23"></p>
-<p><img src="/images/MOECTF/24.png" alt="24"></p>
-<p>表被魔改了，直接写个base64的魔改表替换脚本就可以了</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line">text=<span class="string">&quot;1wX/yRrA4RfR2wj72Qv52x3L5qa=&quot;</span></span><br><span class="line">standard_table=<span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span></span><br><span class="line">changed_table=<span class="string">&quot;abcdefghijklmnopqrstuvwxyz0123456789+/ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decode_1</span>(<span class="params">text,standard_table,changed_table</span>):</span><br><span class="line">    trans=<span class="built_in">str</span>.maketrans(changed_table,standard_table)</span><br><span class="line">    standard_text=text.translate(trans)</span><br><span class="line">    <span class="keyword">return</span> base64.b64decode(standard_text)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    flag=decode_1(text,standard_table,changed_table)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;flag.decode(<span class="string">&#x27;utf-8&#x27;</span>,errors=<span class="string">&#x27;ignore&#x27;</span>)&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>脚本把正常的解码表和魔改表进行映射替换，这个脚本遇到其它的base64魔改表也能用，把text和chanded_table改一改就好了，运行得到flag<br>moectf{qwqbase_qwq}</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/14/MOECTF%20REVERSE%20%5BBase%5D/" data-id="cuid8h1bunf3Qf7pzt0pK1JyA" data-title="MOECTF REVERSE[Base] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-MOECTF REVERSE [Art]" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/06/13/MOECTF%20REVERSE%20%5BArt%5D/" class="article-date">
-  <time class="dt-published" datetime="2026-06-13T09:27:23.000Z" itemprop="datePublished">2026-06-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/WP/">WP</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/06/13/MOECTF%20REVERSE%20%5BArt%5D/">MOECTF REVERSE [Art] wp</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>查壳发现UPX</p>
-<p><img src="/images/MOECTF/11.png" alt="11"></p>
-<p>可以工具脱壳也可以用upx官方-d脱壳，脱壳后进入IDA静态分析</p>
-<p><img src="/images/MOECTF/12.png" alt="12"></p>
-<p>题目给了不少提示，提示了UPX和哈希算法，输入的字符串会放到str数组和v4数组里，程序会检测输入的前28位，然后会打乱str1里的数据，后面的两个检验函数，会将打乱的str1和str2进行对比，还有将赋有打乱前str1数据的v4传入了sub_401500()</p>
-<p>看看str2的数据，发现一个关键点，str2的第十位是0，而strcmp遇到0就会退出，也就是说，这里的比较到第十位就会中止了，所以程序本身就是有漏洞的，由于加密公式Str1[i - 1] ^&#x3D; (Str1[i - 1] % 17 + Str1[i]) ^ 0x19里有取余的操作，从后面往前面推，会有多个结果，正如题目提示的一样（My equations has multiple solutions…）</p>
-<p>因此，就算不管那个strcmp漏洞，第一个验证也有多个结果可以通过，再进入sub_401550()看看，如下</p>
-<p><img src="/images/MOECTF/13.png" alt="13"></p>
-<p>v3被传入了第一个函数sub_1B66()，函数内部给v3进行赋值，从第64位开始赋值，有数值的a1+80开始，后面都是4字节一个数据，用windows自带的计算器就可以得到这里的十六进制数据是什么</p>
-<p><img src="/images/MOECTF/14.png" alt="14"></p>
-<p><img src="/images/MOECTF/15.png" alt="15"></p>
-<p>这里赋值的数据是6A09E667，BB67AE85，3C6EF372，A54FF53A，510E527F，9B05688C，1F83D9AB，5BE0CD19，加上前面提示哈希，这里可以立即想到SHA256，这8个数值就是SHA256赋值的哈希初值。</p>
-<p>基本上可以确认这个就是SHA256，有没有魔改要看后面的函数，大概看了一下后面的内容没有发现魔改痕迹，那么可以知道，虽然有多个解，但是哈希的结果是只有一个的，并且哈希的结果不可逆，只能进行爆破将所有结果算出来</p>
-<p>写一个递归脚本，从后面往前面推算，因为str2的最后一位是没有被加密的，而且可以看出来就是通常flag的结尾}，所以我们从倒数第二位开始推，限定爆破范围在可见ascii范围内(32-127)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">str2=[</span><br><span class="line">    <span class="number">0x02</span>, <span class="number">0x18</span>, <span class="number">0x0F</span>, <span class="number">0xF8</span>, <span class="number">0x19</span>, <span class="number">0x04</span>, <span class="number">0x27</span>, <span class="number">0xD8</span>, <span class="number">0xEB</span>, <span class="number">0x00</span>,</span><br><span class="line">    <span class="number">0x35</span>, <span class="number">0x48</span>, <span class="number">0x4D</span>, <span class="number">0x2A</span>, <span class="number">0x45</span>, <span class="number">0x6B</span>, <span class="number">0x59</span>, <span class="number">0x2E</span>, <span class="number">0x43</span>, <span class="number">0x01</span>,</span><br><span class="line">    <span class="number">0x18</span>, <span class="number">0x5C</span>, <span class="number">0x09</span>, <span class="number">0x09</span>, <span class="number">0x09</span>, <span class="number">0x09</span>, <span class="number">0xB5</span>, <span class="number">0x7D</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">output=[]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">solve</span>(<span class="params">index,flag</span>):</span><br><span class="line">    <span class="keyword">if</span> index&lt;<span class="number">0</span>:</span><br><span class="line">        output.append(<span class="string">&quot;&quot;</span>.join(<span class="built_in">chr</span>(c)<span class="keyword">for</span> c <span class="keyword">in</span> flag))</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    val=str2[index]</span><br><span class="line">    <span class="built_in">next</span>=flag[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">        <span class="keyword">if</span> val==p^((p%<span class="number">17</span>+<span class="built_in">next</span>)^<span class="number">0x19</span>):</span><br><span class="line">            solve(index-<span class="number">1</span>,[p]+flag)</span><br><span class="line"></span><br><span class="line">last_char=str2[-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">solve(<span class="number">26</span>,[last_char])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> index,flag <span class="keyword">in</span> <span class="built_in">enumerate</span>(output):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;flag&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>最后得到结果有八个</p>
-<p>kkectf{Art_i5_b14s7ing!!!!!}<br>okectf{Art_i5_b14s7ing!!!!!}<br>jmectf{Art_i5_b14s7ing!!!!!}<br>nmectf{Art_i5_b14s7ing!!!!!}<br>ioectf{Art_i5_b14s7ing!!!!!}<br>moectf{Art_i5_b14s7ing!!!!!}<br>hqectf{Art_i5_b14s7ing!!!!!}<br>lqectf{Art_i5_b14s7ing!!!!!}<br>可以一个个尝试，但是西电的前缀就是moectf，所以这里可以直接用moectf{Art_i5_b14s7ing!!!!!}，验证一下</p>
-<p><img src="/images/MOECTF/16.png" alt="16"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/13/MOECTF%20REVERSE%20%5BArt%5D/" data-id="cuidXBUnF4pH8WffVxWb3mjB2" data-title="MOECTF REVERSE [Art] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-MOECTF REVERSE [A_game]" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/" class="article-date">
-  <time class="dt-published" datetime="2026-06-12T07:24:30.000Z" itemprop="datePublished">2026-06-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/WP/">WP</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/">MOECTF REVERSE [A_game] wp</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>查壳无壳，PE64 C程序，大概进程序了解了一下后，进IDA静态分析</p>
-<p><img src="/images/MOECTF/1.png" alt="1"></p>
-<p>要求输入49位字符串验证，输入的字符串str会被填充到box里，可以看出来box被设定为一个9行9列的数组，可以看到box的原始数据</p>
-<p><img src="/images/MOECTF/2.png" alt="2"></p>
-<p>整理后大概就是这个样子（多出的15个0正好在外面，可以理解为后面的15个0没用处）</p>
-<p><img src="/images/MOECTF/3.png" alt="3"></p>
-<p>str填充的逻辑是，如果遍历到的box的那一位是0，那么那一位会被str的一位填充，但是如果原来那就要数据，那么会保留原来的数据在那，而9列之前的0的个数正好是49个，也就是str依次填充在box的0的位置（str[v3]-48的原因是，将输入的数字变成ascii字符的数字，例如输入0，在ascii里是48，-48后就是ascii的0）</p>
-<p>随后进入check1()和check2()函数</p>
-<p><img src="/images/MOECTF/4.png" alt="4"></p>
-<p><img src="/images/MOECTF/5.png" alt="5"></p>
-<p>对box进行了检查，这两个函数非常相似，唯一的区别是遍历是一个是box[9 * i + k]，还有一个是box[9 * k + i]，其实也就是说check1()要求box每一行都要存在123456789九个数字，而check2()是要求box每一列都要存在123456789九个数字，这里其实就可以大概看出来，这是一个数独游戏</p>
-<p>进入check3()函数</p>
-<p><img src="/images/MOECTF/6.png" alt="6"></p>
-<p>从上面两个for循环可以看出，这里把box的9x9变成3x3了,将box变成了这个样子</p>
-<p><img src="/images/MOECTF/7.png" alt="7"></p>
-<p>要求还是一样的，只不过是要求，每个3x3的小块内都包含123456789，典型的数独游戏，如果满足，就可以通过验证，那么解开只要把这个数独给做出来就好了</p>
-<p>解开后如下图</p>
-<p><img src="/images/MOECTF/8.png" alt="8"></p>
-<p>验证，得到flag</p>
-<p><img src="/images/MOECTF/9.png" alt="9"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/" data-id="cuidQ2zV0H1sDBHLq23SgBpsd" data-title="MOECTF REVERSE [A_game] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-NewStar CTF 2024 [SMc_math]" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" class="article-date">
-  <time class="dt-published" datetime="2026-06-11T10:32:12.000Z" itemprop="datePublished">2026-06-11</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/WP/">WP</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/">NewStar CTF 2024 [SMc_math] wp</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>查壳无壳，C写的ELF</p>
-<p><img src="/images/NS2024/1.png"></p>
-<p>拖进IDA,获得了main函数的内容</p>
-<p><img src="/images/NS2024/2.png"></p>
-<p>在主函数内容中，要求输入明文，明文为28位，然后进入encrypt函数中进行加密处理。这里看到，mprotect函数修改了encrypt函数的内存权限，然后对encrypt函数的（3D5+1）字节进行了异或0x3E处理，也就是处理了3D6字节（982个）</p>
-<p><img src="/images/NS2024/3.png"></p>
-<p><img src="/images/NS2024/4.png"></p>
-<p>点进encrypt函数看，果然被修改了，只能显示汇编以及被识别为db和dq的内容，并且出现了无限循环，loc_11FB下面就是短跳到自己这里来，loc_11FF也是</p>
-<p><img src="/images/NS2024/5.png"></p>
-<p>这里写脚本在python中恢复encrypt函数的逻辑</p>
-<p><img src="/images/NS2024/6.png"></p>
-<p>Shift+F2打开IDA的脚本界面，然后选成python，运行脚本后，把encrypt函数内所有部分U解除函数化，然后在encrypt头部（第一个内存字节）按C恢复代码话，最后在encrypt函数按P重构函数，重新进入函数就发现已经可以恢复成伪代码</p>
-<p><img src="/images/NS2024/7.png"></p>
-<p>这里的逻辑是，前面输入的28为明文传入函数中，然后被强行拆成了7部分，分别为a1数组的7部分，每部分16字节，最后进行运算后等于return的结果即可</p>
-<p>这里可以明显的用z3去解决，写z3脚本</p>
-<p><img src="/images/NS2024/8.png"></p>
-<p>跑出来七部分为[1734437990, 1596998779, 1601515609, 1999662667, 1129149279, 1148073055, 2100517471]，然后就只需要把这其部分都恢复成4字节就好了</p>
-<p><img src="/images/NS2024/9.png"></p>
-<p>获得flag{D0_Y0u_Kn0w_sMC_4nD_Z3}</p>
-<p>验证一下</p>
-<p><img src="/images/NS2024/10.png"></p>
-        
-          <p class="article-more-link">
-            <a href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/" data-id="cuidPDtGFVgTft01RrHjSncs1" data-title="NewStar CTF 2024 [SMc_math] wp" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WP/">WP</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF/" rel="tag">CTF</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/CTF/" style="font-size: 10px;">CTF</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/06/">June 2026</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2026/06/14/MOECTF%20REVERSE%20%5BBroken_hash%5D/">MOECTF REVERSE [Broken_hash] wp</a>
-          </li>
-        
-          <li>
-            <a href="/2026/06/14/MOECTF%20REVERSE%20%5BBase%5D/">MOECTF REVERSE[Base] wp</a>
-          </li>
-        
-          <li>
-            <a href="/2026/06/13/MOECTF%20REVERSE%20%5BArt%5D/">MOECTF REVERSE [Art] wp</a>
-          </li>
-        
-          <li>
-            <a href="/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/">MOECTF REVERSE [A_game] wp</a>
-          </li>
-        
-          <li>
-            <a href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/">NewStar CTF 2024 [SMc_math] wp</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2026 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+<link rel="stylesheet" href="/css/third-party/dist/APlayer.min.css">
+<link rel="prefetch" href="/"/><link rel="prefetch" href="/archives"/><link rel="prefetch" href="/tags"/><meta name="generator" content="Hexo 8.1.2"></head><body bg-style="fixed"><header><div id="navbar"><div id="nav-info"><a id="site-icon" href="/" title="Home"><img src="/assets/images/Hexo-Theme-MEOW.png" alt="Logo"/></a><a id="site-name" href="/" title="Home"><h1>Hexo</h1><img src="/assets/images/svg/uc/uc-home.svg" class="icon noview" alt="Icon"></a></div><div id="nav-menu"></div><div id="nav-function"><div id="menu-btn"><a href="javascript:void(0);" title="Toggle Menu"><img src="/assets/images/svg/uc/uc-menu.svg" class="icon noview" alt="Icon"></a></div></div></div></header><div id="menu-aside"><div id="menu-aside-container"><div id="menu-aside-info"><a href="/" title="Home"><img src="/assets/images/Hexo-Theme-MEOW.png" alt="Logo"/></a><a href="/" title="Home">Hexo</a></div><hr/></div></div><main><div id="home-banner" bg-style="fixed"><div id="home-banner-info"><div id="home-banner-title">「 MEOW 」</div></div><div id="home-banner-scrolldown"><div id="scroll-to-main">﹀</div></div></div><div id="home-container"><div id="home-content"><aside id="home-sidebar"><div class="sidebar-card" id="sidebar-info"><div id="sidebar-info-img"><a href="/null"><img src="/null" alt="Avatar"/></a><div class="status">🐱</div></div><div id="sidebar-info-name">John Doe</div><div id="sidebar-info-desc"></div><div class="site-statistic"><a href="/archives"><div class="site-statistic-num">5</div><div class="site-statistic-title">Archives</div></a><a href="/categories"><div class="site-statistic-num">1</div><div class="site-statistic-title">Categories</div></a><a href="/tags"><div class="site-statistic-num">1</div><div class="site-statistic-title">Tags</div></a></div></div><div class="sidebar-card" id="sidebar-categories"><div class="sidebar-card-headline"><img src="/assets/images/svg/uc/uc-category.svg" class="icon box-icon" alt="Icon"><span>Categories</span></div><ul class="sidebar-categories-list"><li class="sidebar-categories-list-item"><a class="sidebar-categories-list-link" href="/categories/WP/">WP</a><span class="sidebar-categories-list-count">5</span></li></ul></div><div class="sidebar-card" id="sidebar-tags"><div class="sidebar-card-headline"><img src="/assets/images/svg/uc/uc-tag.svg" class="icon box-icon" alt="Icon"><span>Tags</span></div><div id="sidebar-tags-content"><a class="sidebar-tags-link" href="/tags/CTF/" rel="tag">CTF<span class="sidebar-tags-count">5</span></a></div></div></aside><div id="home-main"><div class="home-article"><div class="home-article-content" cover="nocover"><div class="home-article-title"><a href="/2026/06/14/MOECTF%20REVERSE%20%5BBroken_hash%5D/">MOECTF REVERSE [Broken_hash] wp</a></div><div class="home-article-excerpt">查壳无壳，CPP写的PE64，丢进IDA分析 main函数逻辑，大概就是输入88位的明文去验证，由dword_140005184的数值来判断是否正确，先点进第一个函数sub_1400010C0看看它对我们输入的v8做了些什么操作 可以看到这个函数影响了关键的dword_140005184，继续点进sub_1400014F0 由题目名字（Broken_hash)，加上sub_140001400...</div><div class="home-article-info-container"><div class="home-article-info"><div class="home-article-date"><img src="/assets/images/svg/ta/ta-pubdate.svg" class="icon noview" alt="Icon"><span>2026-06-14</span></div><div class="home-article-categories"><img src="/assets/images/svg/ta/ta-category.svg" class="icon noview" alt="Icon"><a href="/categories/WP/">WP</a></div><div class="home-article-tags"><img src="/assets/images/svg/ta/ta-tag.svg" class="icon noview" alt="Icon"><a href="/tags/CTF/">CTF</a></div></div><div class="home-article-func"><a class="read-more-btn" href="/2026/06/14/MOECTF%20REVERSE%20%5BBroken_hash%5D/">Read More &gt;&gt;</a></div></div></div></div><div class="home-article"><div class="home-article-content" cover="nocover"><div class="home-article-title"><a href="/2026/06/14/MOECTF%20REVERSE%20%5BBase%5D/">MOECTF REVERSE[Base] wp</a></div><div class="home-article-excerpt">查壳无壳，c写的PE64，直接进IDA分析 题目提示的很明显了，base64，接下看看有没有被魔改就好了 位运算没有被魔改，看看解码表有没有被魔改 表被魔改了，直接写个base64的魔改表替换脚本就可以了
+1234567891011121314import base64text=&quot;1wX/yRrA4RfR2wj72Qv52x3L5qa=&quot;standard_table=&q...</div><div class="home-article-info-container"><div class="home-article-info"><div class="home-article-date"><img src="/assets/images/svg/ta/ta-pubdate.svg" class="icon noview" alt="Icon"><span>2026-06-14</span></div><div class="home-article-categories"><img src="/assets/images/svg/ta/ta-category.svg" class="icon noview" alt="Icon"><a href="/categories/WP/">WP</a></div><div class="home-article-tags"><img src="/assets/images/svg/ta/ta-tag.svg" class="icon noview" alt="Icon"><a href="/tags/CTF/">CTF</a></div></div><div class="home-article-func"><a class="read-more-btn" href="/2026/06/14/MOECTF%20REVERSE%20%5BBase%5D/">Read More &gt;&gt;</a></div></div></div></div><div class="home-article"><div class="home-article-content" cover="nocover"><div class="home-article-title"><a href="/2026/06/13/MOECTF%20REVERSE%20%5BArt%5D/">MOECTF REVERSE [Art] wp</a></div><div class="home-article-excerpt">查壳发现UPX 可以工具脱壳也可以用upx官方-d脱壳，脱壳后进入IDA静态分析 题目给了不少提示，提示了UPX和哈希算法，输入的字符串会放到str数组和v4数组里，程序会检测输入的前28位，然后会打乱str1里的数据，后面的两个检验函数，会将打乱的str1和str2进行对比，还有将赋有打乱前str1数据的v4传入了sub_401500()
+看看str2的数据，发现一个关键点，str2的第十...</div><div class="home-article-info-container"><div class="home-article-info"><div class="home-article-date"><img src="/assets/images/svg/ta/ta-pubdate.svg" class="icon noview" alt="Icon"><span>2026-06-13</span></div><div class="home-article-categories"><img src="/assets/images/svg/ta/ta-category.svg" class="icon noview" alt="Icon"><a href="/categories/WP/">WP</a></div><div class="home-article-tags"><img src="/assets/images/svg/ta/ta-tag.svg" class="icon noview" alt="Icon"><a href="/tags/CTF/">CTF</a></div></div><div class="home-article-func"><a class="read-more-btn" href="/2026/06/13/MOECTF%20REVERSE%20%5BArt%5D/">Read More &gt;&gt;</a></div></div></div></div><div class="home-article"><div class="home-article-content" cover="nocover"><div class="home-article-title"><a href="/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/">MOECTF REVERSE [A_game] wp</a></div><div class="home-article-excerpt">查壳无壳，PE64 C程序，大概进程序了解了一下后，进IDA静态分析 要求输入49位字符串验证，输入的字符串str会被填充到box里，可以看出来box被设定为一个9行9列的数组，可以看到box的原始数据 整理后大概就是这个样子（多出的15个0正好在外面，可以理解为后面的15个0没用处） str填充的逻辑是，如果遍历到的box的那一位是0，那么那一位会被str的一位填充，但是如果原来那就要数据...</div><div class="home-article-info-container"><div class="home-article-info"><div class="home-article-date"><img src="/assets/images/svg/ta/ta-pubdate.svg" class="icon noview" alt="Icon"><span>2026-06-12</span></div><div class="home-article-categories"><img src="/assets/images/svg/ta/ta-category.svg" class="icon noview" alt="Icon"><a href="/categories/WP/">WP</a></div><div class="home-article-tags"><img src="/assets/images/svg/ta/ta-tag.svg" class="icon noview" alt="Icon"><a href="/tags/CTF/">CTF</a></div></div><div class="home-article-func"><a class="read-more-btn" href="/2026/06/12/MOECTF%20REVERSE%20%5BA_game%5D/">Read More &gt;&gt;</a></div></div></div></div><div class="home-article"><div class="home-article-content" cover="nocover"><div class="home-article-title"><a href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/">NewStar CTF 2024 [SMc_math] wp</a></div><div class="home-article-excerpt">查壳无壳，C写的ELF
+
+拖进IDA,获得了main函数的内容
+
+在主函数内容中，要求输入明文，明文为28位，然后进入encrypt函数中进行加密处理。这里看到，mprotect函数修改了encrypt函数的内存权限，然后对encrypt函数的（3D5+1）字节进行了异或0x3E处理，也就是处理了3D6字节（982个）
+
+
+点进encrypt函数看，果然被修改了，只能显示汇编以及被识别为db和dq的内容，并且出现了无限循环，loc_11FB下面就是短跳到自己这里来，loc_11FF也是
+
+这里写脚本在python中恢复encrypt函数的逻辑
+
+Shift+F2打开IDA的脚本界面，然后选成python，运行脚本后，把encrypt函数内所有部分U解除函数化，然后在encrypt头部（第一个内存字节）按C恢复代码话，最后在encrypt函数按P重构函数，重新进入函数就发现已经可以恢复成伪代码
+
+这里的逻辑是，前面输入的28为明文传入函数中，然后被强行拆成了7部分，分别为a1数组的7部分，每部分16字节，最后进行运算后等于return的结果即可
+这里可以明显的用z3去解决，写z3脚本
+
+跑出来七部分为[1734437990, 1596998779, 1601515609, 1999662667, 1129149279, 1148073055, 2100517471]，然后就只需要把这其部分都恢复成4字节就好了
+
+获得flag{D0_Y0u_Kn0w_sMC_4nD_Z3}
+验证一下
+</div><div class="home-article-info-container"><div class="home-article-info"><div class="home-article-date"><img src="/assets/images/svg/ta/ta-pubdate.svg" class="icon noview" alt="Icon"><span>2026-06-11</span></div><div class="home-article-categories"><img src="/assets/images/svg/ta/ta-category.svg" class="icon noview" alt="Icon"><a href="/categories/WP/">WP</a></div><div class="home-article-tags"><img src="/assets/images/svg/ta/ta-tag.svg" class="icon noview" alt="Icon"><a href="/tags/CTF/">CTF</a></div></div><div class="home-article-func"><a class="read-more-btn" href="/2026/06/11/NewStar%20CTF%202024%20%5BSMc_math%5D/">Read More &gt;&gt;</a></div></div></div></div><div class="home-paginator"><div class="paginator"><span class="extend prev" rel="prev"><</span><span class="page-number current">1</span><span class="extend next" rel="next">></span></div></div></div></div></div><div id="toolbar" hide=""><div id="toolbar-setting-container" hide=""><div class="toolbar-item"><button id="tool-color-mode" title="Dark Mode" type="button"><img src="/assets/images/svg/ta/ta-moon.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button class="copy-text" id="tool-share" title="Share" type="button" data-text="http://example.com/index.html"><img src="/assets/images/svg/ta/ta-share.svg" class="icon noview" alt="Icon"></button></div></div><div class="toolbar-container"><div class="toolbar-item"><button id="tool-setting" title="Settings" type="button"><img src="/assets/images/svg/ta/ta-setting.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-gototop" title="Go To Top" type="button"><img src="/assets/images/svg/ta/ta-up.svg" class="icon noview" alt="Icon"></button></div></div></div><div id="music-player"></div></main><footer><div class="footer"><div id="footer-copyright">© 2024 - 2026 <span>💗</span> <a href="/null">John Doe</a></div><div id="footer-info"><div id="footer-framework">🚀Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/chanwj/hexo-theme-meow" title="3.3.2" target="_blank">Meow</a></div><div id="footer-runtime"><span id="runtime" data-startdate="2024-04-02T22:16:20.000Z">🌻Blog Runtime: . Years . Months . Days</span></div></div></div></footer><div class="scripts"><script>const GLOBALCONFIG = {
+  root: '/',
+  toolbar: true,
+  lazyload_src: '/assets/images/Meow-Loading.webp',
+  friends: false,
+  album: '',
+  codeblock: false,
+  code_copy_text: false,
+  share_text: '🐱Share From Meow',
+  onblur_title: 'Please Come Back～✧(´▽`ʃ♡ƪ)',
+  mouse_click: false,
+  notify:{
+    enable: false,
+    info: 'Copied successfully! Please mark the address of this post if redistribute.',
+    f12_info: 'Turned on developer mode, please follow the copyright license of this website'
+  },
+  search: {
+    enable: false,
+    path: '',
+    local: {
+      top_n_per_article: 1,
+      preload: false
+    }
+  },
+  encrypt: false,
+  category: false,
+};
+</script><script>if (!localStorage.getItem('color-mode')) {
+  localStorage.setItem('color-mode', 'light' || 'light');
+}
+document.body.setAttribute('data-mode', localStorage.getItem('color-mode'));
+</script>
+<script src="/js/theme/tools/utils.js"></script>
+
+<script src="/js/plugins/dist/lazyload.min.js"></script>
+
+<script src="/js/plugins/view-image.min.js"></script>
+
+<script src="/js/plugins/dist/APlayer.min.js"></script>
+<script>const initAplayer = (data) => {
+  if (!data.length) return;
+
+  const ap = new APlayer({
+    container: document.getElementById('music-player'),
+    fixed: true,
+    autoplay: false,
+    theme: '#FFB347',
+    loop: 'all',
+    order: 'list',
+    volume: 0.7,
+    lrcType: 3,
+    audio: data
+  });
+
+  ap.on('play', () => {
+    document.getElementById('music-player').setAttribute("play", "");
+  });
+  ap.on('pause', () => {
+    document.getElementById('music-player').removeAttribute("play");
+  });
+};
+
+const fetchData = () => {
+  fetch('')
+    .then(res => res.json())
+    .then(result => initAplayer(result));
+};
+
+if ('') {
+  document.addEventListener("DOMContentLoaded", fetchData);
+} else {
+  document.addEventListener("DOMContentLoaded", initAplayer());;
+}</script>
+<script src="/js/main.js" type="module"></script>
+</div></body></html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="author" content="CQXYY"/><meta name="copyright" content="CQXYY"/><meta name="theme-color" content="#FFB347"/><meta name="format-detection" content="telephone=no"/><meta name="keywords" content="Windows安全"/><meta name="mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-touch-fullscreen" content="yes"/><meta name="application-name" content="Windows内核编程学习笔记 | 万物皆虚，万事皆允"/><meta name="apple-mobile-web-app-title" content="Windows内核编程学习笔记 | 万物皆虚，万事皆允"/><meta name="apple-mobile-web-app-status-bar-style" content="#FFB347"/><link rel="canonical" href="http://example.com/2026/07/15/note/Windows内核编程学习笔记/"/><meta name="description" content="段寄存器段寄存器的作用：  寻址： 寻址方式是段的base地址+偏移  权限： 控制内存的操作权限，不同寄存器的权限不一样，例如ds寄存器  data section是可以读写的，但是代码段cs寄存器 code section是不能写的只能读   但是，权限实际上不是靠段寄存器的名字决定的，而是靠段寄存器的选择子，存在段寄存器的内存里 limitFS 003B 32位 7FFDF000(FF...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows内核编程学习笔记 | 万物皆虚，万事皆允">
+<meta property="og:url" content="http://example.com/2026/07/15/note/Windows%E5%86%85%E6%A0%B8%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="万物皆虚，万事皆允">
+<meta property="og:description" content="段寄存器段寄存器的作用：  寻址： 寻址方式是段的base地址+偏移  权限： 控制内存的操作权限，不同寄存器的权限不一样，例如ds寄存器  data section是可以读写的，但是代码段cs寄存器 code section是不能写的只能读   但是，权限实际上不是靠段寄存器的名字决定的，而是靠段寄存器的选择子，存在段寄存器的内存里 limitFS 003B 32位 7FFDF000(FF...">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/07/15/note/Windows%E5%86%85%E6%A0%B8%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/assets/images/assassin.png">
+<meta property="article:published_time" content="2026-07-15T08:33:59.000Z">
+<meta property="article:modified_time" content="2026-07-23T08:58:06.593Z">
+<meta property="article:author" content="CQXYY">
+<meta property="article:tag" content="Windows安全">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/07/15/note/Windows%E5%86%85%E6%A0%B8%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/assets/images/assassin.png"><meta name="robots" content="index,follow"/><meta name="googlebot" content="index,follow"/><meta name="revisit-after" content="1 days"/><title>Windows内核编程学习笔记 | 万物皆虚，万事皆允</title><link rel="shortcut icon" href="/assets/images/assassin.ico"><link rel="preconnect" href="/assets"/><link rel="preconnect" href="assets"/>
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="stylesheet" href="/css/third-party/dist/APlayer.min.css">
+<link rel="prefetch" href="/"/><link rel="prefetch" href="/archives"/><link rel="prefetch" href="/tags"/><meta name="generator" content="Hexo 8.1.2"></head><body bg-style="none"><div class="post-progressbar-container"><div class="post-progressbar"></div></div><header><div id="navbar"><div id="nav-info"><a id="site-icon" href="/" title="主页"><img src="/assets/images/assassin.png" alt="Logo"/></a><a id="site-name" href="/" title="主页"><div>万物皆虚，万事皆允</div><img src="/assets/images/svg/uc/uc-home.svg" class="icon noview" alt="Icon"></a></div><div id="nav-menu"><div class="menu-item"><a href="javascript:void(0);"><img src="/assets/images/svg/uc/uc-article.svg" class="icon noview" alt="Icon"><span>文章</span></a><ul class="sub-menu-item"><li><a href="/archives"><img src="/assets/images/svg/uc/uc-archive.svg" class="icon noview" alt="Icon"><span>归档</span></a></li></ul></div></div><div id="nav-function"><div id="menu-btn"><a href="javascript:void(0);" title="打开菜单"><img src="/assets/images/svg/uc/uc-menu.svg" class="icon noview" alt="Icon"></a></div></div></div></header><div id="menu-aside"><div id="menu-aside-container"><div id="menu-aside-info"><a href="/" title="主页"><img src="/assets/images/assassin.png" alt="Logo"/></a><a href="/" title="主页">万物皆虚，万事皆允</a></div><div class="menu-aside-item"><a href="javascript:void(0);"><img src="/assets/images/svg/uc/uc-article.svg" class="icon noview" alt="Icon"><span>文章</span></a><ul class="menu-aside-sub-item"><li><a href="/archives"><img src="/assets/images/svg/uc/uc-archive.svg" class="icon noview" alt="Icon"><span>归档</span></a></li></ul></div><hr/></div></div><main><div class="banner"><div class="banner-info"><div class="banner-avatar"><img src="/assets/images/assassin.png" alt="Avatar"/></div><div class="banner-title">「 Welcome to CQ's blog 」</div></div></div><div class="post-container"><div class="post-main"><div class="post-content"><h1 class="post-title">Windows内核编程学习笔记</h1><div class="post-author"><span>作者: CQXYY</span></div><div class="post-meta"><div class="post-info"><div class="post-date"><div class="post-pubdate"><img src="/assets/images/svg/ta/ta-pubdate.svg" class="icon noview" alt="Icon"><span>发表于2026-07-15</span></div><div class="post-update"><img src="/assets/images/svg/ta/ta-update.svg" class="icon noview" alt="Icon"><span>更新于2026-07-23</span></div></div><div class="post-read"></div></div><div class="post-attribute"><div class="post-categories"><img src="/assets/images/svg/ta/ta-category.svg" class="icon noview" alt="Icon"><span><a class="post-categories-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="post-tags"><img src="/assets/images/svg/ta/ta-tag.svg" class="icon noview" alt="Icon"><span><a class="post-tags-link" href="/tags/Windows%E5%AE%89%E5%85%A8/" rel="tag">Windows安全</a></span></div></div></div><div class="post markdown" indent="false"><h1 id="段寄存器"><a href="#段寄存器" class="headerlink" title="段寄存器"></a>段寄存器</h1><p>段寄存器的作用：</p>
+<ul>
+<li><p>寻址： 寻址方式是段的base地址+偏移</p>
+</li>
+<li><p>权限： 控制内存的操作权限，不同寄存器的权限不一样，例如ds寄存器  data section是可以读写的，但是代码段cs寄存器 code section是不能写的只能读</p>
+</li>
+</ul>
+<p>但是，权限实际上不是靠段寄存器的名字决定的，而是靠段寄存器的选择子，存在段寄存器的内存里</p>
+<h3 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h3><p>FS 003B 32位 7FFDF000(FFF) &#x2F;&#x2F;这里最后的FFF就是limit限长</p>
+<p>在段寄存器里决定寻址长度，例</p>
+<p>base:0                limit:0x123</p>
+<p>那么范围就是0-123，但如果base：10，那么范围就是10-133</p>
+<h3 id="段选择子"><a href="#段选择子" class="headerlink" title="段选择子"></a>段选择子</h3><p>事实上，系统只给了我们段选择子，没有给我们后面的数据，其它的数据都是从选择子里提取出来的，而从单单2字节里提取这么多数据，是因为段寄存器把属性都存在了一张表里</p>
+<p>FS 003B 32位 7FFDF000(FFF) &#x2F;&#x2F;这里的003B就是选择子</p>
+<p>这个表是个QWORD数组，结构是</p>
+<ul>
+<li><p>低2位：RPL   请求特权级</p>
+</li>
+<li><p>第3位：Tl       这个标志决定了我们要去哪个表查询数据（0代表从GDT global decriptor table表查，1代表从LDT local GDT表查，大部分情况都是0）</p>
+</li>
+<li><p>剩下的13位： index 数据所在表的索引值</p>
+</li>
+</ul>
+<p>例如：</p>
+<p>把003B换成二进制就是0000 0000 0011 1011</p>
+<p>低两位11 是RPL请求特权级，这里11代表的是Ring3</p>
+<p>第三位0   是Tl标志，表示是GDT表</p>
+<p>剩下的就是index，是111，换成10进制就是7，那么就从GDT表的第7个描述符里读取</p>
+<h3 id="GDTR寄存器"><a href="#GDTR寄存器" class="headerlink" title="GDTR寄存器"></a>GDTR寄存器</h3><p>GDTR是专门来存放GDT表的地址的寄存器</p>
+<p>在windbg里，kd指令  r   &#x2F;&#x2F;后面跟寄存器的名字可以查询特定的寄存器</p>
+<p>用来查询寄存器，而查出来的寄存器表里实际上是没有GDTR的，所以GDTR寄存器是个虚拟的寄存器</p>
+<p>但是如果 r gdtr，是可以查询到gdtr寄存器的</p>
+<p>例如：</p>
+<p>r gdtr</p>
+<p>得到gdtr&#x3D;80b95000</p>
+<p>这就是gdt的地址，再查询地址即可获得gdt表</p>
+<p>查询kd指令：dq（以qword形式查询，dd就是以dword形式查询）</p>
+<h3 id="段描述符"><a href="#段描述符" class="headerlink" title="段描述符"></a>段描述符</h3><p>查询到的gdt表内的数据，即是段描述符</p>
+<p>例如dq gdtr &#x2F;&#x2F;直接查gdtr指向的地址，即gdt表</p>
+<p>得到的数组，根据index指向，例如index是100，十进制4，那么获得数组第四位（物理第5位）</p>
+<p>例如得到</p>
+<p>00cff300&#96;0000ffff</p>
+<p>高32位：00 cf f3 00</p>
+<p>低32位：00 00 ff ff</p>
+<ul>
+<li>base:</li>
+</ul>
+<p>​        高32位的24-31：00+高32位的0-7：00+低32位的16-31：00 00&#x3D;0x00000000</p>
+<ul>
+<li>limit：</li>
+</ul>
+<p>​        高32位的16-19（cf中的f）：f+低32位的0-15位：ff ff&#x3D;0xfffff</p>
+<ul>
+<li>属性字节f3：</li>
+</ul>
+<p>​        type：高32位的8-11：3（0011），决定这个段具体干嘛（最高位0表示是数据段，后面的三位表示可读可写         已被访问）&#x2F;&#x2F;要根据s的情况来查询，s为1时大于7为代码段，小于8为数据段</p>
+<p>​        S：f（1111）的低位（1），表示描述符类型，1表示这是一个代码或者数据段，0表示这是个系统段</p>
+<p>​        DPL：f（1111）的中间两位（11十进制3），表示特权级（3表示ring3）</p>
+<p>​        P：f（1111）的高位，段存在位，1表示这个段存在于物理内存中</p>
+<ul>
+<li><p>属性字节c：</p>
+<p>G：c（1100）的最高位（1），粒度位，1表示4kb，影响limit，例如0xfffff*4kb&#x3D;0xffffffff</p>
+<p>D&#x2F;B：c（1100）的第二位（1），1表示32位，0表示16位段</p>
+<p>L：c（1100）的第三位（0）：0表示这不是64位段</p>
+<p>AVL：c（1100）的第四位（0）：操作系统给软件留的位，windows一般不管</p>
+</li>
+</ul>
+<p>&#x2F;&#x2F;kd e指令：</p>
+<p>​    和d是一样的，e是edit编辑，ed，eq是字节不同，e*后面跟地址可修改对应的位置</p>
+<p>​    修改段描述符，通常是在表里空的位置填上修改值，然后将寄存器指向这里</p>
+<p>​    但是修改cs代码段不能这么做，cs代码段只能用远跳修改，jmp far 004b：[地址]，可以把cs改成004b</p>
+<p>​    因为在远跳的时候，cs会和eip一起变化，防止eip跳出cs段</p>
+<h3 id="D-B的一些问题"><a href="#D-B的一些问题" class="headerlink" title="D&#x2F;B的一些问题"></a>D&#x2F;B的一些问题</h3><p>之前记下，D&#x2F;B为0是会变成16位，这体现在当D&#x2F;B为0时，向堆栈写入内容是2字节的，而在32位下是4字节的</p>
+<p>但是，指向堆栈的ESP，在这种情况下也会变成16位，ESP会抛弃高位留下低位，此时写入的是SP指向的栈顶，如果这个地址无法写入，那么就会崩溃</p>
+<h3 id="S的一些问题"><a href="#S的一些问题" class="headerlink" title="S的一些问题"></a>S的一些问题</h3><p>S为1则是数据段或者代码段，为0则是系统段，当S为1时，其二进制表示为</p>
+<p>0-7时：为数据段，四位分别为，</p>
+<p>​              0xxx，第二位表示拓展方向0为向上拓展1为向下拓展，当向下拓展时，此时base-limit的内存就不可访问                  </p>
+<p>​                                   了，而向上拓展可以访问（Base：0 Limit:0xFFFFFFFF）</p>
+<p>​                          第三位是是否可写，</p>
+<p>​                          第四位是该段是否使用过</p>
+<p><img   lazyload src="/assets/images/Meow-Loading.webp" data-lazy-src="/images/note/1001.png"  alt="1001"></p>
+<h2 id="权限级别"><a href="#权限级别" class="headerlink" title="权限级别"></a>权限级别</h2><ul>
+<li><p>DPL:段权限级别，在段描述符里 </p>
+<p>&#x2F;&#x2F;去办什么权限级别的事情</p>
+</li>
+<li><p>RPL:请求权限级别，在段选择子 </p>
+<p>&#x2F;&#x2F;当前我以什么身份去办事情</p>
+</li>
+<li><p>CPL:当前权限级别，在CS和SS的段选择子里，其它段没有CPL（CS和SS的段选择子权限一定是一样的）</p>
+<p>&#x2F;&#x2F;我真实的身份级别是什么</p>
+</li>
+</ul>
+<p>在代码段cs和堆栈数据段ss里，上面三个都是一样的</p>
+<p>在普通数据段里，例如ds，可以这么理解</p>
+<p>​            CPL：Ring3 我是学生</p>
+<p>​            RPL：Ring0 我以校长的身份去</p>
+<p>​            DPL：Ring3 打扫卫生</p>
+<p>这是没问题的，但是如果变成</p>
+<p>​            CPL：Ring3 我是学生</p>
+<p>​            RPL：Ring0 我以校长的身份去</p>
+<p>​            DPL：Ring0 修改校规</p>
+<p>这就不行了</p>
+<h2 id="提权测试"><a href="#提权测试" class="headerlink" title="提权测试"></a>提权测试</h2><p>想要提高权限，就需要将RPL和CPL的权限级别提高，也就是对这两个进行修改</p>
+<p>利用windbg和win10 x86虚拟机进行了提高权限的测试</p>
+<p>修改了RPL实际是没有什么用处，关键是修改CPL，但是直接进行修改ss或者cs是无法成功的</p>
+<h3 id="测试过程"><a href="#测试过程" class="headerlink" title="测试过程"></a>测试过程</h3><p>得到DS的段选择子是23，也就是00100011，要修改RPL，也就是将后两位11改成00达到Ring0级别，改成20</p>
+<p>得到CS的段选择字是1B，也就是00011011，修改CPL也是一样，修改为00011000，也就是改成18</p>
+<p>通过直接mov可以修改RPL，但是进行修改CPL的时候，无论是通过直接mov，还是远跳修改，还是call far修改，都无法修改成功，CPL目前来说，无法通过这种方式修改</p>
+<h2 id="调用门"><a href="#调用门" class="headerlink" title="调用门"></a>调用门</h2><p>当S为0时，这个段为系统段，然后根据Type类型，决定功能，当S为0 Type为12时，其作用就是调用门</p>
+<p>调用门实际就是个系统段，作用大概类似于一个传送门，可以跳到指定位置，但是还有一个功能是提权</p>
+<p>在调用门里的段描述符里，其结构为</p>
+<p>高32位：</p>
+<p>0-4跳转函数需要调用的参数</p>
+<p>5-7固定的3个0</p>
+<p>8-11Type</p>
+<p>12 s位，系统段为0</p>
+<p>13-14 DPL 要使用这个调用门的权限，为了能使用这个调用门，得赋值成3</p>
+<p>15 P 段存在位</p>
+<p>16-31跳转地址</p>
+<p>低32位：</p>
+<p>0-15 和高32位的跳转地址偏移拼成一个32位偏移</p>
+<p>16-31 段选择子</p>
+<h3 id="构造一个提权段描述符"><a href="#构造一个提权段描述符" class="headerlink" title="构造一个提权段描述符"></a>构造一个提权段描述符</h3><p>r cs得到cs的选择子为0008</p>
+<p>0008xxxx &#x2F;&#x2F;xxxx为低16位跳转地址</p>
+<p>参数和三个0合起来两个16进制为00，Type1100，DPL3，P是1，则</p>
+<p>xxxxEC00 &#x2F;&#x2F;xxxx为高16位跳转地址</p>
+<p>则为xxxxEC00 0008xxxx，补充地址即可</p>
+<p>例如函数地址为401090则为，0040EC00 00081090</p>
+<h3 id="提权成功测试"><a href="#提权成功测试" class="headerlink" title="提权成功测试"></a>提权成功测试</h3><p>call far 跨段调用，长调用</p>
+<p>jmp far 长跳转，矿段调转</p>
+<p>而需要提权，我们只能使用call far，jmp far也能使用调用门但是不能提权</p>
+<p>一个提权实验：</p>
+<div class="code-container" code-lang="Cpp"><div class="codebox"><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> _declspec(naked) <span class="built_in">test</span>() &#123;</span><br><span class="line">    _asm &#123;</span><br><span class="line">        mov eax, <span class="number">0x82b6a440</span></span><br><span class="line">        mov eax, [eax]</span><br><span class="line">        ret</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    BYTE code[<span class="number">6</span>] = &#123; <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x48</span>,<span class="number">0</span> &#125;;<span class="comment">//vs不认call far 地址，只能通过code构造</span></span><br><span class="line">    _asm &#123;</span><br><span class="line">        call fword ptr code<span class="comment">//等同于使用call far</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%x&quot;</span>, test);</span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>在写入段选择子0040EC00 00081090后，直接call far实现调用门，修改cs的段选择子，然后test（）函数，尝试读取gdt表地址的数据，这里的数据只有ring0才可以读，用来测试是否成功</p>
+<p>运行后，windbg突然int 3中断，g后直接蓝屏</p>
+<p>蓝屏原因是，在执行代码时，成功拿到ring0权限，成功执行了读取gdt表内容，但是ret出去后，还是ring0权限，这时候是会报错，call far 需要配合retf来使用</p>
+<p>retf    &#x2F;&#x2F;类似于降权退出</p>
+<h3 id="提权后的一些变化"><a href="#提权后的一些变化" class="headerlink" title="提权后的一些变化"></a>提权后的一些变化</h3><p>提权后，cs变化的同时ss随着变化，指向栈顶的esp也会指向高位</p>
+<p>实际上，int 3会修改fs段寄存器的数值，在使用int 3时，可以将fs压入栈，等int 3后，再将fs弹出，就可以防止程序因为fs的变化而崩溃</p>
+<p>ring3时，fs指向TEB，ring0时，fs指向KPCR</p>
+<p>&#x2F;&#x2F;一些指令，使用dd esp可以查堆栈，dds esp可以使获得的堆栈变成一行一行的</p>
+<p>kd指令u:可以查看u后面地址的反编译代码，在地址后加l（len）和数字可以显示多少行,uf可以显示一个函数的全部命令（d也可以用）</p>
+<h2 id="中断门"><a href="#中断门" class="headerlink" title="中断门"></a>中断门</h2><p>中断门中断cpu，中断门结构和调用门很像，里面的偏移也是低16+高16，合成的地址是cpu要去执行的地址</p>
+<p>int 3实际就是idt表的第三位，int 3实际也是一个中断门</p>
+<p>高32：</p>
+<p>0-4：保留位</p>
+<p>5-7：000</p>
+<p>8-11 Type：1110表示中断门</p>
+<p>12 S：系统段0</p>
+<p>13-14DPL ：在ring3</p>
+<p>15 P：1 位存在位</p>
+<p>16-31：偏移 </p>
+<p>低32位：</p>
+<p>0-15：偏移</p>
+<p>16-31：段选择子 &#x2F;&#x2F;虽然中断门在IDT里，但是段选择子指向的是GDT表</p>
+<p>调用门存放在GDT表，而中断门是在IDT表里，对应的有IDTR指针</p>
+<p>IDT表很长，查询记得用dq idtr l长度，也可以！idt来查询，或者！idt -a ，后面跟数字可以查询特定第几行(感叹号可以以更容易读懂的形式看)</p>
+<h3 id="实现一个中断门"><a href="#实现一个中断门" class="headerlink" title="实现一个中断门"></a>实现一个中断门</h3><p>使用中断门，在idt表里构造一个中断门，对应的idt位数，使用int 0xxx即可，要记住和中断门对应的是iretd</p>
+<p>记住</p>
+<div class="code-container" code-lang="Cpp"><div class="codebox"><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> _declspec(naked) <span class="built_in">test</span>() &#123;</span><br><span class="line">	_asm &#123;</span><br><span class="line">		push fs</span><br><span class="line">		<span class="type">int</span> <span class="number">3</span></span><br><span class="line">		pop fs</span><br><span class="line">		mov eax,<span class="number">0x8087f040</span></span><br><span class="line">		mov eax,[eax]</span><br><span class="line">		iretd</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	_asm &#123;</span><br><span class="line">		<span class="type">int</span> <span class="number">0x20</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, test);</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>这样成功实现一个不会蓝屏的中断门，在int 3之前将fs压入，之后再弹出防止fs被修改蓝屏，将我们修改的中断门写入idt表的第二十位，调用即是int 0x20</p>
+<h2 id="陷阱门"><a href="#陷阱门" class="headerlink" title="陷阱门"></a>陷阱门</h2><p>陷阱门的结构几乎和中断门一模一样，唯一的区别就是Type从1110变成了1111（表示陷阱门）</p>
+<p>在使用上也是和中断门一样，它们的区别是IDT</p>
+<p>通过中断门进入中断服务时cpu会自动将中断关闭，将eflags寄存器中IF标志清零，防止嵌套中断的发生</p>
+<p>通过陷阱门的时候IF标志不变，允许更高级别的中断打断当前处理，可以直接用前面写的中断门实现，在写入idt表的时候type改一位即可</p>
+<p>例如： 中断门 0040ee00&#96;00081080</p>
+<p>​             陷阱门 0040ef00&#96;00081080</p>
+<h1 id="任务段（TSS"><a href="#任务段（TSS" class="headerlink" title="任务段（TSS)"></a>任务段（TSS)</h1><p>CPU（单核情况下）在处理多任务时，不是先将一个任务处理完然后再处理下一个的，而是第一个任务执行一部分，再执行第二个，然后再回来执行第一个任务，这个样来回的处理多任务</p>
+<p>但是这样会有个问题，在执行第一个任务时，寄存器，堆栈，还有各种各样的东西是在第一个任务时的情况，当从第二个任务回来时，这些内容肯定变化了，那么就必须想办法保存并且恢复CPU的状态，保存这些内容的地方就是内存中的任务门TSS</p>
+<p>（这些内容是cpu提供的，而不是windows的，所以windows的多线程不能在这里表现）</p>
+<p>TSS一共有104个字节，里面有保存各种寄存器和段寄存器等等内容，但是里面还有多个ESP和SS</p>
+<h3 id="多个ESP和SS"><a href="#多个ESP和SS" class="headerlink" title="多个ESP和SS"></a>多个ESP和SS</h3><p>任务段里有多个ESP，里面保存的不同堆栈栈顶地址，在之前的提权实验中，提到Ring0级别时，除开我们修改的cs，还有ESP也变化了，它指向了Ring0的栈空间，这里的多个ESP就保存了不同权限级别的栈空间位置，SS也是一样，对应不同的权限等级</p>
+<h2 id="tr段寄存器"><a href="#tr段寄存器" class="headerlink" title="tr段寄存器"></a>tr段寄存器</h2><p>tr寄存器指向TSS，其结构中的base指向TSS的内存位置，其结构为：</p>
+<p>高32位：</p>
+<p>0-7：base的16-23位</p>
+<p>8-11：type &#x2F;&#x2F;10B1,这个B指的是状态0表示没在使用,B表示在使用</p>
+<p>12：0</p>
+<p>13-14：DPL</p>
+<p>15-16：P</p>
+<p>16-19：Limit16-19</p>
+<p>20：AVL</p>
+<p>21-22:00</p>
+<p>23:G</p>
+<p>24-31:base24-31</p>
+<p>低32位：</p>
+<p>0-15：limit0-15</p>
+<p>16-31：base0-15</p>
+<p>例如r tr查出来0x28，查gdt表第5位，得到80008b1e 400020ab，那么base就是801e4000</p>
+<p>直接查询地址得到的结果非常难懂，因为TSS是个很大的结构体，使用dt命令以特定结构体的方式查询为好</p>
+<p>dt _KTSS &#x2F;&#x2F;display type _K TSS</p>
+<p>TSS的结构里有一个backlink，其作用是连接上一个TSS，类似于链表，只是指向上一个TSS</p>
+<p>&#x2F;&#x2F;尝试查询TSS</p>
+<div class="code-container" code-lang="Plaintext"><div class="codebox"><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">0: kd&gt; dt _KTSS 80ac3000</span><br><span class="line">ntdll!_KTSS</span><br><span class="line">   +0x000 Backlink         : 0</span><br><span class="line">   +0x002 Reserved0        : 0</span><br><span class="line">   +0x004 Esp0             : 0x8313a550</span><br><span class="line">   +0x008 Ss0              : 0x10</span><br><span class="line">   +0x00a Reserved1        : 0</span><br><span class="line">   +0x00c NotUsed1         : [4] 0</span><br><span class="line">   +0x01c CR3              : 0</span><br><span class="line">   +0x020 Eip              : 0</span><br><span class="line">   +0x024 EFlags           : 0</span><br><span class="line">   +0x028 Eax              : 0</span><br><span class="line">   +0x02c Ecx              : 0</span><br><span class="line">   +0x030 Edx              : 0</span><br><span class="line">   +0x034 Ebx              : 0</span><br><span class="line">   +0x038 Esp              : 0</span><br><span class="line">   +0x03c Ebp              : 0</span><br><span class="line">   +0x040 Esi              : 0</span><br><span class="line">   +0x044 Edi              : 0</span><br><span class="line">   +0x048 Es               : 0</span><br><span class="line">   +0x04a Reserved2        : 0</span><br><span class="line">   +0x04c Cs               : 0</span><br><span class="line">   +0x04e Reserved3        : 0</span><br><span class="line">   +0x050 Ss               : 0</span><br><span class="line">   +0x052 Reserved4        : 0</span><br><span class="line">   +0x054 Ds               : 0</span><br><span class="line">   +0x056 Reserved5        : 0</span><br><span class="line">   +0x058 Fs               : 0</span><br><span class="line">   +0x05a Reserved6        : 0</span><br><span class="line">   +0x05c Gs               : 0</span><br><span class="line">   +0x05e Reserved7        : 0</span><br><span class="line">   +0x060 LDT              : 0</span><br><span class="line">   +0x062 Reserved8        : 0</span><br><span class="line">   +0x064 Flags            : 0</span><br><span class="line">   +0x066 IoMapBase        : 0x20ac</span><br><span class="line">   +0x068 IoMaps           : [1] _KiIoAccessMap</span><br><span class="line">   +0x208c IntDirectionMap  : [32]  &quot;???&quot;</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>修改tr有一个专门指令进行修改</p>
+<p>ltr &#x2F;&#x2F;load tr修改</p>
+<p>str &#x2F;&#x2F;save tr保存</p>
+<p>但是这个需要在Ring0下才能使用</p>
+<h2 id="尝试修改tr的数值"><a href="#尝试修改tr的数值" class="headerlink" title="尝试修改tr的数值"></a>尝试修改tr的数值</h2><p>通过修改TSS内的寄存器数值，修改cs等，实现提权效果</p>
+<p>提权代码</p>
+<div class="code-container" code-lang="Cpp"><div class="codebox"><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_KTSS</span> &#123;</span><br><span class="line">	USHORT link;</span><br><span class="line">	USHORT Reserved0;</span><br><span class="line">	ULONG esp0;</span><br><span class="line">	USHORT ss0;</span><br><span class="line">	USHORT Reserved1;</span><br><span class="line">	ULONG notUsed1[<span class="number">4</span>];</span><br><span class="line">	ULONG CR3;</span><br><span class="line">	ULONG eip;</span><br><span class="line">	ULONG eflags;</span><br><span class="line">	ULONG eax;</span><br><span class="line">	ULONG ecx;</span><br><span class="line">	ULONG edx;</span><br><span class="line">	ULONG ebx;</span><br><span class="line">	ULONG esp;</span><br><span class="line">	ULONG ebp;</span><br><span class="line">	ULONG esi;</span><br><span class="line">	ULONG edi;</span><br><span class="line">	USHORT es;</span><br><span class="line">	USHORT Reserved2;</span><br><span class="line">	USHORT cs;</span><br><span class="line">	USHORT Reserved3;</span><br><span class="line">	USHORT ss;</span><br><span class="line">	USHORT Reserved4;</span><br><span class="line">	USHORT ds;</span><br><span class="line">	USHORT Reserved5;</span><br><span class="line">	USHORT fs;</span><br><span class="line">	USHORT Reserved6;</span><br><span class="line">	USHORT gs;</span><br><span class="line">	USHORT Reserved7;</span><br><span class="line">	USHORT LDT;</span><br><span class="line">	USHORT Reserved8;</span><br><span class="line">	USHORT flags;</span><br><span class="line">	USHORT IoMapBase;</span><br><span class="line">&#125;TSS;</span><br><span class="line">TSS tss = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">BYTE esp0[<span class="number">0x2000</span>];</span><br><span class="line">BYTE esp[<span class="number">0x2000</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> _declspec(naked)<span class="built_in">test</span>() &#123;</span><br><span class="line">	_asm &#123;</span><br><span class="line">		<span class="type">int</span> <span class="number">3</span></span><br><span class="line">		iretd</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(esp0, <span class="number">0</span>, <span class="number">0x2000</span>);</span><br><span class="line">	<span class="built_in">memset</span>(esp, <span class="number">0</span>, <span class="number">0x2000</span>);</span><br><span class="line">	tss.eip = (ULONG)test;</span><br><span class="line">	tss.cs = <span class="number">0x08</span>;</span><br><span class="line">	tss.ss = <span class="number">0x10</span>;</span><br><span class="line">	tss.ds = <span class="number">0x23</span>;</span><br><span class="line">	tss.es = <span class="number">0x23</span>;</span><br><span class="line">	tss.fs = <span class="number">0x30</span>;<span class="comment">//ring0 0x30,ring3 0x3b</span></span><br><span class="line">	tss.ss0 = <span class="number">0x10</span>;</span><br><span class="line">	tss.esp0 = ((ULONG)esp0<span class="number">+0x1600</span>);</span><br><span class="line">	tss.esp = ((ULONG)esp<span class="number">+0x1600</span>);</span><br><span class="line">	DWORD dcr3 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	BYTE code[<span class="number">6</span>] = &#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x48</span>,<span class="number">0</span>&#125;;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%x&quot;</span>, &amp;tss);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;input:\n&quot;</span>);</span><br><span class="line">	<span class="built_in">scanf_s</span>(<span class="string">&quot;%x&quot;</span>, &amp;dcr3);</span><br><span class="line">	tss.CR3 = dcr3;</span><br><span class="line">	_asm &#123;</span><br><span class="line">		call far fword ptr code</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>需要构造一共TSS数据结构，然后写入GDT表中，让tr寄存器指向我们写入的gdt表位(0x48)</p>
+<p>在运行程序后，用任务管理器查询pid，然后在windbg里！process pid查询我们的进程，得到DirBase，然后回到程序输入给cr3，即可成功触发test里的代码，实现中断和提权</p>
+<p>! process 00 &#x2F;&#x2F;查看所有进程，获得cr3需要获得DirBase，获得进程里面就有DirBase7fff0480</p>
+<p>dg 段选择子 &#x2F;&#x2F;可以很轻松的显示段选择子的内容</p>
+<h3 id="eflag寄存器NT位"><a href="#eflag寄存器NT位" class="headerlink" title="eflag寄存器NT位"></a>eflag寄存器NT位</h3><p>当NT位为0时，选择esp作为返回的地址，当NT位为1时，找到TSS里的backlink指针作为返回地址</p>
+<p>在执行完int3后，会清零NT位，此时返回的就是esp的位置</p>
+<p>恢复NT位</p>
+<div class="code-container" code-lang="Plaintext"><div class="codebox"><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int 3</span><br><span class="line">pushfd</span><br><span class="line">pop eax</span><br><span class="line">or eax,0x4000</span><br><span class="line">push eax</span><br><span class="line">popfd</span><br><span class="line">iretd</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>先前的任务段代码是没有写的，所以中断后继续运行，是肯定会蓝屏的，这样修改后系统就不会蓝屏了，但是程序会崩溃，因为cr3没有了，可以动手修改一下，程序也不会崩溃</p>
+<h2 id="任务门"><a href="#任务门" class="headerlink" title="任务门"></a>任务门</h2><p>任务门结构：</p>
+<p>高32位：</p>
+<p>0-7:保留</p>
+<p>8-11：Type 0101</p>
+<p>12: S 0</p>
+<p>13-14:DPL</p>
+<p>15:P</p>
+<p>16-31:保留</p>
+<p>低32位：</p>
+<p>0-15：保留</p>
+<p>16-31：TSS段选择子</p>
+<p>任务门的作用是间接调用TSS，TSS在gdt表里，而任务门在idt表里</p>
+<p>例如一个任务门：00008500 00500000</p>
+<p>这个任务门的作用，当出现了一个异常，程序进入异常处理程序，但是异常处理程序也出现了一个异常，那么这时候就会丢失第一次异常时的信息，于是就有这个任务门，提供TSS保存第一次异常的信息</p>
+<h3 id="实现一个任务门"><a href="#实现一个任务门" class="headerlink" title="实现一个任务门"></a>实现一个任务门</h3><p>之前写的任务段代码改一改，改成从任务门进入任务段就好了，构造任务门0000E500 00500000，把DPL的ring0改成ring3，即可7fff0620，放到idt表的第几位调用int几就好了</p>
+<div class="code-container" code-lang="Cpp"><div class="codebox"><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_KTSS</span> &#123;</span><br><span class="line">	USHORT link;</span><br><span class="line">	USHORT Reserved0;</span><br><span class="line">	ULONG esp0;</span><br><span class="line">	USHORT ss0;</span><br><span class="line">	USHORT Reserved1;</span><br><span class="line">	ULONG notUsed1[<span class="number">4</span>];</span><br><span class="line">	ULONG CR3;</span><br><span class="line">	ULONG eip;</span><br><span class="line">	ULONG eflags;</span><br><span class="line">	ULONG eax;</span><br><span class="line">	ULONG ecx;</span><br><span class="line">	ULONG edx;</span><br><span class="line">	ULONG ebx;</span><br><span class="line">	ULONG esp;</span><br><span class="line">	ULONG ebp;</span><br><span class="line">	ULONG esi;</span><br><span class="line">	ULONG edi;</span><br><span class="line">	USHORT es;</span><br><span class="line">	USHORT Reserved2;</span><br><span class="line">	USHORT cs;</span><br><span class="line">	USHORT Reserved3;</span><br><span class="line">	USHORT ss;</span><br><span class="line">	USHORT Reserved4;</span><br><span class="line">	USHORT ds;</span><br><span class="line">	USHORT Reserved5;</span><br><span class="line">	USHORT fs;</span><br><span class="line">	USHORT Reserved6;</span><br><span class="line">	USHORT gs;</span><br><span class="line">	USHORT Reserved7;</span><br><span class="line">	USHORT LDT;</span><br><span class="line">	USHORT Reserved8;</span><br><span class="line">	USHORT flags;</span><br><span class="line">	USHORT IoMapBase;</span><br><span class="line">&#125;TSS;</span><br><span class="line"><span class="comment">// 0000e940`30a80068</span></span><br><span class="line">TSS tss = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">BYTE esp0[<span class="number">0x2000</span>];</span><br><span class="line">BYTE esp[<span class="number">0x2000</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> _declspec(naked)<span class="built_in">test</span>() &#123;</span><br><span class="line">	_asm &#123;</span><br><span class="line">		<span class="type">int</span> <span class="number">3</span></span><br><span class="line">		iretd</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(esp0, <span class="number">0</span>, <span class="number">0x2000</span>);</span><br><span class="line">	<span class="built_in">memset</span>(esp, <span class="number">0</span>, <span class="number">0x2000</span>);</span><br><span class="line">	tss.eip = (ULONG)test;</span><br><span class="line">	tss.cs = <span class="number">0x08</span>;</span><br><span class="line">	tss.ss = <span class="number">0x10</span>;</span><br><span class="line">	tss.ds = <span class="number">0x23</span>;</span><br><span class="line">	tss.es = <span class="number">0x23</span>;</span><br><span class="line">	tss.fs = <span class="number">0x30</span>;<span class="comment">//ring0 0x30,ring3 0x3b</span></span><br><span class="line">	tss.ss0 = <span class="number">0x10</span>;</span><br><span class="line">	tss.esp0 = ((ULONG)esp0<span class="number">+0x1600</span>);</span><br><span class="line">	tss.esp = ((ULONG)esp<span class="number">+0x1600</span>);</span><br><span class="line">	DWORD dcr3 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	BYTE code[<span class="number">6</span>] = &#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x48</span>,<span class="number">0</span>&#125;;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%x&quot;</span>, &amp;tss);<span class="comment">//4030a8</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;input:\n&quot;</span>);</span><br><span class="line">	<span class="built_in">scanf_s</span>(<span class="string">&quot;%x&quot;</span>, &amp;dcr3);</span><br><span class="line">	tss.CR3 = dcr3;</span><br><span class="line">	_asm &#123;</span><br><span class="line">		<span class="comment">//call far fword ptr code</span></span><br><span class="line">		<span class="type">int</span> <span class="number">0x20</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<h1 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h1><p>mov eax,dword ptr ds:[0x1234]</p>
+<p>理解这条指令的意思是ds.base+0x1234，但是无论加没加base，都不是真的物理地址，</p>
+<p>如何寻找真实的物理地址，就了解分页机制</p>
+<p>在32位系统下，有两种分页方式，一个是10-10-12分页，一个是2-9-9-12分页<br>快速了解是什么分页极致，可以看每个进程之间的DirBase间隔，如果间隔是20，那么就是2-9-9-12</p>
+<p>如果所有的DirBase都以000结尾，那么就是10-10-12分页</p>
+<p>最好的查询方法是直接在windbg里查询cr4，r cr4，cr4倒数第5位是1就是29912，0就是101012</p>
+<h2 id="10-10-12分页"><a href="#10-10-12分页" class="headerlink" title="10-10-12分页"></a>10-10-12分页</h2><p>很多32位系统默认是2-9-9-12分页，所以需要设置一下</p>
+<div class="code-container" code-lang="Bash"><div class="codebox"><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /set &#123;current&#125; nx AlwaysOff</span><br><span class="line">bcdedit /set &#123;current&#125; PAE ForceDisable</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>在管理员cmd下设置重启即可，即可设置10-10-12分页</p>
+<p>&#x2F;&#x2F;这个指令只对win10以前的win7 32有效，在win10 32下强制使用2-9-9-12，无法进行切换！</p>
+<h3 id="10-10-12下寻找真实地址"><a href="#10-10-12下寻找真实地址" class="headerlink" title="10-10-12下寻找真实地址"></a>10-10-12下寻找真实地址</h3><p>例如一个地址00401488，变成二进制拆为10位-10位-12位这样</p>
+<p>00401 488&#x2F;&#x2F;后面488作为12，前00401作为10-10</p>
+<p>0000 0000 0100 0000 0001 &#x2F;&#x2F;10-10</p>
+<p>0100 1000 1000                    &#x2F;&#x2F;12</p>
+<p>再拆为10，10，12</p>
+<p>0000 0000 01    &#x3D;1</p>
+<p>00 0000 0001    &#x3D;1</p>
+<p>0100 1000 1000&#x3D;0x488</p>
+<p>接下来获得进程，查询地址所在进程的DirBase，查询DirBase的数值，DirBase是在真实内存里的，所以用dd指令是无法查询的，需要使用!dd进行查询真实内存</p>
+<p>前面得到的三个数值，第一个数值*4，DirBase加上后查询，得到内容</p>
+<p>例如：0d33d867 &#x2F;&#x2F;后3位描述地址的属性</p>
+<p>把后3位改为000，用第二个数值*4，DirBase加上查询，得到内容</p>
+<p>例如：088b7025</p>
+<p>再把后3位改为000，第三个数值直接加上查询，这时候得到的地址就是真实地址</p>
+<p>其实这个地址也不是内存条上的内存地址，但目前来说了解到这即可</p>
+<h3 id="寻址原理"><a href="#寻址原理" class="headerlink" title="寻址原理"></a>寻址原理</h3><p>32位下4gb，那么内存就是0-FFFFFFFF</p>
+<p>分页就是0-FFFFF，分页每一页都需要存储信息</p>
+<p>而存储每个分页的起始地址的数组就是0-FF</p>
+<p>存储这下存储分页地址的数组只有一个，足够存储这些数组&#x2F;&#x2F;这个数组的名字是PDT（页目录表，P：设置D：dirbaseT：table）数组的元素是PDE（页目录项）第二层数组是PTT（页表）PTE（页表项）</p>
+<p>cpu在寻址时，把这最后的数组的首地址放到了一个寄存器里，这个寄存器就是CR3，也就是我们之前用到的DirBase</p>
+<p>而我们得到的前面10-10-12的三个数据，第一个数据就是这个数组的索引号，乘4就是因为是以4kb为每一位的，可以得到第二层数组的位置，第二个数据就是第二层数组的索引号，乘4也是一样的，定位到具体那一页，然后通过第三个数据给出的偏移直接就可以找到分页上的位置</p>
+<p>CR3-&gt;PDT-&gt;PTE-&gt;每一页的偏移内存</p>
+<h3 id="页属性"><a href="#页属性" class="headerlink" title="页属性"></a>页属性</h3><p>之前查询的时候，得到的后三位会置为0，那三位是页属性，这个页属性的内容</p>
+<p>PDE：31-12：base   11-0:属性页</p>
+<p>​         属性页为</p>
+<p>​                     0:P存在位</p>
+<p>​                     1:R&#x2F;W read和write，为0只读，为1可写</p>
+<p>​                     2:U&#x2F;S 权限位，描述拥有什么权限才能使用这块内存，user&#x2F;super user，1为只有superuser才能用，0是user可以用</p>
+<p>​                     3:PWT</p>
+<p>​                     4:PCD</p>
+<p>​                     5:A 这块内存是否被访问过</p>
+<p>​                     6:0</p>
+<p>​                     7:PS 当ps为0，表示PDE指向一个4kb页表，小页；当ps为1，表面PDE指向一个4MB页，大页，就没有中间第二层了</p>
+<p>​                     8:G</p>
+<p>​                     9-11:AVL</p>
+<p>PTE：31-12：base   11-0:属性页</p>
+<p>​         属性页为</p>
+<p>​                     0:P存在位</p>
+<p>​                     1:R&#x2F;W read和write，为0只读，为1可写   &#x2F;&#x2F;c里的const char定义常量，实际上就是这里指向不可写内存，函数VirtualProtect()函数修改内存的本质是调用内核服务，修改进程内部页表项PTE的权限位，实际上是调用了NtProtectVirtualMemory服务，触发一个Ring3到Ring0的转换，给内核发送目标地址大小和新属性的参数</p>
+<p>​                     2:U&#x2F;S 权限位，描述拥有什么权限才能使用这块内存，user&#x2F;super user，1为只有superuser才能用，0是user可以用</p>
+<p>​                     3:PWT</p>
+<p>​                     4:PCD</p>
+<p>​                     5:A 这块内存是否被访问过</p>
+<p>​                     6:D 是否被写入过</p>
+<p>​                     7:PAT</p>
+<p>​                     8:G</p>
+<p>​                     9-11:AVL</p>
+<h3 id="10-10-12分页内存管理"><a href="#10-10-12分页内存管理" class="headerlink" title="10-10-12分页内存管理"></a>10-10-12分页内存管理</h3><p>操作系统判断线性地址是否为有效地址：</p>
+<p>先判断是 大页还是小页，如果是大页，判断PDE P位&#x3D;1有效</p>
+<p>如果是小页，PDE P位&#x3D;1，PTE P位&#x3D;1，PAT&#x3D;0</p>
+<h2 id="2-9-9-12分页"><a href="#2-9-9-12分页" class="headerlink" title="2-9-9-12分页"></a>2-9-9-12分页</h2><p>101012分页下物理地址最大只支持4gb，为了支持更大的内存，需要扩大物理地址</p>
+<p>要扩大物理地址，要修改分页模式，还要增加地址总线从32—-36，对应的最大的物理地址是64gb</p>
+<p>但是虚拟地址其实还是4gb</p>
+<p>在2-9-9-12下，每一页还是4kb，但是总量达到了64gb，4kb对应的是12</p>
+<p>PTT表仍然是4kb，但是PTE每一项从4字节变成了8字节，那么一个PTT就有512个PTE，2的9次方，对应的9</p>
+<p>PDT也是一样，对应的9</p>
+<p>32位已经占了30，还剩下2位，这两位用来描述PDPTT表这个新表，而因为只有两位，它只有00 01 10 11四种</p>
+<p>最后CR3连接PDPTT，这就是2-9-9-12分页</p>
+<h3 id="查询物理地址"><a href="#查询物理地址" class="headerlink" title="查询物理地址"></a>查询物理地址</h3><p>01000000 0011</p>
+<p>例如地址4030a8，得到二进制00000000 01000000 00110000 10101000</p>
+<p>PDPTT索引：00</p>
+<p>PDT：000000010-&gt;2-&gt;2*8&#x3D;0x10</p>
+<p>PTT：000000011-&gt;3-&gt;3*8&#x3D;0x18</p>
+<p>7fff07e0</p>
+<h2 id="TLB"><a href="#TLB" class="headerlink" title="TLB"></a>TLB</h2><p>TLB:页表缓存，不管什么分页，拆分线性地址都要经过很多步骤，为了提高cpu的效率，会把使用过的线性地址对应的物理地址信息存储处理，这些信息就在TLB里</p>
+<p>TLB的结构：</p>
+<p>​     LA:线性地址</p>
+<p>​     PA:物理页地址</p>
+<p>​     ATTR:物理页属性</p>
+<p>​     LUR:统计，这里的线性地址使用一次就+1</p>
+<p>在多核情况下，每核都要自己的一套TLB</p>
+<p>而且，每个进程都有自己的4gb虚拟内存，而万一两个进程的线性地址一致，那么TLB里拿出来的可能就有问题，所以在切换进程时，之前的TLB就被废弃了，判断进程是否切换通过查看CR3是否变化</p>
+<p>一个实验</p>
+<div class="code-container" code-lang="Cpp"><div class="codebox"><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">DWORD* dp1;</span><br><span class="line">DWORD* dp2;</span><br><span class="line">DWORD g_temp;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> _declspec(naked)<span class="built_in">test</span>() &#123;</span><br><span class="line">	_asm &#123;</span><br><span class="line">		mov ecx,dp1</span><br><span class="line">		shr ecx,<span class="number">0x0A</span></span><br><span class="line">		<span class="keyword">and</span> ecx,<span class="number">0x3FFFFC</span></span><br><span class="line">		sub ecx,<span class="number">0x40000000</span></span><br><span class="line">		mov eax,[ecx]</span><br><span class="line">		mov ebx,<span class="number">0xC0000000</span></span><br><span class="line">		mov [ebx],eax</span><br><span class="line">		mov eax,dword ptr ds:[<span class="number">0</span>]</span><br><span class="line">		mov g_temp,eax</span><br><span class="line"></span><br><span class="line">		mov ecx,dp2</span><br><span class="line">		shr ecx,<span class="number">0x0A</span></span><br><span class="line">		<span class="keyword">and</span> ecx, <span class="number">0x3FFFFC</span></span><br><span class="line">		sub ecx, <span class="number">0x40000000</span></span><br><span class="line">		mov eax, [ecx]</span><br><span class="line">		mov ebx, <span class="number">0xC0000000</span></span><br><span class="line">		mov[ebx], eax</span><br><span class="line">		mov eax, dword ptr ds : [<span class="number">0</span>]</span><br><span class="line">		mov g_temp, eax</span><br><span class="line">		retf</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	dp1 = (DWORD*)<span class="built_in">VirtualAlloc</span>(<span class="number">0</span>, <span class="number">0X1000</span>, MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line">	dp2 = (DWORD*)<span class="built_in">VirtualAlloc</span>(<span class="number">0</span>, <span class="number">0x1000</span>, MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line">	g_temp = <span class="number">0</span>;</span><br><span class="line">	*dp1 = <span class="number">0x1234</span>;</span><br><span class="line">	*dp2 = <span class="number">0x5678</span>;</span><br><span class="line">	BYTE code[<span class="number">6</span>] = &#123; <span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0x48</span>,<span class="number">0</span> &#125;;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>, test);</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	_asm &#123;</span><br><span class="line">		call fword ptr code</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;g_temp==%x\n&quot;</span>, g_temp);</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>这个运行的时候还是崩溃了，查了半天才知道我的虚拟机有防护，蓝屏代号0x000000FC代表访问了不可访问的内存，win10 32开了数据防护，这个程序只能在win7估计才能执行，可恶啊</p>
+<p>TLB还分为4类</p>
+<p>小页指令页表缓存</p>
+<p>小页数据页表缓存</p>
+<p>大页指令页表缓存</p>
+<p>大页数据页表缓存</p>
+<h3 id="PDT和PTT里的G位"><a href="#PDT和PTT里的G位" class="headerlink" title="PDT和PTT里的G位"></a>PDT和PTT里的G位</h3><p>这个G位翻译过来是global，进程切换时TLB也要刷新，但是如果内存在内核空间（高2g），大部分的地址都是一样的，就没必要刷新TLB，所以G位作用是</p>
+<p>当G为1，那么TLB就不刷新，G为0就刷新</p>
+<p>刷新TLB的一个指令 INVLPG，可以刷新指定的TLB</p>
+<h3 id="CPU缓存与PWT，PCD"><a href="#CPU缓存与PWT，PCD" class="headerlink" title="CPU缓存与PWT，PCD"></a>CPU缓存与PWT，PCD</h3><p>TLB存储的是线性地址到物理地址映射的信息，cpu缓存存储的是物理地址内容，拿地址时直接用TLB拿到线性地址对应的物理地址，然后CPU缓存拿到物理地址里的内容</p>
+<p>PDE和PTE里的PWT位为1时，写缓存时也将数据写入内存种，为0则不写</p>
+<p>PCD为1时，禁止将当前页写入缓存</p>
+<h1 id="控制寄存器"><a href="#控制寄存器" class="headerlink" title="控制寄存器"></a>控制寄存器</h1><p>控制寄存器一共有5个,CR0,CR1,CR2,CR3,CR4</p>
+<h2 id="CR0几个重点的知识"><a href="#CR0几个重点的知识" class="headerlink" title="CR0几个重点的知识"></a>CR0几个重点的知识</h2><p>CR0的最低位是PE位，PE&#x3D;1时表示启用保护模式，PE&#x3D;0时表示实模式，这个标志位知识开启了段保护，没有开启分页极致</p>
+<p>CR0的最高位是PG位，PG&#x3D;1时开启分页机制，前提是必须开启段保护模式，也就是PE&#x3D;1</p>
+<p>PG&#x3D;0,PE&#x3D;0,实模式</p>
+<p>PG&#x3D;0,PE&#x3D;1,段保护模式</p>
+<p>PG&#x3D;1,PE&#x3D;0,不允许</p>
+<p>PG&#x3D;1,PE&#x3D;1,保护模式</p>
+<p>WP位位于CR0的16位，是写保护位，该位为1时，处理器禁止特权级用户向普通级用户只读页执行写操作</p>
+<p>说白了就是Ring0不能在Ring3只读页执行写操作,当为0时不受限制</p>
+<h2 id="CPU工作模式"><a href="#CPU工作模式" class="headerlink" title="CPU工作模式"></a>CPU工作模式</h2><p>从80386开始，cpu有三种工作模式：实模式，保护模式和虚拟8086模式，这个工作模式就是cpu的寻址方式和寄存器大小指令用法内存布局之类的</p>
+<p>实模式特点：</p>
+<ul>
+<li>所有段都是可读可写可执行的</li>
+<li>对内存地址操作的都是真实物理地址</li>
+<li>没有特权级</li>
+</ul>
+<p>正式因为实模式非常不安全，才但是了保护模式，之前都是在保护模式下做的实验</p>
+<p>保护模式的内存管理分两种：</p>
+<ul>
+<li>段模式</li>
+<li>页模式   &#x2F;&#x2F;基于段模式，前提是开启了段模式，之前学的都是段页模式，也就是开启了页模式</li>
+</ul>
+<p>在段页模式下内存地址经过两层检测，第一层是段检测，检测段寄存器的权限，第二层检测就是对页属性的检测</p>
+<p>虚拟8086模式：</p>
+<p>其实是保护模式下的一种工作方式，也称v86模式，目的是为了运行DOS平台的软件，是一种模拟</p>
+<h2 id="CR1，CR2，CR3"><a href="#CR1，CR2，CR3" class="headerlink" title="CR1，CR2，CR3"></a>CR1，CR2，CR3</h2><p>CR1保留</p>
+<p>CR2，当触发缺页异常时，cpu会把引起的异常线性地址存放到CR2里<br>基本上和内存相关的异常都属于缺页异常</p>
+<p>CR3，之前接触了很多，页目录基址</p>
+<h2 id="CR4几个重点"><a href="#CR4几个重点" class="headerlink" title="CR4几个重点"></a>CR4几个重点</h2><p>第五位的PAE：表示分页模式，1表示29912，0表示101012</p>
+<p>第四位的PSE：决定PDE的PS位，PS位决定大页小页，但只有PSE为1时，PS位才起作用，</p>
+<p>​                          当PSE为0时，不管PS位是什么，都是小页</p>
+<h1 id="内核编程环境及其特殊性"><a href="#内核编程环境及其特殊性" class="headerlink" title="内核编程环境及其特殊性"></a>内核编程环境及其特殊性</h1><h2 id="内核层环境"><a href="#内核层环境" class="headerlink" title="内核层环境"></a>内核层环境</h2><p>CPU内核层分4个权限等级，分别是Ring3，Ring2，Ring1，Ring0，但是实际上只有两个层级3和0，Ring3即是用户层，Ring0即是内核层</p>
+<p>Windows使用双模式保护操作系统，应用程序的代码运行在用户模式下，而系统的内核和内核的扩展模块，也就是内核驱动程序都在内核层内</p>
+<p>内存也分为内核空间和应用空间，用户空间占用低位地址，内核空间则占用高位地址，在物理内存中，内核空间的代码和核心数据结构只有一份副本，所有应用程序在进入使用内核内容时，使用的都是这同一份物理内存。但是在现代操作系统中，每个应用的进程虚拟地址空间是独立的，所有应用都认为自己有独立的内核空间，实际上它们使用的是同一个物理的内存地址</p>
+<p>内核空间代码作为R0代码执行，不受任何限制，编写内核模块，需要使用微软提供的WDK进行编写，以及安装IDE VS和SDK</p>
+<h2 id="数据类型的特殊性"><a href="#数据类型的特殊性" class="headerlink" title="数据类型的特殊性"></a>数据类型的特殊性</h2><h3 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h3><p>在进行内核编程时，为了防止64位和32位储存冲突，因此定义变量通常不用惯用的unsigned int和long之类的，而是改为了WDK的编程规范标准</p>
+<ul>
+<li>unsigned int 重定义为ULONG</li>
+<li>unsigned char 重定义为UCHAR</li>
+<li>unsigned int 重定义为UINT</li>
+<li>void 重定义为VOID</li>
+<li>unsigned long * 重定义为PULONG</li>
+<li>unsigned char * 重定义为PUCHAR</li>
+<li>unsigned int * 重定义为PUINT</li>
+<li>void * 重定义为PVOID</li>
+</ul>
+<h3 id="返回类型"><a href="#返回类型" class="headerlink" title="返回类型"></a>返回类型</h3><p>绝大多少的内核API返回的都是一个状态，一些常用的状态为</p>
+<ul>
+<li><p>STATUS_SUCCESS  &#x2F;&#x2F;成功</p>
+</li>
+<li><p>STATUS_INVALID_PARAMETER  &#x2F;&#x2F;错误参数</p>
+</li>
+<li><p>STATUS_INSUFFICIENT_RESOURCES  &#x2F;&#x2F;资源不足（内存不足之类）</p>
+</li>
+<li><p>STATUS_PENDING  &#x2F;&#x2F;请求未决</p>
+</li>
+<li><p>STATUS_BUFFER_OVERFLOW  &#x2F;&#x2F;缓冲区不足</p>
+</li>
+<li><p>STATUS_BUFFER_TOO_SMALL  &#x2F;&#x2F;缓冲区不足</p>
+</li>
+</ul>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>在内核编程中的字符串一般用一个结构来进行容纳，结构为UNICODE_STRING，并且这个字符串是双字节的（可以从UNICODE）看出来</p>
+<h2 id="重要的数据结构"><a href="#重要的数据结构" class="headerlink" title="重要的数据结构"></a>重要的数据结构</h2><h3 id="驱动对象"><a href="#驱动对象" class="headerlink" title="驱动对象"></a>驱动对象</h3><p>内核认为驱动设备之类的都是一个对象，一个驱动对象代表了一个驱动程序,驱动对象DRIVER_OBJECT</p>
+<p>这个对象并不是cpp式的类，而是c利用结构体模拟的对象，在这个结构体中，几个关键的部分</p>
+<ul>
+<li>PVOID DriverStart &#x2F;&#x2F;这个模块在内核空间里的开始地址</li>
+<li>ULONG DriverSize &#x2F;&#x2F;这个模块在内核空间里的大小</li>
+<li>UNICODE_STRING DriverName &#x2F;&#x2F;驱动名字</li>
+<li>PDEVICE_OBJECT DeviceObject &#x2F;&#x2F;链表头指针，指向这个驱动所创建的第一个设备对象</li>
+<li>PFAST_IO_DISPATCH FastIoDispatch &#x2F;&#x2F;快速IO分发函数</li>
+<li>PDRIVER_UNLOAD DriverUnload &#x2F;&#x2F;驱动的卸载函数</li>
+<li>PDRIVER_dispatch MajorFunction[IRP_MJ_MAXIMUM_FUNCTION +1] &#x2F;&#x2F;普通分发函数</li>
+</ul>
+<p>在这其中，PDRIVER_dispatch MajorFunction[IRP_MJ_MAXIMUM_FUNCTION +1]和PDRIVER_UNLOAD DriverUnload是将内核的所有功能提供给Windows的，在这里只需要知道，前者要慢一点，而后者比较快一些就行了</p>
+<h3 id="设备对象"><a href="#设备对象" class="headerlink" title="设备对象"></a>设备对象</h3><p>设备对象DEVICE_OBJECT总是属于一个驱动对象，由驱动对象生成设备对象，当Windows向设备发送请求时，这个请求实际上是被驱动对象捕获，然后由分发函数分发给设备对象</p>
+<p>设备对象结构体里的关键内容：</p>
+<ul>
+<li>struct _DRIVER_OBJECT *DriverObject &#x2F;&#x2F;这个设备所属的驱动对象</li>
+<li>struct _DEVICE_OBJECT *NextDevice &#x2F;&#x2F;下一个设备对象，在一个驱动对象中有多个设备，这些设备通过链表的指针来连接</li>
+<li>DEVICE_TYPE DeviceType &#x2F;&#x2F;设备类型</li>
+<li>HAR StackSize &#x2F;&#x2F;IRP栈大小</li>
+<li>ULONG ReferenceCount &#x2F;&#x2F;引用计数，记录有多少个内核组件在使用这个设备对象</li>
+</ul>
+<h3 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h3><p>大部分的请求以IRP的形式发送</p>
+<p>IRP：<strong>I&#x2F;O Request Packet</strong>的缩写，I&#x2F;O请求包，内核中大部分请求都以IRP的形式传递，而任何一个IRP都是发送给一个设备对象的</p>
+<p>IRP也是一个内核数据结构，这个结构比较复杂，初步了解的内容：</p>
+<ul>
+<li><p>PMDL MdlAddress &#x2F;&#x2F;内存描述符指针，大概可以理解为描述缓冲区来给请求使用</p>
+</li>
+<li><p>union{</p>
+<p>​            struct _IRP *MasterIrp;</p>
+<p>​            __volatile LONG irpCount;</p>
+<p>​            PVOID SystemBuffer;</p>
+<p>}AssociatedIrp;   &#x2F;&#x2F;这个共用体是比MdlAddress简单点的表示缓冲区的方式，是S有stemBuffer具体使用哪种要看要看请求的IO方式</p>
+</li>
+<li><p>IO_STATUS_BLOCK IoStatus; &#x2F;&#x2F;IO状态，一般请求完成后的返回情况放在这里</p>
+</li>
+<li><p>CHAR StackCount; &#x2F;&#x2F;IRP栈空间大小</p>
+</li>
+<li><p>CHAR CurrentLocation; &#x2F;&#x2F;IRP当前栈空间大小</p>
+</li>
+<li><p>__volatile PDRIVER_CANCEL Cancel Routine; &#x2F;&#x2F;用于取消一个未决请求的函数</p>
+</li>
+<li><p>PVOID UserBuffer; &#x2F;&#x2F;和MdlAddress和SystemBuffere一样都表示缓冲区，但是特性不同</p>
+</li>
+</ul>
+<h2 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h2><p>大部分内核API都有前缀，主要的函数都以Nt,Zw,Io,Ex,Rtl,Ke,Ps开头，具体的学习一些函数是不现实的，但是通过这些函数的开头，可以将它们这样分类</p>
+<ul>
+<li>Nt&#x2F;Zw:系统服务</li>
+<li>Io:io管理器，创建删除设备对象，发送IRP，注册中断，操作硬件端口</li>
+<li>Ex:执行体，管理内存堆内存分配，同步锁</li>
+<li>Rtl:运行时库，字符串处理，内存拷贝，算法计算</li>
+<li>Ke:内核核心，控制线程调度操纵内核事件</li>
+<li>Ps:进程和线程管理</li>
+</ul>
+<h2 id="代码的中断级"><a href="#代码的中断级" class="headerlink" title="代码的中断级"></a>代码的中断级</h2><p>用户态R3编程没用中断级概念，所有中断都处于同一级，但是在内核编程中，运行的代码有不同的中断级，主要有Passive和Dispatch两种，后者大于前者，具有比较复杂的功能的API都要求在Passive执行，比较简单的函数在Dispatch执行</p>
+<h2 id="字符串-链表-自旋锁"><a href="#字符串-链表-自旋锁" class="headerlink" title="字符串 链表 自旋锁"></a>字符串 链表 自旋锁</h2><h3 id="字符串-1"><a href="#字符串-1" class="headerlink" title="字符串"></a>字符串</h3><p>在写内核驱动程序时，由于都是宽字符，得要使用wchar类型(wchar_t)，而通常在c语言库里处理字符串的str类型函数，宽字符UNICODE字符串通常使用wcs类型函数来处理</p>
+<p>c语言的字符串是很危险的，只靠&#x2F;0结束会用很多漏洞，在实际的内核编程中，使用UNICODE的字符串结构体为</p>
+<div class="code-container" code-lang="C"><div class="codebox"><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">UNICODE_STRING</span>&#123;</span></span><br><span class="line">    USHORT Length;</span><br><span class="line">    USHORT MaximumLength;</span><br><span class="line">    PSTR Buffer;</span><br><span class="line">&#125;UNICODE_STRING, *PUNICODE_STRING;</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>还要另一个字符串ANSI窄字符串，但是实际使用很少</p>
+<div class="code-container" code-lang="C"><div class="codebox"><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">STRING</span>&#123;</span></span><br><span class="line">    USHORT Length;</span><br><span class="line">    USHORT MaximumLength;</span><br><span class="line">    PSTR Buffer;</span><br><span class="line">&#125;ANSI_STRING, *PANSI_STRING</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>UNICODE_STRING不保证缓冲区的字符串安全性，所以使用c的方式去操作字符串是不安全的，通常会用Rtl系列函数进行操作字符串</p>
+<p>初始化：</p>
+<p> UNICODE_STRING在初始化时会有不少问题和安全性风险，所以初始化通常使用RtlInitUnicodeString函数，例如</p>
+<div class="code-container" code-lang="C"><div class="codebox"><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UNICODE_STRING str=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">RtlInitUnicodeString(&amp;str,<span class="string">L&quot;my first string!&quot;</span>);</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>拷贝：</p>
+<p>也是一样，使用Rtl系列函数，拷贝则用RtlCopyUnicodeString(&amp;复制目的地,&amp;复制源)</p>
+<p>前提要保证目标字符串要有足够缓冲区去储存源字符串，不然会截断</p>
+<p>连接：</p>
+<p>使用RtlAppendUnicodeToString,如果是两个UnicodeString，那么则用RtlAppendUnicodeStringToString</p>
+<p>打印：</p>
+<p>在内核编程内，也可以使用c的宽字符打印swprint，但是不安全，用RtlStringCbPrintfW来代替，需要包含头文件ntstrsafe.h，还要连接库ntsafestr.lib</p>
+<h3 id="内存和链表"><a href="#内存和链表" class="headerlink" title="内存和链表"></a>内存和链表</h3><p>在c里分配内存通常用malloc，在内核编程中常使用ExAllocatePoolWithTag</p>
+<p>ExAllocatePoolWithTag分配的内存由ExFreePoll来释放，如果不释放会永远泄露，只有重启计算机才会恢复</p>
+<p>LIST_ENTRY是开发者开发的链表数据结构，是一个双链表</p>
+<h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><p>在内核编程中，使用KSPIN_LOCK数据结构获得一个自旋锁</p>
+<p>例如：KSPIN_LOCK my_spin_lock;</p>
+<p>​            KeInitializeSPinLock(&amp;my_spin_lock);</p>
+<p>使用时要定义一个KIRQL来作为自旋锁的中断等级，开始锁定线程的操作是KeAcquireSpinLock,结束的是KeReleaseSpinLock,使用时例如KeAcquireSpinLock(&amp;my_spin_lock,&amp;irql);此时中断等级会升级</p>
+<p>重要的是，只有一个线程能获得自旋锁，其它线程都会被锁住，因此如果在一个函数里写了自旋锁，要注意是只给一个线程调用，避免所有线程都定义了一个自旋锁</p>
+<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><p>在内核编程里，打开文件必须先使用OBJECT_ATTRIBUTES结构，这个结构通常会被InitializedAttributes初始化，无论是打开文件打开注册表键还是打开设备都会先调用InitializedAttributes初始化一个OBJECT_ATTRIBUTES</p>
+<p>打开文件使用ZwCreatFile函数,读写文件用ZwReadFile, ZwWriteFile函数</p>
+<h3 id="注册表操作"><a href="#注册表操作" class="headerlink" title="注册表操作"></a>注册表操作</h3><p>打开注册表键ZwOpenKey</p>
+<p>读取注册表中键ZwQueryValueKey</p>
+<p>写注册表值ZwSetValueKey</p>
+<h3 id="时间和定时器"><a href="#时间和定时器" class="headerlink" title="时间和定时器"></a>时间和定时器</h3><p>内核编程中获得系统启动后经历的滴答数的函数是KeQueryTickCount</p>
+<p>获得系统时间KeQuerySystemTime，这个时间不少当地时间，要使用ExSystemTimeTolocalTime转换成当地时间，还需要通过RtlTimeToTimeFields来转换位人可以阅读的时间</p>
+<p>使用定时器KeSetTimer</p>
+<h3 id="线程与事件"><a href="#线程与事件" class="headerlink" title="线程与事件"></a>线程与事件</h3><p>驱动里的线程一般是系统线程，而系统线程所在的进程是System（就是每次任务管理器里的那个）</p>
+<p>R3的sleep函数可以使程序停下，在内核编程里使用KeDelayExecutionThread函数进行睡眠</p>
+<h2 id="应用和内核通信"><a href="#应用和内核通信" class="headerlink" title="应用和内核通信"></a>应用和内核通信</h2><h3 id="创建设备对象"><a href="#创建设备对象" class="headerlink" title="创建设备对象"></a>创建设备对象</h3><p>应用层的软件想要获得日志或者操控驱动之内的功能，需要和内核层进行通信，首先要生成一个设备对象，设备对象可以在内核中暴露出来给应用层，应用层则可以操作它，使用IoCreateDevice来生成一个设备对象</p>
+<p>但是，IoCreateDevice生成出来的设备需要有管理员权限才可以打开它，另一个强迫生成任何用户都能打开的设备是IoCreateDeviceSecure，不过这并不安全</p>
+<h3 id="对象链接"><a href="#对象链接" class="headerlink" title="对象链接"></a>对象链接</h3><p>应用层不能直接使用设备对象名字来进行链接，设备和应用层的链接需要通过符号链接，生成这个符号的函数是IoCreateSymbolicLink</p>
+<p>但是，使用符号链接还是难免出现问题，如果和其它驱动的符号字符串相同，那么就会出现问题，最现代正常的方法是访问设备对象（IoCreateDeviceSecure)结构体创建时的GUID，这个id可以保证全球唯一</p>
+<p>生成了设备和符号后，在卸载驱动的时候就要删除它们，不然符号链接就会一直存在，要依次删除符号链接和控制设备</p>
+<h3 id="分发函数"><a href="#分发函数" class="headerlink" title="分发函数"></a>分发函数</h3><p>分发函数设置在驱动对象上，由驱动分发给自己的子设备对象，核心的分发函数即是cwkDispatch，这个函数只包含了发送对象和irp请求的指针</p>
+<p>分发函数处理请求第一步是获得请求当前的栈指针，然后判断发给谁，再进行判断请求的种类</p>
+<h3 id="应用和驱动之间的通信"><a href="#应用和驱动之间的通信" class="headerlink" title="应用和驱动之间的通信"></a>应用和驱动之间的通信</h3><p>应用层与驱动层之间的通信，应用层通过CreateFile，然后使用DeviceIoControl来引起内核程序的反应，内核主动通信应用层可以通过共享句柄来实现 </p>
+<p>提供用户态通信接口的驱动程序很容易暴露除内核漏洞，因此为了防止被攻击，要进行测试，例如</p>
+<ul>
+<li>输入缓冲区很小会怎么样</li>
+<li>输入缓冲区很大会怎么样</li>
+<li>输入缓冲区刚好等于规定的最大或最小长度会怎么样</li>
+<li>如果输入的是字符串，如果字符串没用结束符怎么样</li>
+<li>如果字符串长度为0会怎么样</li>
+</ul>
+<h1 id="64位和32位差异"><a href="#64位和32位差异" class="headerlink" title="64位和32位差异"></a>64位和32位差异</h1><p>在64位系统运行32位程序时，windows的解决方案是使用WOW64子系统，当32位程序执行时，WOW64子系统会拦截32位程序的系统调用，将这个程序里的参数，转换成适合64位系统的长度</p>
+<p>同样的，如果32位程序需要调用32位的dll，也会使用WOW子系统的SysWOW64目录dll而不是System32里的64位dll，这里是WOW64的文件系统重定向功能</p>
+<h2 id="PatchGuard"><a href="#PatchGuard" class="headerlink" title="PatchGuard"></a>PatchGuard</h2><p>32位系统中，驱动程序可以直接对内核的数据结构和关键的函数进行挂钩和修改，但是在windows 64位系统里引入了PatchGuard技术</p>
+<p>PathcGuard会定时检查系统关键的位置，例如SSDT系统服务描述表，GDT全局描述表，IDT中断描述表，系统模块，如果发现这些内容代码数据被修改，就会立马蓝屏，因此在32位上能实现的一些HOOK技术在64位系统下都无法使用</p>
+<p>PatchGuard避免了内核遭到恶意的模块破坏，但也阻碍了一些功能的实现，这个功能对游戏安全方向很重要，需要重点了解下</p>
+<h3 id="context-结构体"><a href="#context-结构体" class="headerlink" title="context 结构体"></a>context 结构体</h3><p>检测通常基于 context 结构体，context 结构体是一个内存数据结构，包含了系统内核的重要信息，包括内核代码的状态、配置和数据，Patch Guard 使用这个 context 结构体来验证内核代码的完整性，在系统启动时，PG 会创建并存储 context 结构体，并在系统运行过程中定期检查这个结构体是否被修改，如果发现任何不正确的修改，Patch Guard 将会重启系统以确保安全性</p>
+<p>context规则（随版本不同规则有变）：</p>
+<ul>
+<li>context大部分时间处于加密状态</li>
+<li>context的数据源来自系统初始化时的最初数据</li>
+<li>context的地址作为系统线程，随着DPC等调度被传递</li>
+<li>context的执行周期约为2min，但是每次检测的目标区块是随机的</li>
+<li>context采用接力的方式调度，具体流程包括自解密、检测逻辑、复制自身到新的context、加密新context、销毁旧的context</li>
+<li>context检测逻辑的调用源有随机性，在PG初始化时决定</li>
+</ul>
+<h3 id="攻击方法"><a href="#攻击方法" class="headerlink" title="攻击方法"></a>攻击方法</h3><ul>
+<li>静态补丁：直接把函数入口patch为ret</li>
+<li>VT读&#x2F;执行分离：在现代win11上已经失效</li>
+<li>定位所有context的调用源：针对性patch，修改代码的特定部分来避免检测</li>
+<li>对context进行解密：解密context内容，修改检测代码</li>
+<li>设置context页面不可执行</li>
+</ul>
+<h1 id="驱动程序编程实践"><a href="#驱动程序编程实践" class="headerlink" title="驱动程序编程实践"></a>驱动程序编程实践</h1><h2 id="第一个驱动程序"><a href="#第一个驱动程序" class="headerlink" title="第一个驱动程序"></a>第一个驱动程序</h2><p>驱动程序的头文件最基础的是ntddk.h，包含了大量数据类型和函数声明，常量和宏</p>
+<p>在驱动程序中，程序入口不再是main，而是DriverEntry，严格来说入口函数也不是DriverEntry，而是传参里要写的驱动对象数据结构里的PDRIVER_INITIALIZE DriverInit</p>
+<p>为了学习写驱动程序真不容易…首先是win7 x86虚拟机折腾（方便调试和学习windbg，防护少)，然后得准备Dbgview和A1SysTest等一堆工具，写win7的驱动还得用vs2019，配置wdk和sdk也得对应版本，总之配置环境相当的麻烦，主要还是这些工具很多官方都不提供了，寻找起来相当费力</p>
+<div class="code-container" code-lang="C"><div class="codebox"><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;ntddk.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">VOID <span class="title function_">DriverUnload</span><span class="params">(PDRIVER_OBJECT driver)</span> &#123;</span><br><span class="line">	DbgPrint(<span class="string">&quot;unloading...\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//驱动程序的入口点，真正的入口点在pDRIVER里的DriverInit，pRegPath存放的是当前驱动对应注册表的路径</span></span><br><span class="line">NTSTATUS <span class="title function_">DriverEntry</span><span class="params">(PDRIVER_OBJECT pDRIVER, PUNICODE_STRING pRegPath)</span> &#123;</span><br><span class="line">	DbgPrint(<span class="string">&quot;hello,world\n&quot;</span>);</span><br><span class="line">	pDRIVER-&gt;DriverUnload = DriverUnload;</span><br><span class="line">	<span class="keyword">return</span> STATUS_SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>这是写的第一个驱动程序打印helloworld，为了接受这个helloworld，得使用dbgview，同时要修改注册表，修改注册表的文件如下</p>
+<div class="code-container" code-lang="Txt"><div class="codebox"><figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line"></span><br><span class="line">[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Debug Print Filter] </span><br><span class="line">&quot;DEFAULT&quot;=dword:0000000f</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>保存为reg文件运行就好，dbgview记得再capture里勾选capture kernel和capture global win32，不然还是接受不到输出</p>
+<p>同时，一定要写驱动卸载函数！不然运行完后无法卸载！内存永远泄露只能重启恢复！</p>
+<h3 id="调试驱动程序的方式"><a href="#调试驱动程序的方式" class="headerlink" title="调试驱动程序的方式"></a>调试驱动程序的方式</h3><p>两种方式，第一种之间在程序里加</p>
+<div class="code-container" code-lang="C"><div class="codebox"><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_asm&#123;</span><br><span class="line">    <span class="type">int</span> <span class="number">3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>之间断下来然后用windbg看，但是这样有个缺陷，32位不能和64位通用，因此最好用windows官方提供的API</p>
+<p>第二种，DbgBreakPoint()；</p>
+<p>断下来后可以直接在windbg里调试代码，f10是步过，非常好用！甚至可以直接dd db dt查看代码里的结构体和数据什么的！</p>
+<div class="code-container" code-lang="Plaintext"><div class="codebox"><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">0: kd&gt; dt pDRIVER</span><br><span class="line">Local var @ 0x8dd449d0 Type _DRIVER_OBJECT*</span><br><span class="line">0x8646ac80 </span><br><span class="line">   +0x000 Type             : 0n4</span><br><span class="line">   +0x002 Size             : 0n168</span><br><span class="line">   +0x004 DeviceObject     : (null) </span><br><span class="line">   +0x008 Flags            : 2</span><br><span class="line">   +0x00c DriverStart      : 0x97874000 Void</span><br><span class="line">   +0x010 DriverSize       : 0x6000</span><br><span class="line">   +0x014 DriverSection    : 0x8765c258 Void</span><br><span class="line">   +0x018 DriverExtension  : 0x8646ad28 _DRIVER_EXTENSION</span><br><span class="line">   +0x01c DriverName       : _UNICODE_STRING &quot;\Driver\Driver_Service&quot;</span><br><span class="line">   +0x024 HardwareDatabase : 0x8418b270 _UNICODE_STRING &quot;\REGISTRY\MACHINE\HARDWARE\DESCRIPTION\SYSTEM&quot;</span><br><span class="line">   +0x028 FastIoDispatch   : (null) </span><br><span class="line">   +0x02c DriverInit       : 0x97878000     long  Driver!GsDriverEntry+0</span><br><span class="line">   +0x030 DriverStartIo    : (null) </span><br><span class="line">   +0x034 DriverUnload     : 0x97875030     void  Driver!DriverUnload+0</span><br><span class="line">   +0x038 MajorFunction    : [28] 0x83ec179b     long  nt!CcSetFileSizesEx+0</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>可以直观的看到结构体的内容，真正的入口点DriverInit和卸载DriverUnload(需要执行完卸载函数，否则为空)</p>
+<h2 id="UnicodeString的使用"><a href="#UnicodeString的使用" class="headerlink" title="UnicodeString的使用"></a>UnicodeString的使用</h2><div class="code-container" code-lang="C"><div class="codebox"><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;ntddk.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">VOID <span class="title function_">DriverUnload</span><span class="params">(PDRIVER_OBJECT driver)</span> &#123;</span><br><span class="line">	DbgPrint(<span class="string">&quot;unloading...\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NTSTATUS <span class="title function_">DriverEntry</span><span class="params">(PDRIVER_OBJECT pDRIVER, PUNICODE_STRING pRegPath)</span> &#123;</span><br><span class="line">	WCHAR wstr[<span class="number">100</span>] = <span class="string">L&quot;xbox.RIP.&quot;</span>;</span><br><span class="line">	UNICODE_STRING str = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	str.Buffer = wstr;</span><br><span class="line">	str.Length = wcslen(wstr)*<span class="keyword">sizeof</span>(WCHAR);</span><br><span class="line">	str.MaximumLength = <span class="number">100</span>;</span><br><span class="line">	DbgPrint(<span class="string">&quot;%ws&quot;</span>, str.Buffer);<span class="comment">//注意这里传的是Buffer</span></span><br><span class="line">	DbgPrint(<span class="string">&quot;hello,world\n&quot;</span>);</span><br><span class="line">	pDRIVER-&gt;DriverUnload = DriverUnload;</span><br><span class="line">	<span class="keyword">return</span> STATUS_SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>这是最麻烦的方式，宽字符使用WCHAR，同时给值还要L表示宽字符，定义了宽字符后还得给它这个数据结构每个赋值，windows早就提供了专门的宏来快速初始化</p>
+<div class="code-container" code-lang="C"><div class="codebox"><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一种</span></span><br><span class="line">DECLARE_CONST_UNICODE_STRING(str1, <span class="string">L&quot;fuck you microsoft&quot;</span>);</span><br><span class="line"><span class="comment">//第二种</span></span><br><span class="line">UNICODE_STRING str2 = RTL_CONSTANT_STRING(<span class="string">L&quot;fuck you visualstudio&quot;</span>);</span><br><span class="line"><span class="comment">//第三种</span></span><br><span class="line">UNICODE_STRING str3 = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">RtlInitUnicodeString(&amp;str3, <span class="string">L&quot;OK&quot;</span>);<span class="comment">//注意这里是指针</span></span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>除开UNICODE_STRING还要ANSI_STRING和STRING，STRING区别就是它是PCHAR而不是PWCH</p>
+<p>ANSI_STRING的定义也有一个RtlInitAnsiString()来定义，同时ANSI_STRING是可以强转UNICODE_STRING的，但是有个问题，强转后如果强转函数最后一位设置为1，那么需要释放，这里把每一种方式实验一下</p>
+<div class="code-container" code-lang="C"><div class="codebox"><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;ntddk.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">VOID <span class="title function_">DriverUnload</span><span class="params">(PDRIVER_OBJECT driver)</span> &#123;</span><br><span class="line">	DbgPrint(<span class="string">&quot;unloading...\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NTSTATUS <span class="title function_">DriverEntry</span><span class="params">(PDRIVER_OBJECT pDRIVER, PUNICODE_STRING pRegPath)</span> &#123;</span><br><span class="line">	WCHAR wstr[<span class="number">100</span>] = <span class="string">L&quot;xbox.RIP.&quot;</span>;</span><br><span class="line">	UNICODE_STRING str = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	str.Buffer = wstr;</span><br><span class="line">	str.Length = wcslen(wstr)*<span class="keyword">sizeof</span>(WCHAR);</span><br><span class="line">	str.MaximumLength = <span class="number">100</span>;</span><br><span class="line">	DbgPrint(<span class="string">&quot;str=%ws\n&quot;</span>, str.Buffer);</span><br><span class="line"></span><br><span class="line">	DECLARE_CONST_UNICODE_STRING(str1, <span class="string">L&quot;fuck you microsoft&quot;</span>);</span><br><span class="line">	DbgPrint(<span class="string">&quot;str1=%ws\n&quot;</span>, str1.Buffer);</span><br><span class="line"></span><br><span class="line">	UNICODE_STRING str2 = RTL_CONSTANT_STRING(<span class="string">L&quot;fuck you visualstudio&quot;</span>);</span><br><span class="line">	DbgPrint(<span class="string">&quot;str2=%ws\n&quot;</span>, str2.Buffer);</span><br><span class="line"></span><br><span class="line">	UNICODE_STRING str3 = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	RtlInitUnicodeString(&amp;str3, <span class="string">L&quot;OK&quot;</span>);</span><br><span class="line">	DbgPrint(<span class="string">&quot;str3=%ws\n&quot;</span>, str3.Buffer);</span><br><span class="line"></span><br><span class="line">	ANSI_STRING anstr = RTL_CONSTANT_STRING(<span class="string">&quot;HELLO&quot;</span>);</span><br><span class="line">	RtlAnsiStringToUnicodeString(&amp;str,&amp;anstr, <span class="number">1</span>);</span><br><span class="line">	RtlFreeUnicodeString(&amp;str);</span><br><span class="line"></span><br><span class="line">	pDRIVER-&gt;DriverUnload = DriverUnload;</span><br><span class="line">	<span class="keyword">return</span> STATUS_SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<h2 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h2><p>应用层用malloc和new在堆上进行分配内存，堆内存实际上是在虚拟内存的更小粒度分割，由堆内存管理器来管理</p>
+</div><div class="post-reward"><div class="post-reward-btn" title="赞赏作者"><img src="/assets/images/svg/uc/uc-gift.svg" class="icon noview" alt="Icon"><span></span></div><div class="post-reward-content"><div class="post-reward-text"></div><div class="post-reward-list"><a href="/null" target="_blank">致谢名单</a></div></div></div><div class="post-copyright"><div class="post-copyright-info">本作品由 CQXYY 于 2026-07-15 16:33:59 发布</div><div class="post-copyright-link"><span>作品地址：<a href="http://example.com/2026/07/15/note/Windows%E5%86%85%E6%A0%B8%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Windows内核编程学习笔记</a></span><button class="copy-text" type="button" data-text="http://example.com/2026/07/15/note/Windows%E5%86%85%E6%A0%B8%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">复制</button></div><div class="post-copyright-detail">除特别声明外，本站作品均采用 <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/' title='Attribution-NonCommercial-ShareAlike' target='_blank'>CC BY-NC-SA 4.0</a> 许可协议，转载请注明来自 <a href='/'>万物皆虚，万事皆允</a></div><img class="post-copyright-icon noview" src="/assets/images/assassin.png" alt="Logo"/></div><div class="post-tail-tags"><a class="post-tail-tags-link" href="/tags/Windows%E5%AE%89%E5%85%A8/" rel="tag">Windows安全</a></div><div class="post-nav"><a class="post-nav-prev" href="/2026/07/15/note/JWT%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="JWT漏洞学习笔记">上一篇<span>JWT漏洞学习笔记</span></a><a class="post-nav-next" href="/2026/07/15/Polar/PolarD&amp;N%20REVERSE%20%5BDualSafe%5D/" title="PolarD&amp;N REVERSE [DualSafe] WP">下一篇<span>PolarD&amp;N REVERSE [DualSafe] WP</span></a></div></div><aside id="post-sidebar" status="show"><div id="toc-container"><div class="toc-title"><img src="/assets/images/svg/ta/ta-toc.svg" class="icon noview" alt="Icon"><span>目录</span></div><div class="toc-content" id="toc-div"><ol class="toc-list"><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-list-text">段寄存器</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#limit"><span class="toc-list-text">limit</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E6%AE%B5%E9%80%89%E6%8B%A9%E5%AD%90"><span class="toc-list-text">段选择子</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#GDTR%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-list-text">GDTR寄存器</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E6%AE%B5%E6%8F%8F%E8%BF%B0%E7%AC%A6"><span class="toc-list-text">段描述符</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#D-B%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="toc-list-text">D&#x2F;B的一些问题</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#S%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="toc-list-text">S的一些问题</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E6%9D%83%E9%99%90%E7%BA%A7%E5%88%AB"><span class="toc-list-text">权限级别</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E6%8F%90%E6%9D%83%E6%B5%8B%E8%AF%95"><span class="toc-list-text">提权测试</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E6%B5%8B%E8%AF%95%E8%BF%87%E7%A8%8B"><span class="toc-list-text">测试过程</span></a></li></ol></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E8%B0%83%E7%94%A8%E9%97%A8"><span class="toc-list-text">调用门</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E6%9E%84%E9%80%A0%E4%B8%80%E4%B8%AA%E6%8F%90%E6%9D%83%E6%AE%B5%E6%8F%8F%E8%BF%B0%E7%AC%A6"><span class="toc-list-text">构造一个提权段描述符</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E6%8F%90%E6%9D%83%E6%88%90%E5%8A%9F%E6%B5%8B%E8%AF%95"><span class="toc-list-text">提权成功测试</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E6%8F%90%E6%9D%83%E5%90%8E%E7%9A%84%E4%B8%80%E4%BA%9B%E5%8F%98%E5%8C%96"><span class="toc-list-text">提权后的一些变化</span></a></li></ol></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E4%B8%AD%E6%96%AD%E9%97%A8"><span class="toc-list-text">中断门</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E4%B8%AD%E6%96%AD%E9%97%A8"><span class="toc-list-text">实现一个中断门</span></a></li></ol></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E9%99%B7%E9%98%B1%E9%97%A8"><span class="toc-list-text">陷阱门</span></a></li></ol></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E4%BB%BB%E5%8A%A1%E6%AE%B5%EF%BC%88TSS"><span class="toc-list-text">任务段（TSS)</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%A4%9A%E4%B8%AAESP%E5%92%8CSS"><span class="toc-list-text">多个ESP和SS</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#tr%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-list-text">tr段寄存器</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E5%B0%9D%E8%AF%95%E4%BF%AE%E6%94%B9tr%E7%9A%84%E6%95%B0%E5%80%BC"><span class="toc-list-text">尝试修改tr的数值</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#eflag%E5%AF%84%E5%AD%98%E5%99%A8NT%E4%BD%8D"><span class="toc-list-text">eflag寄存器NT位</span></a></li></ol></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E4%BB%BB%E5%8A%A1%E9%97%A8"><span class="toc-list-text">任务门</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E4%BB%BB%E5%8A%A1%E9%97%A8"><span class="toc-list-text">实现一个任务门</span></a></li></ol></li></ol></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E5%88%86%E9%A1%B5"><span class="toc-list-text">分页</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#10-10-12%E5%88%86%E9%A1%B5"><span class="toc-list-text">10-10-12分页</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#10-10-12%E4%B8%8B%E5%AF%BB%E6%89%BE%E7%9C%9F%E5%AE%9E%E5%9C%B0%E5%9D%80"><span class="toc-list-text">10-10-12下寻找真实地址</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%AF%BB%E5%9D%80%E5%8E%9F%E7%90%86"><span class="toc-list-text">寻址原理</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E9%A1%B5%E5%B1%9E%E6%80%A7"><span class="toc-list-text">页属性</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#10-10-12%E5%88%86%E9%A1%B5%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-list-text">10-10-12分页内存管理</span></a></li></ol></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#2-9-9-12%E5%88%86%E9%A1%B5"><span class="toc-list-text">2-9-9-12分页</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E6%9F%A5%E8%AF%A2%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80"><span class="toc-list-text">查询物理地址</span></a></li></ol></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#TLB"><span class="toc-list-text">TLB</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#PDT%E5%92%8CPTT%E9%87%8C%E7%9A%84G%E4%BD%8D"><span class="toc-list-text">PDT和PTT里的G位</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#CPU%E7%BC%93%E5%AD%98%E4%B8%8EPWT%EF%BC%8CPCD"><span class="toc-list-text">CPU缓存与PWT，PCD</span></a></li></ol></li></ol></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E6%8E%A7%E5%88%B6%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-list-text">控制寄存器</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#CR0%E5%87%A0%E4%B8%AA%E9%87%8D%E7%82%B9%E7%9A%84%E7%9F%A5%E8%AF%86"><span class="toc-list-text">CR0几个重点的知识</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#CPU%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-list-text">CPU工作模式</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#CR1%EF%BC%8CCR2%EF%BC%8CCR3"><span class="toc-list-text">CR1，CR2，CR3</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#CR4%E5%87%A0%E4%B8%AA%E9%87%8D%E7%82%B9"><span class="toc-list-text">CR4几个重点</span></a></li></ol></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E5%86%85%E6%A0%B8%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83%E5%8F%8A%E5%85%B6%E7%89%B9%E6%AE%8A%E6%80%A7"><span class="toc-list-text">内核编程环境及其特殊性</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E5%86%85%E6%A0%B8%E5%B1%82%E7%8E%AF%E5%A2%83"><span class="toc-list-text">内核层环境</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%89%B9%E6%AE%8A%E6%80%A7"><span class="toc-list-text">数据类型的特殊性</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-list-text">基本数据类型</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B"><span class="toc-list-text">返回类型</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-list-text">字符串</span></a></li></ol></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E9%87%8D%E8%A6%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-list-text">重要的数据结构</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E9%A9%B1%E5%8A%A8%E5%AF%B9%E8%B1%A1"><span class="toc-list-text">驱动对象</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E8%AE%BE%E5%A4%87%E5%AF%B9%E8%B1%A1"><span class="toc-list-text">设备对象</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E8%AF%B7%E6%B1%82"><span class="toc-list-text">请求</span></a></li></ol></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="toc-list-text">函数调用</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E4%BB%A3%E7%A0%81%E7%9A%84%E4%B8%AD%E6%96%AD%E7%BA%A7"><span class="toc-list-text">代码的中断级</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2-%E9%93%BE%E8%A1%A8-%E8%87%AA%E6%97%8B%E9%94%81"><span class="toc-list-text">字符串 链表 自旋锁</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2-1"><span class="toc-list-text">字符串</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%86%85%E5%AD%98%E5%92%8C%E9%93%BE%E8%A1%A8"><span class="toc-list-text">内存和链表</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E8%87%AA%E6%97%8B%E9%94%81"><span class="toc-list-text">自旋锁</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-list-text">文件操作</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E6%B3%A8%E5%86%8C%E8%A1%A8%E6%93%8D%E4%BD%9C"><span class="toc-list-text">注册表操作</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E6%97%B6%E9%97%B4%E5%92%8C%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="toc-list-text">时间和定时器</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E7%BA%BF%E7%A8%8B%E4%B8%8E%E4%BA%8B%E4%BB%B6"><span class="toc-list-text">线程与事件</span></a></li></ol></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E5%BA%94%E7%94%A8%E5%92%8C%E5%86%85%E6%A0%B8%E9%80%9A%E4%BF%A1"><span class="toc-list-text">应用和内核通信</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%88%9B%E5%BB%BA%E8%AE%BE%E5%A4%87%E5%AF%B9%E8%B1%A1"><span class="toc-list-text">创建设备对象</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%AF%B9%E8%B1%A1%E9%93%BE%E6%8E%A5"><span class="toc-list-text">对象链接</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%88%86%E5%8F%91%E5%87%BD%E6%95%B0"><span class="toc-list-text">分发函数</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E5%BA%94%E7%94%A8%E5%92%8C%E9%A9%B1%E5%8A%A8%E4%B9%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="toc-list-text">应用和驱动之间的通信</span></a></li></ol></li></ol></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#64%E4%BD%8D%E5%92%8C32%E4%BD%8D%E5%B7%AE%E5%BC%82"><span class="toc-list-text">64位和32位差异</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#PatchGuard"><span class="toc-list-text">PatchGuard</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#context-%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-list-text">context 结构体</span></a></li><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E6%94%BB%E5%87%BB%E6%96%B9%E6%B3%95"><span class="toc-list-text">攻击方法</span></a></li></ol></li></ol></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5"><span class="toc-list-text">驱动程序编程实践</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="toc-list-text">第一个驱动程序</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-3"><a class="toc-list-link" href="#%E8%B0%83%E8%AF%95%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-list-text">调试驱动程序的方式</span></a></li></ol></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#UnicodeString%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-list-text">UnicodeString的使用</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="toc-list-text">内存分配</span></a></li></ol></li></ol></div></div></aside></div></div><div id="toolbar" hide=""><div id="toolbar-setting-container" hide=""><div class="toolbar-item"><button id="tool-color-mode" title="深色模式" type="button"><img src="/assets/images/svg/ta/ta-moon.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button class="copy-text" id="tool-share" title="分享" type="button" data-text="http://example.com/2026/07/15/note/Windows%E5%86%85%E6%A0%B8%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><img src="/assets/images/svg/ta/ta-share.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-font-size-plus" title="放大字体" type="button"><img src="/assets/images/svg/ta/ta-text-plus.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-font-size-minus" title="缩小字体" type="button"><img src="/assets/images/svg/ta/ta-text-minus.svg" class="icon noview" alt="Icon"></button></div></div><div class="toolbar-container"><div class="toolbar-item"><button id="tool-setting" title="设置" type="button"><img src="/assets/images/svg/ta/ta-setting.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-toc" title="目录" type="button"><img src="/assets/images/svg/ta/ta-toc.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-gototop" title="返回顶部" type="button"><img src="/assets/images/svg/ta/ta-up.svg" class="icon noview" alt="Icon"></button></div></div></div><div id="music-player"></div></main><footer><div class="footer"><div id="footer-copyright">© 2026 <span>💗</span> <a href="/null">CQXYY</a></div><div id="footer-info"><div id="footer-framework">🚀本站由 <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/chanwj/hexo-theme-meow" title="3.3.2" target="_blank">Meow</a> 强力驱动</div><div id="footer-runtime"><span id="runtime" data-startdate="2026-06-09T00:01:17.000Z">🌻已稳定运行.年.月.天</span></div></div></div></footer><div class="scripts"><script>const GLOBALCONFIG = {
+  root: '/',
+  toolbar: true,
+  lazyload_src: '/assets/images/Meow-Loading.webp',
+  friends: false,
+  album: '',
+  codeblock: true,
+  code_copy_text: false,
+  share_text: '🐱Share From Meow',
+  onblur_title: '万物皆虚，万事皆允',
+  mouse_click: true,
+  notify:{
+    enable: false,
+    info: '复制成功～转载请标注本文地址',
+    f12_info: '开发者模式已打开，请遵循本站版权协议'
+  },
+  search: {
+    enable: false,
+    path: '',
+    local: {
+      top_n_per_article: 1,
+      preload: false
+    }
+  },
+  encrypt: false,
+  category: false,
+};
+</script><script>if (!localStorage.getItem('color-mode')) {
+  localStorage.setItem('color-mode', 'light' || 'light');
+}
+document.body.setAttribute('data-mode', localStorage.getItem('color-mode'));
+</script>
+<script src="/js/theme/tools/utils.js"></script>
+
+<script src="/js/plugins/dist/lazyload.min.js"></script>
+
+<script src="/js/plugins/view-image.min.js"></script>
+<script>if (localStorage.getItem('font-size')) {
+  document.querySelector('.post').style.fontSize = localStorage.getItem('font-size') + 'px';
+}
+</script>
+<script src="/js/plugins/dist/APlayer.min.js"></script>
+<script>const initAplayer = (data) => {
+  if (!data.length) return;
+
+  const ap = new APlayer({
+    container: document.getElementById('music-player'),
+    fixed: true,
+    autoplay: false,
+    theme: '#FFB347',
+    loop: 'all',
+    order: 'list',
+    volume: 0.7,
+    lrcType: 3,
+    audio: data
+  });
+
+  ap.on('play', () => {
+    document.getElementById('music-player').setAttribute("play", "");
+  });
+  ap.on('pause', () => {
+    document.getElementById('music-player').removeAttribute("play");
+  });
+};
+
+const fetchData = () => {
+  fetch('')
+    .then(res => res.json())
+    .then(result => initAplayer(result));
+};
+
+if ('') {
+  document.addEventListener("DOMContentLoaded", fetchData);
+} else {
+  document.addEventListener("DOMContentLoaded", initAplayer());;
+}</script>
+<script src="/js/main.js" type="module"></script>
+</div></body></html>

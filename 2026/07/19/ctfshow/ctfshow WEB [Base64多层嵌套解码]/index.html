@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="author" content="CQXYY"/><meta name="copyright" content="CQXYY"/><meta name="theme-color" content="#FFB347"/><meta name="format-detection" content="telephone=no"/><meta name="keywords" content="ctfshow,WEB"/><meta name="mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-touch-fullscreen" content="yes"/><meta name="application-name" content="ctfshow WEB [Base64多层嵌套解码] WP | 万物皆虚，万事皆允"/><meta name="apple-mobile-web-app-title" content="ctfshow WEB [Base64多层嵌套解码] WP | 万物皆虚，万事皆允"/><meta name="apple-mobile-web-app-status-bar-style" content="#FFB347"/><link rel="canonical" href="http://example.com/2026/07/19/ctfshow/ctfshow WEB [Base64多层嵌套解码]/"/><meta name="description" content="进入靶机，要求输入账户密码，查看页面源代码，发现JavaScript验证逻辑 1234567891011121314151617181920document.getElementById(&#x27;loginForm&#x27;).addEventListener(&#x27;submit&#x27;, function(e) &#123;            const correct...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctfshow WEB [Base64多层嵌套解码] WP | 万物皆虚，万事皆允">
+<meta property="og:url" content="http://example.com/2026/07/19/ctfshow/ctfshow%20WEB%20%5BBase64%E5%A4%9A%E5%B1%82%E5%B5%8C%E5%A5%97%E8%A7%A3%E7%A0%81%5D/index.html">
+<meta property="og:site_name" content="万物皆虚，万事皆允">
+<meta property="og:description" content="进入靶机，要求输入账户密码，查看页面源代码，发现JavaScript验证逻辑 1234567891011121314151617181920document.getElementById(&#x27;loginForm&#x27;).addEventListener(&#x27;submit&#x27;, function(e) &#123;            const correct...">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/07/19/ctfshow/ctfshow%20WEB%20%5BBase64%E5%A4%9A%E5%B1%82%E5%B5%8C%E5%A5%97%E8%A7%A3%E7%A0%81%5D/assets/images/assassin.png">
+<meta property="article:published_time" content="2026-07-19T09:07:44.000Z">
+<meta property="article:modified_time" content="2026-07-19T09:30:51.650Z">
+<meta property="article:author" content="CQXYY">
+<meta property="article:tag" content="WEB">
+<meta property="article:tag" content="ctfshow">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/07/19/ctfshow/ctfshow%20WEB%20%5BBase64%E5%A4%9A%E5%B1%82%E5%B5%8C%E5%A5%97%E8%A7%A3%E7%A0%81%5D/assets/images/assassin.png"><meta name="robots" content="index,follow"/><meta name="googlebot" content="index,follow"/><meta name="revisit-after" content="1 days"/><title>ctfshow WEB [Base64多层嵌套解码] WP | 万物皆虚，万事皆允</title><link rel="shortcut icon" href="/assets/images/assassin.ico"><link rel="preconnect" href="/assets"/><link rel="preconnect" href="assets"/>
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="stylesheet" href="/css/third-party/dist/APlayer.min.css">
+<link rel="prefetch" href="/"/><link rel="prefetch" href="/archives"/><link rel="prefetch" href="/tags"/><meta name="generator" content="Hexo 8.1.2"></head><body bg-style="none"><div class="post-progressbar-container"><div class="post-progressbar"></div></div><header><div id="navbar"><div id="nav-info"><a id="site-icon" href="/" title="主页"><img src="/assets/images/assassin.png" alt="Logo"/></a><a id="site-name" href="/" title="主页"><div>万物皆虚，万事皆允</div><img src="/assets/images/svg/uc/uc-home.svg" class="icon noview" alt="Icon"></a></div><div id="nav-menu"><div class="menu-item"><a href="javascript:void(0);"><img src="/assets/images/svg/uc/uc-article.svg" class="icon noview" alt="Icon"><span>文章</span></a><ul class="sub-menu-item"><li><a href="/archives"><img src="/assets/images/svg/uc/uc-archive.svg" class="icon noview" alt="Icon"><span>归档</span></a></li></ul></div></div><div id="nav-function"><div id="menu-btn"><a href="javascript:void(0);" title="打开菜单"><img src="/assets/images/svg/uc/uc-menu.svg" class="icon noview" alt="Icon"></a></div></div></div></header><div id="menu-aside"><div id="menu-aside-container"><div id="menu-aside-info"><a href="/" title="主页"><img src="/assets/images/assassin.png" alt="Logo"/></a><a href="/" title="主页">万物皆虚，万事皆允</a></div><div class="menu-aside-item"><a href="javascript:void(0);"><img src="/assets/images/svg/uc/uc-article.svg" class="icon noview" alt="Icon"><span>文章</span></a><ul class="menu-aside-sub-item"><li><a href="/archives"><img src="/assets/images/svg/uc/uc-archive.svg" class="icon noview" alt="Icon"><span>归档</span></a></li></ul></div><hr/></div></div><main><div class="banner"><div class="banner-info"><div class="banner-avatar"><img src="/assets/images/assassin.png" alt="Avatar"/></div><div class="banner-title">「 Welcome to CQ's blog 」</div></div></div><div class="post-container"><div class="post-main"><div class="post-content"><h1 class="post-title">ctfshow WEB [Base64多层嵌套解码] WP</h1><div class="post-author"><span>作者: CQXYY</span></div><div class="post-meta"><div class="post-info"><div class="post-date"><div class="post-pubdate"><img src="/assets/images/svg/ta/ta-pubdate.svg" class="icon noview" alt="Icon"><span>发表于2026-07-19</span></div><div class="post-update"><img src="/assets/images/svg/ta/ta-update.svg" class="icon noview" alt="Icon"><span>更新于2026-07-19</span></div></div><div class="post-read"></div></div><div class="post-attribute"><div class="post-categories"><img src="/assets/images/svg/ta/ta-category.svg" class="icon noview" alt="Icon"><span><a class="post-categories-link" href="/categories/WP/">WP</a></span></div><div class="post-tags"><img src="/assets/images/svg/ta/ta-tag.svg" class="icon noview" alt="Icon"><span><a class="post-tags-link" href="/tags/WEB/" rel="tag">WEB</a><a class="post-tags-link" href="/tags/ctfshow/" rel="tag">ctfshow</a></span></div></div></div><div class="post markdown" indent="false"><p>进入靶机，要求输入账户密码，查看页面源代码，发现JavaScript验证逻辑</p>
+<div class="code-container" code-lang="Javascript"><div class="codebox"><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;loginForm&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;submit&#x27;</span>, <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> correctPassword = <span class="string">&quot;SXpVRlF4TTFVelJtdFNSazB3VTJ4U1UwNXFSWGRVVlZrOWNWYzU=&quot;</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">function</span> <span class="title function_">validatePassword</span>(<span class="params">input</span>) &#123;</span><br><span class="line">                <span class="keyword">let</span> encoded = <span class="title function_">btoa</span>(input);</span><br><span class="line">                encoded = <span class="title function_">btoa</span>(encoded + <span class="string">&#x27;xH7jK&#x27;</span>).<span class="title function_">slice</span>(<span class="number">3</span>);</span><br><span class="line">                encoded = <span class="title function_">btoa</span>(encoded.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>).<span class="title function_">reverse</span>().<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>));</span><br><span class="line">                encoded = <span class="title function_">btoa</span>(<span class="string">&#x27;aB3&#x27;</span> + encoded + <span class="string">&#x27;qW9&#x27;</span>).<span class="title function_">substr</span>(<span class="number">2</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="title function_">btoa</span>(encoded) === correctPassword;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> enteredPassword = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;password&#x27;</span>).<span class="property">value</span>;</span><br><span class="line">            <span class="keyword">const</span> messageElement = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;message&#x27;</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (!<span class="title function_">validatePassword</span>(enteredPassword)) &#123;</span><br><span class="line">                e.<span class="title function_">preventDefault</span>();</span><br><span class="line">                messageElement.<span class="property">textContent</span> = <span class="string">&quot;Login failed! Incorrect password.&quot;</span>;</span><br><span class="line">                messageElement.<span class="property">className</span> = <span class="string">&quot;message error&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>validatePassword会加密输入的内容，最终和correctPassword对比，按照逻辑从后往前推</p>
+<p>没学过JavaScript，这里的btoa函数是base64加密</p>
+<p>首先return btoa(encoded) &#x3D;&#x3D;&#x3D; correctPassword;</p>
+<p>给出的最终密文解码得到</p>
+<p>IzUFQxM1UzRmtSRk0wU2xSU05qRXdUVVk9cVc5</p>
+<p>然后encoded &#x3D; btoa(‘aB3’ + encoded + ‘qW9’).substr(2);</p>
+<p>将加密结果从第二位开始截取，前两位必须要知道，但是给了aB3，这三个字符加密的前两位是YUlz，所以得到</p>
+<p>YUIzUFQxM1UzRmtSRk0wU2xSU05qRXdUVVk9cVc5</p>
+<p>解密后再拼接qW9得到</p>
+<p>aB3PT13U3FkRFM0SlRSNjEwTUY&#x3D;qW9</p>
+<p>然后是encoded &#x3D; btoa(encoded.split(‘’).reverse().join(‘’));，这里实际就是反转了，先解密得到</p>
+<p>&#x3D;&#x3D;wSqdDS4JTR610MF</p>
+<p>反转得到</p>
+<p>FM016RTJ4SDdqSw&#x3D;&#x3D;</p>
+<p>最后是encoded &#x3D; btoa(encoded + ‘xH7jK’).slice(3);，前三个字符被slice函数去掉了，这下麻烦了，因为不像前面给了我们前面的内容，只能进行爆破，写个脚本</p>
+<div class="code-container" code-lang="Python"><div class="codebox"><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sol</span>():</span><br><span class="line">    step2_result = <span class="string">&quot;FM016RTJ4SDdqSw==&quot;</span></span><br><span class="line">    b64_chars = string.ascii_uppercase + string.ascii_lowercase + string.digits + <span class="string">&#x27;+/&#x27;</span></span><br><span class="line">    valid_b64_chars = string.ascii_letters + string.digits + <span class="string">&#x27;+/=&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> c1 <span class="keyword">in</span> b64_chars:</span><br><span class="line">        <span class="keyword">for</span> c2 <span class="keyword">in</span> b64_chars:</span><br><span class="line">            <span class="keyword">for</span> c3 <span class="keyword">in</span> b64_chars:</span><br><span class="line">                guess = c1 + c2 + c3 + step2_result</span><br><span class="line"></span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    decoded_bytes = base64.b64decode(guess)</span><br><span class="line">                    decoded_str = decoded_bytes.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">                    <span class="keyword">if</span> decoded_str.endswith(<span class="string">&#x27;xH7jK&#x27;</span>):</span><br><span class="line">                        candidate = decoded_str[:-<span class="number">5</span>]</span><br><span class="line">                        <span class="keyword">if</span> <span class="built_in">all</span>(c <span class="keyword">in</span> valid_b64_chars <span class="keyword">for</span> c <span class="keyword">in</span> candidate):</span><br><span class="line">                            final_bytes = base64.b64decode(candidate)</span><br><span class="line">                            final_flag = final_bytes.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">                            <span class="built_in">print</span>(<span class="string">f&quot;前缀为<span class="subst">&#123;c1 + c2 + c3&#125;</span>&quot;</span>)</span><br><span class="line">                            <span class="built_in">print</span>(<span class="string">f&quot;还原为<span class="subst">&#123;candidate&#125;</span>&quot;</span>)</span><br><span class="line">                            <span class="keyword">return</span></span><br><span class="line">                <span class="keyword">except</span> Exception:</span><br><span class="line">                    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    sol()</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<p>确保是base的字符集，如果爆破解密的结果是以xH7jK结尾，那么把后五位去掉后验证剩下的是不是合法的字符集，这样可以防止多个结果，直接锁定最后的结果</p>
+<p>得到</p>
+<p>前缀为MDR<br>还原为04E3MzE2</p>
+<p>对04E3MzE2解密得到Ӂ7316</p>
+<p>好奇怪的数字 ，输入后要改User-Agent，改完后拿到flag</p>
+<p>CTF{base64_brute_force_success}</p>
+</div><div class="post-reward"><div class="post-reward-btn" title="赞赏作者"><img src="/assets/images/svg/uc/uc-gift.svg" class="icon noview" alt="Icon"><span></span></div><div class="post-reward-content"><div class="post-reward-text"></div><div class="post-reward-list"><a href="/null" target="_blank">致谢名单</a></div></div></div><div class="post-copyright"><div class="post-copyright-info">本作品由 CQXYY 于 2026-07-19 17:07:44 发布</div><div class="post-copyright-link"><span>作品地址：<a href="http://example.com/2026/07/19/ctfshow/ctfshow%20WEB%20%5BBase64%E5%A4%9A%E5%B1%82%E5%B5%8C%E5%A5%97%E8%A7%A3%E7%A0%81%5D/">ctfshow WEB [Base64多层嵌套解码] WP</a></span><button class="copy-text" type="button" data-text="http://example.com/2026/07/19/ctfshow/ctfshow%20WEB%20%5BBase64%E5%A4%9A%E5%B1%82%E5%B5%8C%E5%A5%97%E8%A7%A3%E7%A0%81%5D/">复制</button></div><div class="post-copyright-detail">除特别声明外，本站作品均采用 <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/' title='Attribution-NonCommercial-ShareAlike' target='_blank'>CC BY-NC-SA 4.0</a> 许可协议，转载请注明来自 <a href='/'>万物皆虚，万事皆允</a></div><img class="post-copyright-icon noview" src="/assets/images/assassin.png" alt="Logo"/></div><div class="post-tail-tags"><a class="post-tail-tags-link" href="/tags/WEB/" rel="tag">WEB</a><a class="post-tail-tags-link" href="/tags/ctfshow/" rel="tag">ctfshow</a></div><div class="post-nav"><a class="post-nav-prev" href="/2026/07/20/Polar/PolarD&amp;N%20REVERSE%20%5B%E6%B7%B7%E6%B7%86Code%EF%BC%9F%5D/" title="PolarD&amp;N REVERSE [混淆Code?] WP">上一篇<span>PolarD&amp;N REVERSE [混淆Code?] WP</span></a><a class="post-nav-next" href="/2026/07/19/Polar/PolarD&amp;N%20REVERSE%20%5Baomo%5D/" title="PolarD&amp;N REVERSE [aomo] WP">下一篇<span>PolarD&amp;N REVERSE [aomo] WP</span></a></div></div><aside id="post-sidebar" status="show"><div id="toc-container"><div class="toc-title"><img src="/assets/images/svg/ta/ta-toc.svg" class="icon noview" alt="Icon"><span>目录</span></div><div class="toc-content" id="toc-div"></div></div></aside></div></div><div id="toolbar" hide=""><div id="toolbar-setting-container" hide=""><div class="toolbar-item"><button id="tool-color-mode" title="深色模式" type="button"><img src="/assets/images/svg/ta/ta-moon.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button class="copy-text" id="tool-share" title="分享" type="button" data-text="http://example.com/2026/07/19/ctfshow/ctfshow%20WEB%20%5BBase64%E5%A4%9A%E5%B1%82%E5%B5%8C%E5%A5%97%E8%A7%A3%E7%A0%81%5D/"><img src="/assets/images/svg/ta/ta-share.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-font-size-plus" title="放大字体" type="button"><img src="/assets/images/svg/ta/ta-text-plus.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-font-size-minus" title="缩小字体" type="button"><img src="/assets/images/svg/ta/ta-text-minus.svg" class="icon noview" alt="Icon"></button></div></div><div class="toolbar-container"><div class="toolbar-item"><button id="tool-setting" title="设置" type="button"><img src="/assets/images/svg/ta/ta-setting.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-toc" title="目录" type="button"><img src="/assets/images/svg/ta/ta-toc.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-gototop" title="返回顶部" type="button"><img src="/assets/images/svg/ta/ta-up.svg" class="icon noview" alt="Icon"></button></div></div></div><div id="music-player"></div></main><footer><div class="footer"><div id="footer-copyright">© 2026 <span>💗</span> <a href="/null">CQXYY</a></div><div id="footer-info"><div id="footer-framework">🚀本站由 <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/chanwj/hexo-theme-meow" title="3.3.2" target="_blank">Meow</a> 强力驱动</div><div id="footer-runtime"><span id="runtime" data-startdate="2026-06-09T00:01:17.000Z">🌻已稳定运行.年.月.天</span></div></div></div></footer><div class="scripts"><script>const GLOBALCONFIG = {
+  root: '/',
+  toolbar: true,
+  lazyload_src: '/assets/images/Meow-Loading.webp',
+  friends: false,
+  album: '',
+  codeblock: true,
+  code_copy_text: false,
+  share_text: '🐱Share From Meow',
+  onblur_title: '万物皆虚，万事皆允',
+  mouse_click: true,
+  notify:{
+    enable: false,
+    info: '复制成功～转载请标注本文地址',
+    f12_info: '开发者模式已打开，请遵循本站版权协议'
+  },
+  search: {
+    enable: false,
+    path: '',
+    local: {
+      top_n_per_article: 1,
+      preload: false
+    }
+  },
+  encrypt: false,
+  category: false,
+};
+</script><script>if (!localStorage.getItem('color-mode')) {
+  localStorage.setItem('color-mode', 'light' || 'light');
+}
+document.body.setAttribute('data-mode', localStorage.getItem('color-mode'));
+</script>
+<script src="/js/theme/tools/utils.js"></script>
+
+<script src="/js/plugins/dist/lazyload.min.js"></script>
+
+<script src="/js/plugins/view-image.min.js"></script>
+<script>if (localStorage.getItem('font-size')) {
+  document.querySelector('.post').style.fontSize = localStorage.getItem('font-size') + 'px';
+}
+</script>
+<script src="/js/plugins/dist/APlayer.min.js"></script>
+<script>const initAplayer = (data) => {
+  if (!data.length) return;
+
+  const ap = new APlayer({
+    container: document.getElementById('music-player'),
+    fixed: true,
+    autoplay: false,
+    theme: '#FFB347',
+    loop: 'all',
+    order: 'list',
+    volume: 0.7,
+    lrcType: 3,
+    audio: data
+  });
+
+  ap.on('play', () => {
+    document.getElementById('music-player').setAttribute("play", "");
+  });
+  ap.on('pause', () => {
+    document.getElementById('music-player').removeAttribute("play");
+  });
+};
+
+const fetchData = () => {
+  fetch('')
+    .then(res => res.json())
+    .then(result => initAplayer(result));
+};
+
+if ('') {
+  document.addEventListener("DOMContentLoaded", fetchData);
+} else {
+  document.addEventListener("DOMContentLoaded", initAplayer());;
+}</script>
+<script src="/js/main.js" type="module"></script>
+</div></body></html>

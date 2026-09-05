@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="author" content="CQXYY"/><meta name="copyright" content="CQXYY"/><meta name="theme-color" content="#FFB347"/><meta name="format-detection" content="telephone=no"/><meta name="keywords" content="游戏安全"/><meta name="mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-touch-fullscreen" content="yes"/><meta name="application-name" content="植物大战僵尸杂交版外挂辅助程序及制作流程 | 万物皆虚，万事皆允"/><meta name="apple-mobile-web-app-title" content="植物大战僵尸杂交版外挂辅助程序及制作流程 | 万物皆虚，万事皆允"/><meta name="apple-mobile-web-app-status-bar-style" content="#FFB347"/><link rel="canonical" href="http://example.com/2026/08/22/program/植物大战僵尸杂交版外挂辅助程序及制作流程/"/><meta name="description" content="学习逆向工程游戏安全方面的知识，学习制作外挂辅助肯定是少不了的，于是决定开始尝试制作一款外挂程序，网络上很多人第一次学习制作外挂都是从PVZ开始，我也从这里开始尝试，在跟随课程学习了点易语言的知识后，便接着跟着课程开始动手开工  数据挖掘修改阳光数值用CE改只能在一次启动程序中起效，要让外挂一直都能修改游戏的数值，就需要获得游戏里的动态内存地址的位置，启动游戏后用CE扫，得到阳光数值的第一个...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="植物大战僵尸杂交版外挂辅助程序及制作流程 | 万物皆虚，万事皆允">
+<meta property="og:url" content="http://example.com/2026/08/22/program/%E6%A4%8D%E7%89%A9%E5%A4%A7%E6%88%98%E5%83%B5%E5%B0%B8%E6%9D%82%E4%BA%A4%E7%89%88%E5%A4%96%E6%8C%82%E8%BE%85%E5%8A%A9%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%88%B6%E4%BD%9C%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="万物皆虚，万事皆允">
+<meta property="og:description" content="学习逆向工程游戏安全方面的知识，学习制作外挂辅助肯定是少不了的，于是决定开始尝试制作一款外挂程序，网络上很多人第一次学习制作外挂都是从PVZ开始，我也从这里开始尝试，在跟随课程学习了点易语言的知识后，便接着跟着课程开始动手开工  数据挖掘修改阳光数值用CE改只能在一次启动程序中起效，要让外挂一直都能修改游戏的数值，就需要获得游戏里的动态内存地址的位置，启动游戏后用CE扫，得到阳光数值的第一个...">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/08/22/program/%E6%A4%8D%E7%89%A9%E5%A4%A7%E6%88%98%E5%83%B5%E5%B0%B8%E6%9D%82%E4%BA%A4%E7%89%88%E5%A4%96%E6%8C%82%E8%BE%85%E5%8A%A9%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%88%B6%E4%BD%9C%E6%B5%81%E7%A8%8B/assets/images/assassin.png">
+<meta property="article:published_time" content="2026-08-22T08:55:19.000Z">
+<meta property="article:modified_time" content="2026-08-23T10:03:39.842Z">
+<meta property="article:author" content="CQXYY">
+<meta property="article:tag" content="游戏安全">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/08/22/program/%E6%A4%8D%E7%89%A9%E5%A4%A7%E6%88%98%E5%83%B5%E5%B0%B8%E6%9D%82%E4%BA%A4%E7%89%88%E5%A4%96%E6%8C%82%E8%BE%85%E5%8A%A9%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%88%B6%E4%BD%9C%E6%B5%81%E7%A8%8B/assets/images/assassin.png"><meta name="robots" content="index,follow"/><meta name="googlebot" content="index,follow"/><meta name="revisit-after" content="1 days"/><title>植物大战僵尸杂交版外挂辅助程序及制作流程 | 万物皆虚，万事皆允</title><link rel="shortcut icon" href="/assets/images/assassin.ico"><link rel="preconnect" href="/assets"/><link rel="preconnect" href="assets"/>
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="stylesheet" href="/css/third-party/dist/APlayer.min.css">
+<link rel="prefetch" href="/"/><link rel="prefetch" href="/archives"/><link rel="prefetch" href="/tags"/><meta name="generator" content="Hexo 8.1.2"></head><body bg-style="none"><div class="post-progressbar-container"><div class="post-progressbar"></div></div><header><div id="navbar"><div id="nav-info"><a id="site-icon" href="/" title="主页"><img src="/assets/images/assassin.png" alt="Logo"/></a><a id="site-name" href="/" title="主页"><div>万物皆虚，万事皆允</div><img src="/assets/images/svg/uc/uc-home.svg" class="icon noview" alt="Icon"></a></div><div id="nav-menu"><div class="menu-item"><a href="javascript:void(0);"><img src="/assets/images/svg/uc/uc-article.svg" class="icon noview" alt="Icon"><span>文章</span></a><ul class="sub-menu-item"><li><a href="/archives"><img src="/assets/images/svg/uc/uc-archive.svg" class="icon noview" alt="Icon"><span>归档</span></a></li></ul></div></div><div id="nav-function"><div id="menu-btn"><a href="javascript:void(0);" title="打开菜单"><img src="/assets/images/svg/uc/uc-menu.svg" class="icon noview" alt="Icon"></a></div></div></div></header><div id="menu-aside"><div id="menu-aside-container"><div id="menu-aside-info"><a href="/" title="主页"><img src="/assets/images/assassin.png" alt="Logo"/></a><a href="/" title="主页">万物皆虚，万事皆允</a></div><div class="menu-aside-item"><a href="javascript:void(0);"><img src="/assets/images/svg/uc/uc-article.svg" class="icon noview" alt="Icon"><span>文章</span></a><ul class="menu-aside-sub-item"><li><a href="/archives"><img src="/assets/images/svg/uc/uc-archive.svg" class="icon noview" alt="Icon"><span>归档</span></a></li></ul></div><hr/></div></div><main><div class="banner"><div class="banner-info"><div class="banner-avatar"><img src="/assets/images/assassin.png" alt="Avatar"/></div><div class="banner-title">「 Welcome to CQ's blog 」</div></div></div><div class="post-container"><div class="post-main"><div class="post-content"><h1 class="post-title">植物大战僵尸杂交版外挂辅助程序及制作流程</h1><div class="post-author"><span>作者: CQXYY</span></div><div class="post-meta"><div class="post-info"><div class="post-date"><div class="post-pubdate"><img src="/assets/images/svg/ta/ta-pubdate.svg" class="icon noview" alt="Icon"><span>发表于2026-08-22</span></div><div class="post-update"><img src="/assets/images/svg/ta/ta-update.svg" class="icon noview" alt="Icon"><span>更新于2026-08-23</span></div></div><div class="post-read"></div></div><div class="post-attribute"><div class="post-categories"><img src="/assets/images/svg/ta/ta-category.svg" class="icon noview" alt="Icon"><span><a class="post-categories-link" href="/categories/%E9%A1%B9%E7%9B%AE/">项目</a></span></div><div class="post-tags"><img src="/assets/images/svg/ta/ta-tag.svg" class="icon noview" alt="Icon"><span><a class="post-tags-link" href="/tags/%E6%B8%B8%E6%88%8F%E5%AE%89%E5%85%A8/" rel="tag">游戏安全</a></span></div></div></div><div class="post markdown" indent="false"><p>学习逆向工程游戏安全方面的知识，学习制作外挂辅助肯定是少不了的，于是决定开始尝试制作一款外挂程序，网络上很多人第一次学习制作外挂都是从PVZ开始，我也从这里开始尝试，在跟随课程学习了点易语言的知识后，便接着跟着课程开始动手开工</p>
+<hr>
+<h1 id="数据挖掘"><a href="#数据挖掘" class="headerlink" title="数据挖掘"></a>数据挖掘</h1><h2 id="修改阳光数值"><a href="#修改阳光数值" class="headerlink" title="修改阳光数值"></a>修改阳光数值</h2><p>用CE改只能在一次启动程序中起效，要让外挂一直都能修改游戏的数值，就需要获得游戏里的动态内存地址的位置，启动游戏后用CE扫，得到阳光数值的第一个位置7D41FBC0</p>
+<p>右键地址，寻找引用地址的位置，第一个中找到，对7D41FBC0操作的是edx寄存器加偏移5560</p>
+<p><img   lazyload src="/assets/images/Meow-Loading.webp" data-lazy-src="/images/program/pvz_001.png"  alt="pvz_001"></p>
+<p>溯源7D41A660的位置，得到一大串内存地址，发现这里得到的还是动态地址没有静态地址，那么需要继续溯源，在一大堆地址里找到引用里有大量mov等写入读取操作的</p>
+<p><img   lazyload src="/assets/images/Meow-Loading.webp" data-lazy-src="/images/program/pvz_002.png"  alt="pvz_002"></p>
+<p>得到014FA6D0，继续溯源，找到静态地址，得到PlantsVsZombies.exe+2A9EC0</p>
+<p>通过studyPE可以知道程序的基址是400000，那么得到的地址就是6A9EC0，在CE里添加地址</p>
+<p><img   lazyload src="/assets/images/Meow-Loading.webp" data-lazy-src="/images/program/pvz_003.png"  alt="pvz_003"></p>
+<h2 id="植物CD无冷却"><a href="#植物CD无冷却" class="headerlink" title="植物CD无冷却"></a>植物CD无冷却</h2><p>PVZ里植物冷却有两种状态，一个是在冷却，一个是无冷却，通常是用bool来限定这些状态，那么我们只要搜索1和0即可一个个排查</p>
+<p>这里要注意，通常是用单字节作为这种bool参数的，那么扫的时候最好从单字节开始扫</p>
+<p>找到动态地址</p>
+<p><img   lazyload src="/assets/images/Meow-Loading.webp" data-lazy-src="/images/program/pvz_004.png"  alt="pvz_004"></p>
+<p>由于如果像阳光一样去做，那么只能对一种植物有效，推测当拿起植物时，会执行对植物CD更改的代码，而这个代码块或一个函数可能是所有函数共用的，那么可以实现一个修改全部无CD</p>
+<p>因此，右键找到的动态地址，找出是什么改写了这里的地址，然后在游戏里放一个向日葵，得到</p>
+<p><img   lazyload src="/assets/images/Meow-Loading.webp" data-lazy-src="/images/program/pvz_005.png"  alt="pvz_005"></p>
+<p>能看到执行的指令是把0给了一个地址，如果CD结束，又会有给1的指令，直接在给00指令处显示反汇编，把给0指令改为给01，这样所有植物直接无冷却</p>
+<p>选择显示反汇编程序，修改汇编内容即可</p>
+<h2 id="怪物秒杀"><a href="#怪物秒杀" class="headerlink" title="怪物秒杀"></a>怪物秒杀</h2><p>两种思路，一是从攻击力下手，二是从血量下手<br>网络游戏的血量通常是在服务器上的，本地修改通常没有用处<br>单机游戏则都可以用</p>
+<p>僵尸血量不知道，从未知数值开始扫描，然后每打中一次就再扫一次，找到最后找到僵尸血量，并且定位到更改它的代码</p>
+<p><img   lazyload src="/assets/images/Meow-Loading.webp" data-lazy-src="/images/program/pvz_006.png"  alt="pvz_006"></p>
+<p>发现这里的寄存器环境，EBX和ESI都是0，那么可以修改汇编直接把处于0的寄存器赋值，达到一击必杀</p>
+<p>但是发现，不同僵尸种类有不同的代码操控，那么这里修改只能达到普通僵尸的秒杀，但是可以通过同样的操作完成对其它僵尸的秒杀</p>
+<h1 id="功能代码编写"><a href="#功能代码编写" class="headerlink" title="功能代码编写"></a>功能代码编写</h1><h2 id="阳光修改"><a href="#阳光修改" class="headerlink" title="阳光修改"></a>阳光修改</h2><div class="code-container" code-lang="Plaintext"><div class="codebox"><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">.版本 2</span><br><span class="line"></span><br><span class="line">.程序集 窗口程序集_启动窗口</span><br><span class="line"></span><br><span class="line">.子程序 _按钮_阳光修改_被单击</span><br><span class="line">.局部变量 阳光值, 整数型</span><br><span class="line">.局部变量 基地址, 整数型</span><br><span class="line">.局部变量 一级偏移, 整数型</span><br><span class="line">.局部变量 二级偏移, 整数型</span><br><span class="line">.局部变量 进程ID</span><br><span class="line"></span><br><span class="line">进程ID ＝ 取进程ID (“PlantsVsZombies.exe”)</span><br><span class="line">.如果 (进程ID ＞ 0)</span><br><span class="line">    .如果 (编辑框_阳光修改.内容 ＝ “”)</span><br><span class="line">        信息框 (“请输入阳光数据”, 0, , )</span><br><span class="line">    .否则</span><br><span class="line">        阳光值 ＝ 到整数 (编辑框_阳光修改.内容)</span><br><span class="line">        基地址 ＝ 读内存整数型 (取进程ID (“PlantsVsZombies.exe”), 十六到十 (“6A9EC0”), )</span><br><span class="line">        一级偏移 ＝ 读内存整数型 (取进程ID (“PlantsVsZombies.exe”), 基地址 ＋ 十六到十 (“768”), )</span><br><span class="line">        二级偏移 ＝ 读内存整数型 (取进程ID (“PlantsVsZombies.exe”), 一级偏移 ＋ 十六到十 (“5560”), )</span><br><span class="line">        写内存整数型 (取进程ID (“PlantsVsZombies.exe”), 一级偏移 ＋ 十六到十 (“5560”), 阳光值)</span><br><span class="line">    .如果结束</span><br><span class="line"></span><br><span class="line">.否则</span><br><span class="line">    信息框 (“请启动游戏！”, 0, , )</span><br><span class="line">.如果结束</span><br><span class="line"></span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<h2 id="植物CD无冷却-1"><a href="#植物CD无冷却-1" class="headerlink" title="植物CD无冷却"></a>植物CD无冷却</h2> <div class="code-container" code-lang="Plaintext"><div class="codebox"><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.版本 2</span><br><span class="line"></span><br><span class="line">.子程序 _选择框_植物无CD_被单击</span><br><span class="line">.局部变量 进程ID, 整数型</span><br><span class="line"></span><br><span class="line">进程ID ＝ 取进程ID (“PlantsVsZombies.exe”)</span><br><span class="line">.如果 (选择框_植物无CD.选中 ＝ 真)</span><br><span class="line">    写内存字节集 (进程ID, 十六到十 (“488E73”), 还原字节集2 (“C6 45 48 01”), )</span><br><span class="line">.否则</span><br><span class="line">    写内存字节集 (进程ID, 十六到十 (“488E73”), 还原字节集2 (“C6 45 48 00”), )</span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+<h2 id="普通僵尸秒杀"><a href="#普通僵尸秒杀" class="headerlink" title="普通僵尸秒杀"></a>普通僵尸秒杀</h2><div class="code-container" code-lang="Plaintext"><div class="codebox"><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.版本 2</span><br><span class="line"></span><br><span class="line">.子程序 _选择框_僵尸秒杀_被单击</span><br><span class="line">.局部变量 进程ID, 整数型</span><br><span class="line"></span><br><span class="line">进程ID ＝ 取进程ID (“PlantsVsZombies.exe”)</span><br><span class="line">.如果 (选择框_僵尸秒杀.选中 ＝ 真)</span><br><span class="line">    写内存字节集 (进程ID, 十六到十 (“531319”), 还原字节集2 (“89 B5 C8 00 00 00”), )</span><br><span class="line">.否则</span><br><span class="line">    写内存字节集 (进程ID, 十六到十 (“531319”), 还原字节集2 (“89 BD C8 00 00 00”), )</span><br><span class="line"></span><br></pre></td></tr></table></figure><div class="code-fold" title="Fold/Open"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg></div><div class="code-copy" title="Copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg></div></div></div>
+
+</div><div class="post-reward"><div class="post-reward-btn" title="赞赏作者"><img src="/assets/images/svg/uc/uc-gift.svg" class="icon noview" alt="Icon"><span></span></div><div class="post-reward-content"><div class="post-reward-text"></div><div class="post-reward-list"><a href="/null" target="_blank">致谢名单</a></div></div></div><div class="post-copyright"><div class="post-copyright-info">本作品由 CQXYY 于 2026-08-22 16:55:19 发布</div><div class="post-copyright-link"><span>作品地址：<a href="http://example.com/2026/08/22/program/%E6%A4%8D%E7%89%A9%E5%A4%A7%E6%88%98%E5%83%B5%E5%B0%B8%E6%9D%82%E4%BA%A4%E7%89%88%E5%A4%96%E6%8C%82%E8%BE%85%E5%8A%A9%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%88%B6%E4%BD%9C%E6%B5%81%E7%A8%8B/">植物大战僵尸杂交版外挂辅助程序及制作流程</a></span><button class="copy-text" type="button" data-text="http://example.com/2026/08/22/program/%E6%A4%8D%E7%89%A9%E5%A4%A7%E6%88%98%E5%83%B5%E5%B0%B8%E6%9D%82%E4%BA%A4%E7%89%88%E5%A4%96%E6%8C%82%E8%BE%85%E5%8A%A9%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%88%B6%E4%BD%9C%E6%B5%81%E7%A8%8B/">复制</button></div><div class="post-copyright-detail">除特别声明外，本站作品均采用 <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/' title='Attribution-NonCommercial-ShareAlike' target='_blank'>CC BY-NC-SA 4.0</a> 许可协议，转载请注明来自 <a href='/'>万物皆虚，万事皆允</a></div><img class="post-copyright-icon noview" src="/assets/images/assassin.png" alt="Logo"/></div><div class="post-tail-tags"><a class="post-tail-tags-link" href="/tags/%E6%B8%B8%E6%88%8F%E5%AE%89%E5%85%A8/" rel="tag">游戏安全</a></div><div class="post-nav"><a class="post-nav-prev" href="/2026/08/24/note/XSS%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="XSS漏洞学习笔记">上一篇<span>XSS漏洞学习笔记</span></a><a class="post-nav-next" href="/2026/08/21/note/%E6%98%93%E8%AF%AD%E8%A8%80%E5%A4%96%E6%8C%82%E8%BE%85%E5%8A%A9%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="易语言外挂辅助开发学习笔记">下一篇<span>易语言外挂辅助开发学习笔记</span></a></div></div><aside id="post-sidebar" status="show"><div id="toc-container"><div class="toc-title"><img src="/assets/images/svg/ta/ta-toc.svg" class="icon noview" alt="Icon"><span>目录</span></div><div class="toc-content" id="toc-div"><ol class="toc-list"><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98"><span class="toc-list-text">数据挖掘</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E4%BF%AE%E6%94%B9%E9%98%B3%E5%85%89%E6%95%B0%E5%80%BC"><span class="toc-list-text">修改阳光数值</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E6%A4%8D%E7%89%A9CD%E6%97%A0%E5%86%B7%E5%8D%B4"><span class="toc-list-text">植物CD无冷却</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E6%80%AA%E7%89%A9%E7%A7%92%E6%9D%80"><span class="toc-list-text">怪物秒杀</span></a></li></ol></li><li class="toc-list-item toc-list-level-1"><a class="toc-list-link" href="#%E5%8A%9F%E8%83%BD%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99"><span class="toc-list-text">功能代码编写</span></a><ol class="toc-list-child"><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E9%98%B3%E5%85%89%E4%BF%AE%E6%94%B9"><span class="toc-list-text">阳光修改</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E6%A4%8D%E7%89%A9CD%E6%97%A0%E5%86%B7%E5%8D%B4-1"><span class="toc-list-text">植物CD无冷却</span></a></li><li class="toc-list-item toc-list-level-2"><a class="toc-list-link" href="#%E6%99%AE%E9%80%9A%E5%83%B5%E5%B0%B8%E7%A7%92%E6%9D%80"><span class="toc-list-text">普通僵尸秒杀</span></a></li></ol></li></ol></div></div></aside></div></div><div id="toolbar" hide=""><div id="toolbar-setting-container" hide=""><div class="toolbar-item"><button id="tool-color-mode" title="深色模式" type="button"><img src="/assets/images/svg/ta/ta-moon.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button class="copy-text" id="tool-share" title="分享" type="button" data-text="http://example.com/2026/08/22/program/%E6%A4%8D%E7%89%A9%E5%A4%A7%E6%88%98%E5%83%B5%E5%B0%B8%E6%9D%82%E4%BA%A4%E7%89%88%E5%A4%96%E6%8C%82%E8%BE%85%E5%8A%A9%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%88%B6%E4%BD%9C%E6%B5%81%E7%A8%8B/"><img src="/assets/images/svg/ta/ta-share.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-font-size-plus" title="放大字体" type="button"><img src="/assets/images/svg/ta/ta-text-plus.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-font-size-minus" title="缩小字体" type="button"><img src="/assets/images/svg/ta/ta-text-minus.svg" class="icon noview" alt="Icon"></button></div></div><div class="toolbar-container"><div class="toolbar-item"><button id="tool-setting" title="设置" type="button"><img src="/assets/images/svg/ta/ta-setting.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-toc" title="目录" type="button"><img src="/assets/images/svg/ta/ta-toc.svg" class="icon noview" alt="Icon"></button></div><div class="toolbar-item"><button id="tool-gototop" title="返回顶部" type="button"><img src="/assets/images/svg/ta/ta-up.svg" class="icon noview" alt="Icon"></button></div></div></div><div id="music-player"></div></main><footer><div class="footer"><div id="footer-copyright">© 2026 <span>💗</span> <a href="/null">CQXYY</a></div><div id="footer-info"><div id="footer-framework">🚀本站由 <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/chanwj/hexo-theme-meow" title="3.3.2" target="_blank">Meow</a> 强力驱动</div><div id="footer-runtime"><span id="runtime" data-startdate="2026-06-09T00:01:17.000Z">🌻已稳定运行.年.月.天</span></div></div></div></footer><div class="scripts"><script>const GLOBALCONFIG = {
+  root: '/',
+  toolbar: true,
+  lazyload_src: '/assets/images/Meow-Loading.webp',
+  friends: false,
+  album: '',
+  codeblock: true,
+  code_copy_text: false,
+  share_text: '🐱Share From Meow',
+  onblur_title: '万物皆虚，万事皆允',
+  mouse_click: true,
+  notify:{
+    enable: false,
+    info: '复制成功～转载请标注本文地址',
+    f12_info: '开发者模式已打开，请遵循本站版权协议'
+  },
+  search: {
+    enable: false,
+    path: '',
+    local: {
+      top_n_per_article: 1,
+      preload: false
+    }
+  },
+  encrypt: false,
+  category: false,
+};
+</script><script>if (!localStorage.getItem('color-mode')) {
+  localStorage.setItem('color-mode', 'light' || 'light');
+}
+document.body.setAttribute('data-mode', localStorage.getItem('color-mode'));
+</script>
+<script src="/js/theme/tools/utils.js"></script>
+
+<script src="/js/plugins/dist/lazyload.min.js"></script>
+
+<script src="/js/plugins/view-image.min.js"></script>
+<script>if (localStorage.getItem('font-size')) {
+  document.querySelector('.post').style.fontSize = localStorage.getItem('font-size') + 'px';
+}
+</script>
+<script src="/js/plugins/dist/APlayer.min.js"></script>
+<script>const initAplayer = (data) => {
+  if (!data.length) return;
+
+  const ap = new APlayer({
+    container: document.getElementById('music-player'),
+    fixed: true,
+    autoplay: false,
+    theme: '#FFB347',
+    loop: 'all',
+    order: 'list',
+    volume: 0.7,
+    lrcType: 3,
+    audio: data
+  });
+
+  ap.on('play', () => {
+    document.getElementById('music-player').setAttribute("play", "");
+  });
+  ap.on('pause', () => {
+    document.getElementById('music-player').removeAttribute("play");
+  });
+};
+
+const fetchData = () => {
+  fetch('')
+    .then(res => res.json())
+    .then(result => initAplayer(result));
+};
+
+if ('') {
+  document.addEventListener("DOMContentLoaded", fetchData);
+} else {
+  document.addEventListener("DOMContentLoaded", initAplayer());;
+}</script>
+<script src="/js/main.js" type="module"></script>
+</div></body></html>
